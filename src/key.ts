@@ -4,13 +4,37 @@ import { esc_code_name } from "./esc-codes.ts";
  * Key event
  */
 export abstract class Key {
+  /**
+   * SHIFT
+   */
   shift = false;
+  /**
+   * ALT/OPTION
+   */
   alt = false;
+  /**
+   * CONTROL
+   */
   ctrl = false;
+  /**
+   * WINDOWS/LINUX/COMMAND
+   */
   super = false;
+  /**
+   * HYPER
+   */
   hyper = false;
+  /**
+   * META
+   */
   meta = false;
+  /**
+   * CAPS LOCK
+   */
   caps_lock = false;
+  /**
+   * NUM LOCK
+   */
   num_lock = false;
 
   constructor(modifiers?: string) {
