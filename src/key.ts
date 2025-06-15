@@ -1,5 +1,8 @@
 import { esc_code_name } from "./esc-codes.ts";
 
+/**
+ * Key event
+ */
 export abstract class Key {
   shift = false;
   alt = false;
@@ -26,6 +29,9 @@ export abstract class Key {
   }
 }
 
+/**
+ * Character key event
+ */
 export class CharKey extends Key {
   char: string;
 
@@ -36,6 +42,9 @@ export class CharKey extends Key {
   }
 }
 
+/**
+ * Functional key event
+ */
 export class FuncKey extends Key {
   name: string;
 
