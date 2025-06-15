@@ -5,6 +5,7 @@ const esc_codes = new Map<string, string>([
   ["A", "UP"],
   ["2", "INSERT"],
   ["21", "F10"],
+  ["\x1b", "ESC"],
 ]);
 
 export function esc_code_name(esc_code: string): string {
