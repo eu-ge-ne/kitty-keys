@@ -38,7 +38,7 @@ export abstract class Key {
   num_lock = false;
 
   /**
-   * Creates instances of Key
+   * Creates an instance of Key
    */
   constructor(modifiers?: string) {
     if (typeof modifiers === "string") {
@@ -66,7 +66,7 @@ export class CharKey extends Key {
   char: string;
 
   /**
-   * Creates instances of CharKey
+   * Creates an instance of CharKey
    */
   constructor(char: string, modifiers?: string) {
     super(modifiers);
@@ -85,7 +85,7 @@ export class FuncKey extends Key {
   name: string;
 
   /**
-   * Creates instances of FuncKey
+   * Creates an instance of FuncKey
    */
   constructor(name: string, modifiers?: string) {
     super(modifiers);
@@ -93,6 +93,9 @@ export class FuncKey extends Key {
     this.name = name;
   }
 
+  /**
+   * Creates an instance of FuncKey from escape codes
+   */
   static from_esc(esc_code: string, modifiers?: string): FuncKey {
     const name = esc_code_name(esc_code) ?? esc_code;
 
