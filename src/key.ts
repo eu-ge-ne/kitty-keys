@@ -37,6 +37,9 @@ export abstract class Key {
    */
   num_lock = false;
 
+  /**
+   * Creates instances of Key
+   */
   constructor(modifiers?: string) {
     if (typeof modifiers === "string") {
       const n = Number.parseInt(modifiers, 10) - 1;
@@ -57,8 +60,14 @@ export abstract class Key {
  * Character key event
  */
 export class CharKey extends Key {
+  /**
+   * Character
+   */
   char: string;
 
+  /**
+   * Creates instances of CharKey
+   */
   constructor(char: string, modifiers?: string) {
     super(modifiers);
 
@@ -70,8 +79,14 @@ export class CharKey extends Key {
  * Functional key event
  */
 export class FuncKey extends Key {
+  /**
+   * Name of the functional key
+   */
   name: string;
 
+  /**
+   * Creates instances of FuncKey
+   */
   constructor(name: string, modifiers?: string) {
     super(modifiers);
 
