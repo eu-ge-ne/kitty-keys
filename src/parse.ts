@@ -9,6 +9,9 @@ const legacy_ss3_re = /(?<key>[ABCDEFHPQRS])/s;
 
 const decoder = new TextDecoder();
 
+/**
+ * Parse key event from bytes
+ */
 export function parse(buf: Uint8Array): Key | undefined {
   if (buf.length > 0) {
     if (buf[0] === 0x1b) {

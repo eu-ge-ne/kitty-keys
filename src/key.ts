@@ -1,15 +1,45 @@
 import { esc_code_name } from "./esc-codes.ts";
 
+/**
+ * Key event
+ */
 export abstract class Key {
+  /**
+   * SHIFT
+   */
   shift = false;
+  /**
+   * ALT/OPTION
+   */
   alt = false;
+  /**
+   * CONTROL
+   */
   ctrl = false;
+  /**
+   * WINDOWS/LINUX/COMMAND
+   */
   super = false;
+  /**
+   * HYPER
+   */
   hyper = false;
+  /**
+   * META
+   */
   meta = false;
+  /**
+   * CAPS LOCK
+   */
   caps_lock = false;
+  /**
+   * NUM LOCK
+   */
   num_lock = false;
 
+  /**
+   * Creates an instance of Key
+   */
   constructor(modifiers?: string) {
     if (typeof modifiers === "string") {
       const n = Number.parseInt(modifiers, 10) - 1;
@@ -26,9 +56,18 @@ export abstract class Key {
   }
 }
 
+/**
+ * Character key event
+ */
 export class CharKey extends Key {
+  /**
+   * Character
+   */
   char: string;
 
+  /**
+   * Creates an instance of CharKey
+   */
   constructor(char: string, modifiers?: string) {
     super(modifiers);
 
@@ -36,15 +75,27 @@ export class CharKey extends Key {
   }
 }
 
+/**
+ * Functional key event
+ */
 export class FuncKey extends Key {
+  /**
+   * Name of the functional key
+   */
   name: string;
 
+  /**
+   * Creates an instance of FuncKey
+   */
   constructor(name: string, modifiers?: string) {
     super(modifiers);
 
     this.name = name;
   }
 
+  /**
+   * Creates an instance of FuncKey from escape codes
+   */
   static from_esc(esc_code: string, modifiers?: string): FuncKey {
     const name = esc_code_name(esc_code) ?? esc_code;
 
