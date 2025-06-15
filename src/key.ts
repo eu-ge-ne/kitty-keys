@@ -39,9 +39,15 @@ export class CharKey extends Key {
 export class FuncKey extends Key {
   name: string;
 
-  constructor(esc_code: string, modifiers?: string) {
+  constructor(name: string, modifiers?: string) {
     super(modifiers);
 
-    this.name = esc_code_name(esc_code) ?? esc_code;
+    this.name = name;
+  }
+
+  static from_esc(esc_code: string, modifiers?: string): FuncKey {
+    const name = esc_code_name(esc_code) ?? esc_code;
+
+    return new FuncKey(name, modifiers);
   }
 }
