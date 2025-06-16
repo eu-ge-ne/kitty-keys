@@ -12,18 +12,22 @@ const decoder = new TextDecoder();
 /**
  * Parse key event from bytes
  */
-export function parse(buf: Uint8Array): Key | undefined {
-  if (buf.length === 0) {
-    return;
-  }
+export function parse(buf: Uint8Array): Key[] {
+  const keys: Key[] = [];
 
   if (buf[0] === 0xd) {
-    return new FuncKey("ENTER", { ctrl: true, shift: true });
+    keys.push(new FuncKey("ENTER"));
+    keys.push(new FuncKey("ENTER", { ctrl: true }));
+    keys.push(new FuncKey("ENTER", { shift: true }));
+    keys.push(new FuncKey("ENTER", { ctrl: true, shift: true }));
   }
   if (buf[0] === 0x1b && buf[1] === 0xd) {
-    return new FuncKey("ENTER", { ctrl: true, alt: true, shift: true });
+    keys.push(new FuncKey("ENTER", { alt: true }));
+    keys.push(new FuncKey("ENTER", { alt: true, shift: true }));
+    keys.push(new FuncKey("ENTER", { ctrl: true, alt: true }));
   }
 
+  /*
   if (buf[0] === 0x7f) {
     return new FuncKey("BACKSPACE", { shift: true });
   }
@@ -116,11 +120,12 @@ export function parse(buf: Uint8Array): Key | undefined {
     return new CharKey(decoder.decode(buf.subarray(1)), { alt: true });
   }
 
-  /*
   if (buf[0]! < 0x20 || buf[0]! === 0x7f) {
     return FuncKey.parse(decoder.decode(buf));
   }
-  */
 
   return new CharKey(decoder.decode(buf));
+  */
+
+  return keys;
 }
