@@ -77,6 +77,7 @@ export const map = new Map<string, Key[]>([
   ["\x1f", [
     new CharKey("/", { ctrl: true }),
     new CharKey("7", { ctrl: true }),
+    new CharKey("_", { ctrl: true }),
   ]],
   ["0", [
     new CharKey("0"),
@@ -99,4 +100,6 @@ export const map = new Map<string, Key[]>([
     new CharKey("^", { ctrl: true }),
   ]],
   ["9", [new CharKey("9", { ctrl: true })]],
+  ["\x01", [new CharKey("a", { ctrl: true })]],
+  ["\x02", [new CharKey("b", { ctrl: true })]],
 ]);

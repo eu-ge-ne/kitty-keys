@@ -159,6 +159,7 @@ Deno.test("ctrl + character", () => {
   eq([31], [
     new CharKey("/", { ctrl: true }),
     new CharKey("7", { ctrl: true }),
+    new CharKey("_", { ctrl: true }),
   ]);
   eq([48], [
     new CharKey("0"),
@@ -181,4 +182,6 @@ Deno.test("ctrl + character", () => {
     new CharKey("^", { ctrl: true }),
   ]);
   eq([57], [new CharKey("9", { ctrl: true })]);
+  eq([1], [new CharKey("a", { ctrl: true })]);
+  eq([2], [new CharKey("b", { ctrl: true })]);
 });
