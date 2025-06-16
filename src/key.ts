@@ -1,9 +1,14 @@
-import type { Mods } from "./mods.ts";
+import { type Mods, parse_mods } from "./mods.ts";
 
 /**
  * Key event
  */
-export abstract class Key {
+export class Key {
+  /**
+   * Name of the functional key
+   */
+  name: string;
+
   /**
    * Modifiers
    */
@@ -12,7 +17,24 @@ export abstract class Key {
   /**
    * Creates an instance of Key
    */
-  constructor(mods: Mods = {}) {
+  constructor(name: string, mods: Mods = {}) {
+    this.name = name;
     this.mods = mods;
   }
+
+  /**
+   * Creates an instance of FuncKey from escape codes
+   */
+  static parse(code: string, mods?: string): Key {
+    return new Key(csi_codes.get(code) ?? code, parse_mods(mods));
+  }
 }
+
+const csi_codes = new Map<string, string>([
+  ["27", "ESC"],
+  ["13", "ENTER"],
+  ["9", "TAB"],
+  ["127", "BACKSPACE"],
+  ["2", "INSERT"],
+  ["3", "DELETE"],
+]);
