@@ -92,6 +92,7 @@ Deno.test("BACKSPACE", () => {
   eq([0x7f], [
     new FuncKey("BACKSPACE"),
     new FuncKey("BACKSPACE", { shift: true }),
+    new CharKey("8", { ctrl: true }),
   ]);
 
   eq([0x8], [
@@ -152,18 +153,20 @@ Deno.test("alt + character", () => {
 });
 
 Deno.test("ctrl + character", () => {
-  eq([31], [new CharKey("/", { ctrl: true })]);
+  eq([31], [
+    new CharKey("/", { ctrl: true }),
+    new CharKey("7", { ctrl: true }),
+  ]);
   eq([48], [
     new CharKey("0"),
     new CharKey("0", { ctrl: true }),
   ]);
-
   eq([49], [
     new CharKey("1"),
     new CharKey("1", { ctrl: true }),
   ]);
-
   eq([28], [new CharKey("4", { ctrl: true })]);
   eq([29], [new CharKey("5", { ctrl: true })]);
   eq([30], [new CharKey("6", { ctrl: true })]);
+  eq([57], [new CharKey("9", { ctrl: true })]);
 });

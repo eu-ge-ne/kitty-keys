@@ -2,11 +2,11 @@ import { CharKey, type Key } from "./key.ts";
 import { map } from "./map.ts";
 
 // CSI number ; modifier ~
-const legacy_csi_re = /(?<number>\d+)(;(?<modifier>.*))?~/s;
+const _legacy_csi_re = /(?<number>\d+)(;(?<modifier>.*))?~/s;
 // CSI 1 ; modifier {ABCDEFHPQS}
-const legacy_csi1_re = /(1;(?<modifier>.*))?(?<key>[ABCDEFHPQS])/s;
+const _legacy_csi1_re = /(1;(?<modifier>.*))?(?<key>[ABCDEFHPQS])/s;
 // SS3 {ABCDEFHPQRS}
-const legacy_ss3_re = /(?<key>[ABCDEFHPQRS])/s;
+const _legacy_ss3_re = /(?<key>[ABCDEFHPQRS])/s;
 
 const decoder = new TextDecoder();
 
@@ -29,10 +29,6 @@ export function parse(buf: Uint8Array): Key[] {
   if (buf[0] === 0x1b) {
     if (buf[1] === 0x5b) {
       const csi = decoder.decode(buf.subarray(2));
-
-      if (csi === "Z") {
-        return new FuncKey("TAB", { ctrl: true, shift: true });
-      }
 
       const match = csi.match(legacy_csi_re);
       if (match?.groups) {
