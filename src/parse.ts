@@ -2,10 +2,10 @@ import { type Key, parse_key } from "./key.ts";
 
 // CSI number; modifier: event u
 const csi0_re =
-  /(?<number>\d+)(;(?<modifier>.*):(?<event>\d+)?)?(?<suffix>[u~])/s;
+  /(?<number>\d+)(;(?<modifier>.*)(:(?<event>\d+))?)?(?<suffix>[u~])/s;
 
 // CSI 1; modifier [~ABCDEFHPQS]
-const csi1_re = /(1;(?<modifier>.*):(?<event>\d+)?)?(?<key>[ABCDEFHPQS])/s;
+const csi1_re = /(1;(?<modifier>.*)(:(?<event>\d+))?)?(?<key>[ABCDEFHPQS])/s;
 
 const decoder = new TextDecoder();
 
