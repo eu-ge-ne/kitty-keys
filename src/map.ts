@@ -34,6 +34,7 @@ export const map = new Map<string, Key[]>([
   ["\x08", [
     new FuncKey("BACKSPACE", { ctrl: true }),
     new FuncKey("BACKSPACE", { ctrl: true, shift: true }),
+    new CharKey("h", { ctrl: true }),
   ]],
   ["\x1b\x7f", [
     new FuncKey("BACKSPACE", { alt: true }),
@@ -102,4 +103,9 @@ export const map = new Map<string, Key[]>([
   ["9", [new CharKey("9", { ctrl: true })]],
   ["\x01", [new CharKey("a", { ctrl: true })]],
   ["\x02", [new CharKey("b", { ctrl: true })]],
+  ["\x03", [new CharKey("c", { ctrl: true })]],
+  ["\x04", [new CharKey("d", { ctrl: true })]],
+  ["\x05", [new CharKey("e", { ctrl: true })]],
+  ["\x06", [new CharKey("f", { ctrl: true })]],
+  ["\x07", [new CharKey("g", { ctrl: true })]],
 ]);

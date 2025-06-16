@@ -100,6 +100,7 @@ Deno.test("BACKSPACE", () => {
   eq([0x8], [
     new FuncKey("BACKSPACE", { ctrl: true }),
     new FuncKey("BACKSPACE", { ctrl: true, shift: true }),
+    new CharKey("h", { ctrl: true }),
   ]);
 
   eq([0x1b, 0x7f], [
@@ -184,4 +185,10 @@ Deno.test("ctrl + character", () => {
   eq([57], [new CharKey("9", { ctrl: true })]);
   eq([1], [new CharKey("a", { ctrl: true })]);
   eq([2], [new CharKey("b", { ctrl: true })]);
+  eq([3], [new CharKey("c", { ctrl: true })]);
+  eq([4], [new CharKey("d", { ctrl: true })]);
+  eq([5], [new CharKey("e", { ctrl: true })]);
+
+  eq([6], [new CharKey("f", { ctrl: true })]);
+  eq([7], [new CharKey("g", { ctrl: true })]);
 });
