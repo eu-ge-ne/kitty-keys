@@ -95,4 +95,8 @@ Deno.test("ctrl + character", () => {
   eq([0], new CharKey(" ", { ctrl: true, shift: true }));
   eq([31], new CharKey("/", { ctrl: true }));
   eq([48], new CharKey("0", { ctrl: true }));
+
+  //eq([49], new CharKey("1", { ctrl: true }));
+  //eq([0], new CharKey("2", { ctrl: true }));
+  //eq([27], new CharKey("3", { ctrl: true }));
 });

@@ -78,6 +78,10 @@ export function parse(buf: Uint8Array): Key | undefined {
     return new CharKey("0", { ctrl: true });
   }
 
+  if (buf[0] === 49) {
+    return new CharKey("1", { ctrl: true });
+  }
+
   if (buf[0] === 0x1b) {
     if (buf[1] === 0x5b) {
       const csi = decoder.decode(buf.subarray(2));
