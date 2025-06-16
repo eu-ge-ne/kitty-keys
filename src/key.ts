@@ -53,4 +53,9 @@ const csi_codes = new Map<string, string>([
   ["57361", "PRINT_SCREEN"],
   ["57362", "PAUSE"],
   ["57363", "MENU"],
+  ["P", "F1"],
+  ["11", "F1"],
+  ["Q", "F2"],
+  ["12", "F2"],
+
 ]);

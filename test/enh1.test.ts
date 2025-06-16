@@ -5,43 +5,45 @@ import { parse } from "../src/parse.ts";
 
 const encoder = new TextEncoder();
 
-function eq(actual: string | number[], expected: string | Key): void {
-  if (typeof actual === "string") {
-    assertEquals(parse(encoder.encode(actual)), expected);
-  } else {
-    assertEquals(parse(new Uint8Array(actual)), expected);
-  }
+function is(actual: string, expected: string | Key): void {
+  assertEquals(parse(encoder.encode(actual)), expected);
 }
 
-Deno.test("Keys", () => {
-  eq("\x1b[27u", new Key("ESC"));
+Deno.test("Functional keys", () => {
+  is("\x1b[27u", new Key("ESC"));
 
-  eq([0x0d], "\r");
-  eq("\x1b[13u", new Key("ENTER"));
+  is("\x0d", "\r");
+  is("\x1b[13u", new Key("ENTER"));
 
-  eq([0x09], "\t");
-  eq("\x1b[9u", new Key("TAB"));
+  is("\x09", "\t");
+  is("\x1b[9u", new Key("TAB"));
 
-  eq([0x7f], "\x7f");
-  eq([0x08], "\x08");
-  eq("\x1b[127u", new Key("BACKSPACE"));
+  is("\x7f", "\x7f");
+  is("\x08", "\x08");
+  is("\x1b[127u", new Key("BACKSPACE"));
 
-  eq("\x1b[2~", new Key("INSERT"));
+  is("\x1b[2~", new Key("INSERT"));
 
-  eq("\x1b[3~", new Key("DELETE"));
+  is("\x1b[3~", new Key("DELETE"));
 
-  eq("\x1b[D", new Key("LEFT"));
-  eq("\x1b[C", new Key("RIGHT"));
+  is("\x1b[D", new Key("LEFT"));
+  is("\x1b[C", new Key("RIGHT"));
 
-  eq("\x1b[A", new Key("UP"));
-  eq("\x1b[B", new Key("DOWN"));
+  is("\x1b[A", new Key("UP"));
+  is("\x1b[B", new Key("DOWN"));
 
-  eq("\x1b[5~", new Key("PAGE_UP"));
-  eq("\x1b[6~", new Key("PAGE_DOWN"));
+  is("\x1b[5~", new Key("PAGE_UP"));
+  is("\x1b[6~", new Key("PAGE_DOWN"));
 
-  eq("\x1b[H", new Key("HOME"));
-  eq("\x1b[7~", new Key("HOME"));
+  is("\x1b[H", new Key("HOME"));
+  is("\x1b[7~", new Key("HOME"));
 
-  eq("\x1b[F", new Key("END"));
-  eq("\x1b[8~", new Key("END"));
+  is("\x1b[F", new Key("END"));
+  is("\x1b[8~", new Key("END"));
+
+  is("\x1b[P", new Key("F1"));
+  is("\x1b[11~", new Key("F1"));
+
+  is("\x1b[Q", new Key("F2"));
+  is("\x1b[12~", new Key("F2"));
 });
