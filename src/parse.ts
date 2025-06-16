@@ -4,7 +4,7 @@ import { Key } from "./key.ts";
 const csi0_re = /(?<number>\d+)(;(?<modifier>.*))?[u~]/s;
 
 // CSI 1; modifier [~ABCDEFHPQS]
-const csi1_re = /(1;(?<modifier>.*))?(?<key>[~ABCDEFHPQS])/s;
+const csi1_re = /(1;(?<modifier>.*))?(?<key>[ABCDEFHPQS])/s;
 
 const decoder = new TextDecoder();
 

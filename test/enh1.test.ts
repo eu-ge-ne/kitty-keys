@@ -41,24 +41,18 @@ Deno.test("DELETE", () => {
   eq("\x1b[3~", new Key("DELETE"));
 });
 
-/*
-Deno.test("Func keys", () => {
-  eq("\x1b[5~", new FuncKey("PAGE_UP"));
-  eq("\x1b[6~", new FuncKey("PAGE_DOWN"));
-  eq("\x1b[A", new FuncKey("UP"));
-  eq("\x1bOA", new FuncKey("UP"));
-  eq("\x1b[B", new FuncKey("DOWN"));
-  eq("\x1bOB", new FuncKey("DOWN"));
-  eq("\x1b[C", new FuncKey("RIGHT"));
-  eq("\x1bOC", new FuncKey("RIGHT"));
-  eq("\x1b[D", new FuncKey("LEFT"));
-  eq("\x1bOD", new FuncKey("LEFT"));
-  eq("\x1b[H", new FuncKey("HOME"));
-  eq("\x1bOH", new FuncKey("HOME"));
-  eq("\x1b[F", new FuncKey("END"));
-  eq("\x1bOF", new FuncKey("END"));
-  eq("\x1bOP", new FuncKey("F1"));
-  eq("\x1b[24~", new FuncKey("F12"));
-  eq("\x1b[29~", new FuncKey("MENU"));
+Deno.test("LEFT", () => {
+  eq("\x1b[D", new Key("LEFT"));
 });
-*/
+
+Deno.test("RIGHT", () => {
+  eq("\x1b[C", new Key("RIGHT"));
+});
+
+Deno.test("UP", () => {
+  eq("\x1b[A", new Key("UP"));
+});
+
+Deno.test("DOWN", () => {
+  eq("\x1b[B", new Key("DOWN"));
+});

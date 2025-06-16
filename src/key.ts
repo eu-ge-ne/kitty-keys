@@ -37,4 +37,8 @@ const csi_codes = new Map<string, string>([
   ["127", "BACKSPACE"],
   ["2", "INSERT"],
   ["3", "DELETE"],
+  ["D", "LEFT"],
+  ["C", "RIGHT"],
+  ["A", "UP"],
+  ["B", "DOWN"],
 ]);
