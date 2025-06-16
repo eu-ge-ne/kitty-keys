@@ -37,6 +37,7 @@ export function parse(buf: Uint8Array): Key[] {
       new FuncKey("ESC", { ctrl: true }),
       new FuncKey("ESC", { shift: true }),
       new FuncKey("ESC", { ctrl: true, shift: true }),
+      new FuncKey("3", { ctrl: true }),
     ];
   }
   if (text === "\x1b\x1b") {
@@ -99,9 +100,9 @@ export function parse(buf: Uint8Array): Key[] {
   }
   if (text === "\x00") {
     return [
-      new CharKey("2", { ctrl: true }),
       new CharKey(" ", { ctrl: true }),
       new CharKey(" ", { ctrl: true, shift: true }),
+      new CharKey("2", { ctrl: true }),
     ];
   }
   if (text === "\x1b\x20") {

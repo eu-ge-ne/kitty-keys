@@ -78,6 +78,7 @@ Deno.test("ESC", () => {
     new FuncKey("ESC", { ctrl: true }),
     new FuncKey("ESC", { shift: true }),
     new FuncKey("ESC", { ctrl: true, shift: true }),
+    new FuncKey("3", { ctrl: true }),
   ]);
 
   eq([0x1b, 0x1b], [
@@ -132,9 +133,9 @@ Deno.test("SPACE", () => {
   ]);
 
   eq([0x0], [
-    new CharKey("2", { ctrl: true }),
     new CharKey(" ", { ctrl: true }),
     new CharKey(" ", { ctrl: true, shift: true }),
+    new CharKey("2", { ctrl: true }),
   ]);
 
   eq([0x1b, 0x20], [
