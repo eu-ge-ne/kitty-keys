@@ -15,78 +15,114 @@ const decoder = new TextDecoder();
 export function parse(buf: Uint8Array): Key[] {
   const text = decoder.decode(buf);
 
-  const keys: Key[] = [];
-
   if (text === "\x0d") {
-    keys.push(new FuncKey("ENTER"));
-    keys.push(new FuncKey("ENTER", { ctrl: true }));
-    keys.push(new FuncKey("ENTER", { shift: true }));
-    keys.push(new FuncKey("ENTER", { ctrl: true, shift: true }));
+    return [
+      new FuncKey("ENTER"),
+      new FuncKey("ENTER", { ctrl: true }),
+      new FuncKey("ENTER", { shift: true }),
+      new FuncKey("ENTER", { ctrl: true, shift: true }),
+    ];
   }
   if (text === "\x1b\x0d") {
-    keys.push(new FuncKey("ENTER", { alt: true }));
-    keys.push(new FuncKey("ENTER", { alt: true, shift: true }));
-    keys.push(new FuncKey("ENTER", { ctrl: true, alt: true }));
+    return [
+      new FuncKey("ENTER", { alt: true }),
+      new FuncKey("ENTER", { alt: true, shift: true }),
+      new FuncKey("ENTER", { ctrl: true, alt: true }),
+    ];
   }
 
   if (text === "\x1b") {
-    keys.push(new FuncKey("ESC"));
-    keys.push(new FuncKey("ESC", { ctrl: true }));
-    keys.push(new FuncKey("ESC", { shift: true }));
-    keys.push(new FuncKey("ESC", { ctrl: true, shift: true }));
+    return [
+      new FuncKey("ESC"),
+      new FuncKey("ESC", { ctrl: true }),
+      new FuncKey("ESC", { shift: true }),
+      new FuncKey("ESC", { ctrl: true, shift: true }),
+    ];
   }
   if (text === "\x1b\x1b") {
-    keys.push(new FuncKey("ESC", { alt: true }));
-    keys.push(new FuncKey("ESC", { alt: true, shift: true }));
-    keys.push(new FuncKey("ESC", { ctrl: true, alt: true }));
+    return [
+      new FuncKey("ESC", { alt: true }),
+      new FuncKey("ESC", { alt: true, shift: true }),
+      new FuncKey("ESC", { ctrl: true, alt: true }),
+    ];
   }
 
   if (text === "\x7f") {
-    keys.push(new FuncKey("BACKSPACE"));
-    keys.push(new FuncKey("BACKSPACE", { shift: true }));
+    return [
+      new FuncKey("BACKSPACE"),
+      new FuncKey("BACKSPACE", { shift: true }),
+    ];
   }
   if (text === "\x08") {
-    keys.push(new FuncKey("BACKSPACE", { ctrl: true }));
-    keys.push(new FuncKey("BACKSPACE", { ctrl: true, shift: true }));
+    return [
+      new FuncKey("BACKSPACE", { ctrl: true }),
+      new FuncKey("BACKSPACE", { ctrl: true, shift: true }),
+    ];
   }
   if (text === "\x1b\x7f") {
-    keys.push(new FuncKey("BACKSPACE", { alt: true }));
-    keys.push(new FuncKey("BACKSPACE", { alt: true, shift: true }));
+    return [
+      new FuncKey("BACKSPACE", { alt: true }),
+      new FuncKey("BACKSPACE", { alt: true, shift: true }),
+    ];
   }
   if (text === "\x1b\x08") {
-    keys.push(new FuncKey("BACKSPACE", { ctrl: true, alt: true }));
+    return [
+      new FuncKey("BACKSPACE", { ctrl: true, alt: true }),
+    ];
   }
 
   if (text === "\x09") {
-    keys.push(new FuncKey("TAB"));
-    keys.push(new FuncKey("TAB", { ctrl: true }));
+    return [
+      new FuncKey("TAB"),
+      new FuncKey("TAB", { ctrl: true }),
+    ];
   }
   if (text === "\x1b\x09") {
-    keys.push(new FuncKey("TAB", { alt: true }));
-    keys.push(new FuncKey("TAB", { ctrl: true, alt: true }));
+    return [
+      new FuncKey("TAB", { alt: true }),
+      new FuncKey("TAB", { ctrl: true, alt: true }),
+    ];
   }
   if (text === "\x1b[Z") {
-    keys.push(new FuncKey("TAB", { shift: true }));
-    keys.push(new FuncKey("TAB", { ctrl: true, shift: true }));
+    return [
+      new FuncKey("TAB", { shift: true }),
+      new FuncKey("TAB", { ctrl: true, shift: true }),
+    ];
   }
   if (text === "\x1b\x1b[Z") {
-    keys.push(new FuncKey("TAB", { alt: true, shift: true }));
+    return [
+      new FuncKey("TAB", { alt: true, shift: true }),
+    ];
   }
 
   if (text === "\x20") {
-    keys.push(new CharKey(" "));
-    keys.push(new CharKey(" ", { shift: true }));
+    return [
+      new CharKey(" "),
+      new CharKey(" ", { shift: true }),
+    ];
   }
   if (text === "\x00") {
-    keys.push(new CharKey(" ", { ctrl: true }));
-    keys.push(new CharKey(" ", { ctrl: true, shift: true }));
+    return [
+      new CharKey(" ", { ctrl: true }),
+      new CharKey(" ", { ctrl: true, shift: true }),
+    ];
   }
   if (text === "\x1b\x20") {
-    keys.push(new CharKey(" ", { alt: true }));
-    keys.push(new CharKey(" ", { alt: true, shift: true }));
+    return [
+      new CharKey(" ", { alt: true }),
+      new CharKey(" ", { alt: true, shift: true }),
+    ];
   }
   if (text === "\x1b\x00") {
-    keys.push(new CharKey(" ", { ctrl: true, alt: true }));
+    return [
+      new CharKey(" ", { ctrl: true, alt: true }),
+    ];
+  }
+
+  if (buf.length === 2 && buf[0] === 0x1b) {
+    return [
+      new CharKey(decoder.decode(buf.subarray(1)), { alt: true }),
+    ];
   }
 
   /*
@@ -133,7 +169,6 @@ export function parse(buf: Uint8Array): Key[] {
       }
     }
 
-    return new CharKey(decoder.decode(buf.subarray(1)), { alt: true });
   }
 
   if (buf[0]! < 0x20 || buf[0]! === 0x7f) {
@@ -143,5 +178,5 @@ export function parse(buf: Uint8Array): Key[] {
   return new CharKey(decoder.decode(buf));
   */
 
-  return keys;
+  return [];
 }

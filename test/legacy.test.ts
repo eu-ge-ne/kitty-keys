@@ -150,12 +150,17 @@ Deno.test("SPACE", () => {
   ]);
 });
 
-/*
 Deno.test("alt + character", () => {
-  eq("\x1bi", new CharKey("i", { alt: true }));
-  eq("\x1bI", new CharKey("I", { alt: true }));
+  eq("\x1bi", [
+    new CharKey("i", { alt: true }),
+  ]);
+
+  eq("\x1bI", [
+    new CharKey("I", { alt: true }),
+  ]);
 });
 
+/*
 Deno.test("ctrl + character", () => {
   eq([0], new CharKey(" ", { ctrl: true, shift: true }));
   eq([31], new CharKey("/", { ctrl: true }));
