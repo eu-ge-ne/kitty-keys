@@ -183,6 +183,7 @@ Deno.test("ctrl + character", () => {
   eq([30], [
     new CharKey("6", { ctrl: true }),
     new CharKey("^", { ctrl: true }),
+    new CharKey("~", { ctrl: true }),
   ]);
   eq([57], [new CharKey("9", { ctrl: true })]);
   eq([1], [new CharKey("a", { ctrl: true })]);
@@ -205,9 +206,7 @@ Deno.test("ctrl + character", () => {
   eq([21], [new CharKey("u", { ctrl: true })]);
   eq([22], [new CharKey("v", { ctrl: true })]);
   eq([23], [new CharKey("w", { ctrl: true })]);
-
   eq([24], [new CharKey("x", { ctrl: true })]);
   eq([25], [new CharKey("y", { ctrl: true })]);
   eq([26], [new CharKey("z", { ctrl: true })]);
-  eq([30], [new CharKey("~", { ctrl: true })]);
 });
