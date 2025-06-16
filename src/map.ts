@@ -6,6 +6,7 @@ export const map = new Map<string, Key[]>([
     new FuncKey("ENTER", { ctrl: true }),
     new FuncKey("ENTER", { shift: true }),
     new FuncKey("ENTER", { ctrl: true, shift: true }),
+    new CharKey("m", { ctrl: true }),
   ]],
   ["\x1b\x0d", [
     new FuncKey("ENTER", { alt: true }),
@@ -111,4 +112,7 @@ export const map = new Map<string, Key[]>([
   ["\x07", [new CharKey("g", { ctrl: true })]],
   ["\n", [new CharKey("j", { ctrl: true })]],
   ["\v", [new CharKey("k", { ctrl: true })]],
+
+  ["\f", [new CharKey("l", { ctrl: true })]],
+  ["\x0e", [new CharKey("n", { ctrl: true })]],
 ]);

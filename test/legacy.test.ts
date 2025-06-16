@@ -63,6 +63,7 @@ Deno.test("ENTER", () => {
     new FuncKey("ENTER", { ctrl: true }),
     new FuncKey("ENTER", { shift: true }),
     new FuncKey("ENTER", { ctrl: true, shift: true }),
+    new CharKey("m", { ctrl: true }),
   ]);
 
   eq([0x1b, 0xd], [
@@ -193,4 +194,6 @@ Deno.test("ctrl + character", () => {
   eq([7], [new CharKey("g", { ctrl: true })]);
   eq([10], [new CharKey("j", { ctrl: true })]);
   eq([11], [new CharKey("k", { ctrl: true })]);
+  eq([12], [new CharKey("l", { ctrl: true })]);
+  eq([14], [new CharKey("n", { ctrl: true })]);
 });
