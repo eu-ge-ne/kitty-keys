@@ -58,9 +58,7 @@ export function parse(buf: Uint8Array): Key[] {
   if (buf[0]! < 0x20 || buf[0]! === 0x7f) {
     return FuncKey.parse(decoder.decode(buf));
   }
-
-  return new CharKey(decoder.decode(buf));
   */
 
-  return [];
+  return [new CharKey(text)];
 }

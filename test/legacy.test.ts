@@ -13,14 +13,17 @@ function eq(actual: string | number[], expected: Key[]): void {
   }
 }
 
-/*
 Deno.test("Characters", () => {
-  eq("a", new CharKey("a"));
-  eq("A", new CharKey("A"));
-  eq("0", new CharKey("0", { ctrl: true }));
-  eq("$", new CharKey("$"));
+  eq("a", [new CharKey("a")]);
+  eq("A", [new CharKey("A")]);
+  eq("0", [
+    new CharKey("0"),
+    new CharKey("0", { ctrl: true }),
+  ]);
+  eq("$", [new CharKey("$")]);
 });
 
+/*
 Deno.test("Func keys", () => {
   eq("\x1b[2~", new FuncKey("INSERT"));
   eq("\x1b[3~", new FuncKey("DELETE"));
