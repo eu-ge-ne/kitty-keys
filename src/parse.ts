@@ -15,16 +15,28 @@ const decoder = new TextDecoder();
 export function parse(buf: Uint8Array): Key[] {
   const keys: Key[] = [];
 
-  if (buf[0] === 0xd) {
+  if (buf.length === 1 && buf[0] === 0xd) {
     keys.push(new FuncKey("ENTER"));
     keys.push(new FuncKey("ENTER", { ctrl: true }));
     keys.push(new FuncKey("ENTER", { shift: true }));
     keys.push(new FuncKey("ENTER", { ctrl: true, shift: true }));
   }
-  if (buf[0] === 0x1b && buf[1] === 0xd) {
+  if (buf.length === 2 && buf[0] === 0x1b && buf[1] === 0xd) {
     keys.push(new FuncKey("ENTER", { alt: true }));
     keys.push(new FuncKey("ENTER", { alt: true, shift: true }));
     keys.push(new FuncKey("ENTER", { ctrl: true, alt: true }));
+  }
+
+  if (buf.length === 1 && buf[0] === 0x1b) {
+    keys.push(new FuncKey("ESC"));
+    keys.push(new FuncKey("ESC", { ctrl: true }));
+    keys.push(new FuncKey("ESC", { shift: true }));
+    keys.push(new FuncKey("ESC", { ctrl: true, shift: true }));
+  }
+  if (buf.length === 2 && buf[0] === 0x1b && buf[1] === 0x1b) {
+    keys.push(new FuncKey("ESC", { alt: true }));
+    keys.push(new FuncKey("ESC", { alt: true, shift: true }));
+    keys.push(new FuncKey("ESC", { ctrl: true, alt: true }));
   }
 
   /*
@@ -53,13 +65,6 @@ export function parse(buf: Uint8Array): Key[] {
     }
   }
 
-  if (buf[0] === 0x1b) {
-    if (buf[1] === 0x1b) {
-      return new FuncKey("ESC", { ctrl: true, alt: true, shift: true });
-    } else if (typeof buf[1] === "undefined") {
-      return new FuncKey("ESC", { ctrl: true, shift: true });
-    }
-  }
 
   if (buf[0] === 0x20) {
     return new CharKey(" ", { shift: true });

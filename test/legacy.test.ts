@@ -72,12 +72,22 @@ Deno.test("ENTER", () => {
   ]);
 });
 
-/*
 Deno.test("ESC", () => {
-  eq([0x1b], new FuncKey("ESC", { ctrl: true, shift: true }));
-  eq([0x1b, 0x1b], new FuncKey("ESC", { ctrl: true, alt: true, shift: true }));
+  eq([0x1b], [
+    new FuncKey("ESC"),
+    new FuncKey("ESC", { ctrl: true }),
+    new FuncKey("ESC", { shift: true }),
+    new FuncKey("ESC", { ctrl: true, shift: true }),
+  ]);
+
+  eq([0x1b, 0x1b], [
+    new FuncKey("ESC", { alt: true }),
+    new FuncKey("ESC", { alt: true, shift: true }),
+    new FuncKey("ESC", { ctrl: true, alt: true }),
+  ]);
 });
 
+/*
 Deno.test("BACKSPACE", () => {
   eq([0x7f], new FuncKey("BACKSPACE", { shift: true }));
   eq([0x8], new FuncKey("BACKSPACE", { ctrl: true, shift: true }));
