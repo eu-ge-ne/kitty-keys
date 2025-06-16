@@ -153,8 +153,13 @@ Deno.test("alt + character", () => {
   eq("\x1bI", [new CharKey("I", { alt: true })]);
 });
 
-/*
 Deno.test("ctrl + character", () => {
-  eq([0x0], new CharKey(" ", { ctrl: true }));
+  eq([0x0], [
+    new CharKey(" ", { ctrl: true }),
+    new CharKey(" ", { ctrl: true, shift: true }),
+  ]);
+
+  eq([31], [
+    new CharKey("/", { ctrl: true }),
+  ]);
 });
-*/

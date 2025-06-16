@@ -118,6 +118,12 @@ export function parse(buf: Uint8Array): Key[] {
     ];
   }
 
+  if (buf[0] === 31) {
+    return [
+      new CharKey("/", { ctrl: true }),
+    ];
+  }
+
   if (buf[0] === 0x1b) {
     if (buf[1] === 0x5b) {
       const csi = decoder.decode(buf.subarray(2));
