@@ -16,8 +16,8 @@ export interface Key extends Modifiers {
 
 export function new_key(
   name: string,
-  mods: Modifiers = {},
-  event: Event = "press",
+  mods: Modifiers,
+  event: Event,
 ): Key {
   return {
     name,

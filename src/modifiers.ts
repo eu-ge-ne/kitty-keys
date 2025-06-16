@@ -36,11 +36,11 @@ export interface Modifiers {
   num_lock?: boolean;
 }
 
-export function parse_modifiers(mods?: string): Modifiers | undefined {
+export function parse_modifiers(mods?: string): Modifiers {
+  const result: Modifiers = {};
+
   if (typeof mods === "string") {
     const n = Number.parseInt(mods, 10) - 1;
-
-    const result: Modifiers = {};
 
     if (n & 1) {
       result.shift = true;
@@ -73,7 +73,7 @@ export function parse_modifiers(mods?: string): Modifiers | undefined {
     if (n & 128) {
       result.num_lock = true;
     }
-
-    return result;
   }
+
+  return result;
 }
