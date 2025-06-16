@@ -115,6 +115,7 @@ Deno.test("TAB", () => {
   eq([0x9], [
     new FuncKey("TAB"),
     new FuncKey("TAB", { ctrl: true }),
+    new CharKey("i", { ctrl: true }),
   ]);
 
   eq([0x1b, 0x9], [
@@ -188,7 +189,8 @@ Deno.test("ctrl + character", () => {
   eq([3], [new CharKey("c", { ctrl: true })]);
   eq([4], [new CharKey("d", { ctrl: true })]);
   eq([5], [new CharKey("e", { ctrl: true })]);
-
   eq([6], [new CharKey("f", { ctrl: true })]);
   eq([7], [new CharKey("g", { ctrl: true })]);
+  eq([10], [new CharKey("j", { ctrl: true })]);
+  eq([11], [new CharKey("k", { ctrl: true })]);
 });
