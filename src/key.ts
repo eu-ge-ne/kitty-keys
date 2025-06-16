@@ -1,33 +1,21 @@
 import { type Mods, parse_mods } from "./mods.ts";
 
-/**
- * Key event
- */
-export class Key {
+export interface Key extends Mods {
   /**
-   * Name of the functional key
+   * Name of the key
    */
   name: string;
+}
 
-  /**
-   * Modifiers
-   */
-  mods: Mods;
+export function new_key(name: string, mods: Mods = {}): Key {
+  return {
+    name,
+    ...mods,
+  };
+}
 
-  /**
-   * Creates an instance of Key
-   */
-  constructor(name: string, mods: Mods = {}) {
-    this.name = name;
-    this.mods = mods;
-  }
-
-  /**
-   * Creates an instance of FuncKey from escape codes
-   */
-  static parse(code: string, mods?: string): Key {
-    return new Key(csi_codes.get(code) ?? code, parse_mods(mods));
-  }
+export function parse_key(code: string, mods?: string): Key {
+  return new_key(csi_codes.get(code) ?? code, parse_mods(mods));
 }
 
 const csi_codes = new Map<string, string>([
