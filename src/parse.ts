@@ -73,20 +73,23 @@ export function parse(buf: Uint8Array): Key[] {
     keys.push(new FuncKey("TAB", { alt: true, shift: true }));
   }
 
-  /*
-  if (buf[0] === 0x20) {
-    return new CharKey(" ", { shift: true });
+  if (text === "\x20") {
+    keys.push(new CharKey(" "));
+    keys.push(new CharKey(" ", { shift: true }));
   }
-  if (buf[0] === 0x0) {
-    return new CharKey(" ", { ctrl: true, shift: true });
+  if (text === "\x00") {
+    keys.push(new CharKey(" ", { ctrl: true }));
+    keys.push(new CharKey(" ", { ctrl: true, shift: true }));
   }
-  if (buf[0] === 0x1b && buf[1] === 0x20) {
-    return new CharKey(" ", { alt: true, shift: true });
+  if (text === "\x1b\x20") {
+    keys.push(new CharKey(" ", { alt: true }));
+    keys.push(new CharKey(" ", { alt: true, shift: true }));
   }
-  if (buf[0] === 0x1b && buf[1] === 0x0) {
-    return new CharKey(" ", { ctrl: true, alt: true });
+  if (text === "\x1b\x00") {
+    keys.push(new CharKey(" ", { ctrl: true, alt: true }));
   }
 
+  /*
   if (buf[0] === 31) {
     return new CharKey("/", { ctrl: true });
   }

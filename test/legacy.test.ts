@@ -129,14 +129,28 @@ Deno.test("TAB", () => {
   ]);
 });
 
-/*
 Deno.test("SPACE", () => {
-  eq([0x20], new CharKey(" ", { shift: true }));
-  eq([0x0], new CharKey(" ", { ctrl: true, shift: true }));
-  eq([0x1b, 0x20], new CharKey(" ", { alt: true, shift: true }));
-  eq([0x1b, 0x0], new CharKey(" ", { ctrl: true, alt: true }));
+  eq([0x20], [
+    new CharKey(" "),
+    new CharKey(" ", { shift: true }),
+  ]);
+
+  eq([0x0], [
+    new CharKey(" ", { ctrl: true }),
+    new CharKey(" ", { ctrl: true, shift: true }),
+  ]);
+
+  eq([0x1b, 0x20], [
+    new CharKey(" ", { alt: true }),
+    new CharKey(" ", { alt: true, shift: true }),
+  ]);
+
+  eq([0x1b, 0x0], [
+    new CharKey(" ", { ctrl: true, alt: true }),
+  ]);
 });
 
+/*
 Deno.test("alt + character", () => {
   eq("\x1bi", new CharKey("i", { alt: true }));
   eq("\x1bI", new CharKey("I", { alt: true }));
