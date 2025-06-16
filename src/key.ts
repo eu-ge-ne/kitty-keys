@@ -1,6 +1,9 @@
 import { csi_name } from "./csi.ts";
 import { type Modifiers, parse_modifiers } from "./modifiers.ts";
 
+/**
+ * Represents functional key or text key with modifiers
+ */
 export interface Key extends Modifiers {
   /**
    * Name of the key
