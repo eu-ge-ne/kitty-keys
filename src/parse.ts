@@ -124,6 +124,12 @@ export function parse(buf: Uint8Array): Key[] {
     ];
   }
 
+  if (buf[0] === 48) {
+    return [
+      new CharKey("0", { ctrl: true }),
+    ];
+  }
+
   if (buf[0] === 0x1b) {
     if (buf[1] === 0x5b) {
       const csi = decoder.decode(buf.subarray(2));
@@ -161,9 +167,11 @@ export function parse(buf: Uint8Array): Key[] {
     return [new CharKey(decoder.decode(buf.subarray(1)), { alt: true })];
   }
 
+  /*
   if (buf[0]! < 0x20 || buf[0]! === 0x7f) {
     return [FuncKey.parse(decoder.decode(buf))];
   }
+  */
 
   return [new CharKey(decoder.decode(buf))];
 }
