@@ -9,38 +9,76 @@ function is(actual: string, expected: string | Key): void {
   assertEquals(parse(encoder.encode(actual)), expected);
 }
 
-Deno.test("Functional keys", () => {
+Deno.test("ESC", () => {
   is("\x1b[27u", new_key("ESC"));
+  is("\x1b[27;5u", new_key("ESC", { ctrl: true }));
+});
 
+Deno.test("ENTER", () => {
   is("\x0d", "\r");
   is("\x1b[13u", new_key("ENTER"));
+  is("\x1b[13;5u", new_key("ENTER", { ctrl: true }));
+});
 
+Deno.test("TAB", () => {
   is("\x09", "\t");
   is("\x1b[9u", new_key("TAB"));
+  is("\x1b[9;5u", new_key("TAB", { ctrl: true }));
+});
 
+Deno.test("BACKSPACE", () => {
   is("\x7f", "\x7f");
   is("\x08", "\x08");
   is("\x1b[127u", new_key("BACKSPACE"));
+  is("\x1b[127;5u", new_key("BACKSPACE", { ctrl: true }));
+});
 
+Deno.test("INSERT", () => {
   is("\x1b[2~", new_key("INSERT"));
+  is("\x1b[2;5u~", new_key("INSERT", { ctrl: true }));
+});
 
+Deno.test("DELETE", () => {
   is("\x1b[3~", new_key("DELETE"));
+  is("\x1b[3;5u~", new_key("DELETE", { ctrl: true }));
+});
 
+Deno.test("LEFT-RIGHT", () => {
   is("\x1b[D", new_key("LEFT"));
   is("\x1b[C", new_key("RIGHT"));
 
+  is("\x1b[1;5D", new_key("LEFT", { ctrl: true }));
+  is("\x1b[1;5C", new_key("RIGHT", { ctrl: true }));
+});
+
+Deno.test("UP-DOWN", () => {
   is("\x1b[A", new_key("UP"));
   is("\x1b[B", new_key("DOWN"));
 
+  is("\x1b[1;5A", new_key("UP", { ctrl: true }));
+  is("\x1b[1;5B", new_key("DOWN", { ctrl: true }));
+});
+
+Deno.test("PAGE_UP-PAGE_DOWN", () => {
   is("\x1b[5~", new_key("PAGE_UP"));
   is("\x1b[6~", new_key("PAGE_DOWN"));
 
+  is("\x1b[5;5~", new_key("PAGE_UP", { ctrl: true }));
+  is("\x1b[6;5~", new_key("PAGE_DOWN", { ctrl: true }));
+});
+
+Deno.test("HOME-END", () => {
   is("\x1b[H", new_key("HOME"));
   is("\x1b[7~", new_key("HOME"));
 
   is("\x1b[F", new_key("END"));
   is("\x1b[8~", new_key("END"));
 
+  is("\x1b[7;5~", new_key("HOME", { ctrl: true }));
+  is("\x1b[8;5~", new_key("END", { ctrl: true }));
+});
+
+Deno.test("F1-F12", () => {
   is("\x1b[P", new_key("F1"));
   is("\x1b[11~", new_key("F1"));
 
@@ -61,5 +99,5 @@ Deno.test("Functional keys", () => {
   is("\x1b[23~", new_key("F11"));
   is("\x1b[24~", new_key("F12"));
 
-  // TODO: F13 - ...
+  is("\x1b[1;5Q", new_key("F2", { ctrl: true }));
 });

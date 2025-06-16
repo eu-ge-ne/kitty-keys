@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-console
-import { Key, parse } from "../src/mod.ts";
+import { parse } from "../src/mod.ts";
 
 Deno.stdin.setRaw(true);
 
@@ -39,7 +39,7 @@ while (true) {
 
   console.log("\nstdin:", { buf, text, key });
 
-  if (key instanceof Key && key.name === "ESC") {
+  if (typeof key !== "string" && key.name === "ESC") {
     break;
   }
 }
