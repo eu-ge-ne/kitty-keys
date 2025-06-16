@@ -23,42 +23,40 @@ Deno.test("Characters", () => {
   eq("$", [new CharKey("$")]);
 });
 
-/*
 Deno.test("Func keys", () => {
-  eq("\x1b[2~", new FuncKey("INSERT"));
-  eq("\x1b[3~", new FuncKey("DELETE"));
-  eq("\x1b[5~", new FuncKey("PAGE_UP"));
-  eq("\x1b[6~", new FuncKey("PAGE_DOWN"));
+  eq("\x1b[2~", [new FuncKey("INSERT")]);
+  eq("\x1b[3~", [new FuncKey("DELETE")]);
+  eq("\x1b[5~", [new FuncKey("PAGE_UP")]);
+  eq("\x1b[6~", [new FuncKey("PAGE_DOWN")]);
 
-  eq("\x1b[A", new FuncKey("UP"));
-  eq("\x1bOA", new FuncKey("UP"));
-  eq("\x1b[B", new FuncKey("DOWN"));
-  eq("\x1bOB", new FuncKey("DOWN"));
-  eq("\x1b[C", new FuncKey("RIGHT"));
-  eq("\x1bOC", new FuncKey("RIGHT"));
-  eq("\x1b[D", new FuncKey("LEFT"));
-  eq("\x1bOD", new FuncKey("LEFT"));
-  eq("\x1b[H", new FuncKey("HOME"));
-  eq("\x1bOH", new FuncKey("HOME"));
-  eq("\x1b[F", new FuncKey("END"));
-  eq("\x1bOF", new FuncKey("END"));
+  eq("\x1b[A", [new FuncKey("UP")]);
+  eq("\x1bOA", [new FuncKey("UP")]);
+  eq("\x1b[B", [new FuncKey("DOWN")]);
+  eq("\x1bOB", [new FuncKey("DOWN")]);
+  eq("\x1b[C", [new FuncKey("RIGHT")]);
+  eq("\x1bOC", [new FuncKey("RIGHT")]);
+  eq("\x1b[D", [new FuncKey("LEFT")]);
+  eq("\x1bOD", [new FuncKey("LEFT")]);
+  eq("\x1b[H", [new FuncKey("HOME")]);
+  eq("\x1bOH", [new FuncKey("HOME")]);
+  eq("\x1b[F", [new FuncKey("END")]);
+  eq("\x1bOF", [new FuncKey("END")]);
 
-  eq("\x1bOP", new FuncKey("F1"));
-  eq("\x1bOQ", new FuncKey("F2"));
-  eq("\x1bOR", new FuncKey("F3"));
-  eq("\x1bOS", new FuncKey("F4"));
-  eq("\x1b[15~", new FuncKey("F5"));
-  eq("\x1b[17~", new FuncKey("F6"));
-  eq("\x1b[18~", new FuncKey("F7"));
-  eq("\x1b[19~", new FuncKey("F8"));
-  eq("\x1b[20~", new FuncKey("F9"));
-  eq("\x1b[21~", new FuncKey("F10"));
-  eq("\x1b[23~", new FuncKey("F11"));
-  eq("\x1b[24~", new FuncKey("F12"));
+  eq("\x1bOP", [new FuncKey("F1")]);
+  eq("\x1bOQ", [new FuncKey("F2")]);
+  eq("\x1bOR", [new FuncKey("F3")]);
+  eq("\x1bOS", [new FuncKey("F4")]);
+  eq("\x1b[15~", [new FuncKey("F5")]);
+  eq("\x1b[17~", [new FuncKey("F6")]);
+  eq("\x1b[18~", [new FuncKey("F7")]);
+  eq("\x1b[19~", [new FuncKey("F8")]);
+  eq("\x1b[20~", [new FuncKey("F9")]);
+  eq("\x1b[21~", [new FuncKey("F10")]);
+  eq("\x1b[23~", [new FuncKey("F11")]);
+  eq("\x1b[24~", [new FuncKey("F12")]);
 
-  eq("\x1b[29~", new FuncKey("MENU"));
+  eq("\x1b[29~", [new FuncKey("MENU")]);
 });
-*/
 
 Deno.test("ENTER", () => {
   eq([0xd], [

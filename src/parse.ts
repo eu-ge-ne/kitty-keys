@@ -1,12 +1,12 @@
-import { CharKey, type Key } from "./key.ts";
+import { CharKey, FuncKey, type Key } from "./key.ts";
 import { map } from "./map.ts";
 
 // CSI number ; modifier ~
-const _legacy_csi_re = /(?<number>\d+)(;(?<modifier>.*))?~/s;
+const legacy_csi_re = /(?<number>\d+)(;(?<modifier>.*))?~/s;
 // CSI 1 ; modifier {ABCDEFHPQS}
-const _legacy_csi1_re = /(1;(?<modifier>.*))?(?<key>[ABCDEFHPQS])/s;
+const legacy_csi1_re = /(1;(?<modifier>.*))?(?<key>[ABCDEFHPQS])/s;
 // SS3 {ABCDEFHPQRS}
-const _legacy_ss3_re = /(?<key>[ABCDEFHPQRS])/s;
+const legacy_ss3_re = /(?<key>[ABCDEFHPQRS])/s;
 
 const decoder = new TextDecoder();
 
@@ -25,40 +25,31 @@ export function parse(buf: Uint8Array): Key[] {
     return [new CharKey(decoder.decode(buf.subarray(1)), { alt: true })];
   }
 
-  /*
-  if (buf[0] === 0x1b) {
-    if (buf[1] === 0x5b) {
-      const csi = decoder.decode(buf.subarray(2));
+  if (text.startsWith("\x1b[")) {
+    const csi = decoder.decode(buf.subarray(2));
 
-      const match = csi.match(legacy_csi_re);
-      if (match?.groups) {
-        const { number, modifier } = match.groups;
-        return FuncKey.parse(number!, modifier);
-      }
-
-      const match1 = csi.match(legacy_csi1_re);
-      if (match1?.groups) {
-        const { modifier, key } = match1.groups;
-        return FuncKey.parse(key!, modifier);
-      }
+    const match0 = csi.match(legacy_csi_re);
+    if (match0?.groups) {
+      const { number, modifier } = match0.groups;
+      return [FuncKey.parse(number!, modifier)];
     }
 
-    if (buf[1] === 0x4f) {
-      const ss3 = decoder.decode(buf.subarray(2));
-
-      const match = ss3.match(legacy_ss3_re);
-      if (match?.groups) {
-        const { key } = match.groups;
-        return FuncKey.parse(key!);
-      }
+    const match1 = csi.match(legacy_csi1_re);
+    if (match1?.groups) {
+      const { modifier, key } = match1.groups;
+      return [FuncKey.parse(key!, modifier)];
     }
-
   }
 
-  if (buf[0]! < 0x20 || buf[0]! === 0x7f) {
-    return FuncKey.parse(decoder.decode(buf));
+  if (text.startsWith("\x1bO")) {
+    const ss3 = decoder.decode(buf.subarray(2));
+
+    const match = ss3.match(legacy_ss3_re);
+    if (match?.groups) {
+      const { key } = match.groups;
+      return [FuncKey.parse(key!)];
+    }
   }
-  */
 
   return [new CharKey(text)];
 }
