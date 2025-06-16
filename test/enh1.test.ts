@@ -59,16 +59,26 @@ Deno.test("UP-DOWN", () => {
   is("\x1b[1;5B", new_key("DOWN", { ctrl: true }));
 });
 
-Deno.test("Functional keys", () => {
+Deno.test("PAGE_UP-PAGE_DOWN", () => {
   is("\x1b[5~", new_key("PAGE_UP"));
   is("\x1b[6~", new_key("PAGE_DOWN"));
 
+  is("\x1b[5;5~", new_key("PAGE_UP", { ctrl: true }));
+  is("\x1b[6;5~", new_key("PAGE_DOWN", { ctrl: true }));
+});
+
+Deno.test("HOME-END", () => {
   is("\x1b[H", new_key("HOME"));
   is("\x1b[7~", new_key("HOME"));
 
   is("\x1b[F", new_key("END"));
   is("\x1b[8~", new_key("END"));
 
+  is("\x1b[7;5~", new_key("HOME", { ctrl: true }));
+  is("\x1b[8;5~", new_key("END", { ctrl: true }));
+});
+
+Deno.test("F1-F12", () => {
   is("\x1b[P", new_key("F1"));
   is("\x1b[11~", new_key("F1"));
 
@@ -89,5 +99,5 @@ Deno.test("Functional keys", () => {
   is("\x1b[23~", new_key("F11"));
   is("\x1b[24~", new_key("F12"));
 
-  // TODO: F13 - ...
+  is("\x1b[1;5Q", new_key("F2", { ctrl: true }));
 });
