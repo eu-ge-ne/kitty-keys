@@ -1,127 +1,95 @@
 import { assertEquals } from "@std/assert";
 
 import { parse } from "../src/parse.ts";
-import { CharKey, FuncKey } from "../src/key.ts";
+import { CharKey, FuncKey, type Key } from "../src/key.ts";
 
 const encoder = new TextEncoder();
 
+function eq(actual: string | number[], expected: Key): void {
+  if (typeof actual === "string") {
+    assertEquals(parse(encoder.encode(actual)), expected);
+  } else {
+    assertEquals(parse(new Uint8Array(actual)), expected);
+  }
+}
+
 Deno.test("Characters", () => {
-  assertEquals(parse(encoder.encode("a")), new CharKey("a"));
-  assertEquals(parse(encoder.encode("A")), new CharKey("A"));
-  assertEquals(parse(encoder.encode("0")), new CharKey("0"));
-  assertEquals(parse(encoder.encode("$")), new CharKey("$"));
+  eq("a", new CharKey("a"));
+  eq("A", new CharKey("A"));
+  eq("0", new CharKey("0"));
+  eq("$", new CharKey("$"));
 });
 
 Deno.test("Func keys", () => {
-  assertEquals(parse(encoder.encode("\x1b[2~")), new FuncKey("INSERT"));
-  assertEquals(parse(encoder.encode("\x1b[3~")), new FuncKey("DELETE"));
-  assertEquals(parse(encoder.encode("\x1b[5~")), new FuncKey("PAGE_UP"));
-  assertEquals(parse(encoder.encode("\x1b[6~")), new FuncKey("PAGE_DOWN"));
+  eq("\x1b[2~", new FuncKey("INSERT"));
+  eq("\x1b[3~", new FuncKey("DELETE"));
+  eq("\x1b[5~", new FuncKey("PAGE_UP"));
+  eq("\x1b[6~", new FuncKey("PAGE_DOWN"));
 
-  assertEquals(parse(encoder.encode("\x1b[A")), new FuncKey("UP"));
-  assertEquals(parse(encoder.encode("\x1bOA")), new FuncKey("UP"));
-  assertEquals(parse(encoder.encode("\x1b[B")), new FuncKey("DOWN"));
-  assertEquals(parse(encoder.encode("\x1bOB")), new FuncKey("DOWN"));
-  assertEquals(parse(encoder.encode("\x1b[C")), new FuncKey("RIGHT"));
-  assertEquals(parse(encoder.encode("\x1bOC")), new FuncKey("RIGHT"));
-  assertEquals(parse(encoder.encode("\x1b[D")), new FuncKey("LEFT"));
-  assertEquals(parse(encoder.encode("\x1bOD")), new FuncKey("LEFT"));
-  assertEquals(parse(encoder.encode("\x1b[H")), new FuncKey("HOME"));
-  assertEquals(parse(encoder.encode("\x1bOH")), new FuncKey("HOME"));
-  assertEquals(parse(encoder.encode("\x1b[F")), new FuncKey("END"));
-  assertEquals(parse(encoder.encode("\x1bOF")), new FuncKey("END"));
+  eq("\x1b[A", new FuncKey("UP"));
+  eq("\x1bOA", new FuncKey("UP"));
+  eq("\x1b[B", new FuncKey("DOWN"));
+  eq("\x1bOB", new FuncKey("DOWN"));
+  eq("\x1b[C", new FuncKey("RIGHT"));
+  eq("\x1bOC", new FuncKey("RIGHT"));
+  eq("\x1b[D", new FuncKey("LEFT"));
+  eq("\x1bOD", new FuncKey("LEFT"));
+  eq("\x1b[H", new FuncKey("HOME"));
+  eq("\x1bOH", new FuncKey("HOME"));
+  eq("\x1b[F", new FuncKey("END"));
+  eq("\x1bOF", new FuncKey("END"));
 
-  assertEquals(parse(encoder.encode("\x1bOP")), new FuncKey("F1"));
-  assertEquals(parse(encoder.encode("\x1bOQ")), new FuncKey("F2"));
-  assertEquals(parse(encoder.encode("\x1bOR")), new FuncKey("F3"));
-  assertEquals(parse(encoder.encode("\x1bOS")), new FuncKey("F4"));
-  assertEquals(parse(encoder.encode("\x1b[15~")), new FuncKey("F5"));
-  assertEquals(parse(encoder.encode("\x1b[17~")), new FuncKey("F6"));
-  assertEquals(parse(encoder.encode("\x1b[18~")), new FuncKey("F7"));
-  assertEquals(parse(encoder.encode("\x1b[19~")), new FuncKey("F8"));
-  assertEquals(parse(encoder.encode("\x1b[20~")), new FuncKey("F9"));
-  assertEquals(parse(encoder.encode("\x1b[21~")), new FuncKey("F10"));
-  assertEquals(parse(encoder.encode("\x1b[23~")), new FuncKey("F11"));
-  assertEquals(parse(encoder.encode("\x1b[24~")), new FuncKey("F12"));
+  eq("\x1bOP", new FuncKey("F1"));
+  eq("\x1bOQ", new FuncKey("F2"));
+  eq("\x1bOR", new FuncKey("F3"));
+  eq("\x1bOS", new FuncKey("F4"));
+  eq("\x1b[15~", new FuncKey("F5"));
+  eq("\x1b[17~", new FuncKey("F6"));
+  eq("\x1b[18~", new FuncKey("F7"));
+  eq("\x1b[19~", new FuncKey("F8"));
+  eq("\x1b[20~", new FuncKey("F9"));
+  eq("\x1b[21~", new FuncKey("F10"));
+  eq("\x1b[23~", new FuncKey("F11"));
+  eq("\x1b[24~", new FuncKey("F12"));
 
-  assertEquals(parse(encoder.encode("\x1b[29~")), new FuncKey("MENU"));
+  eq("\x1b[29~", new FuncKey("MENU"));
 });
 
 Deno.test("ENTER", () => {
-  assertEquals(parse(new Uint8Array([0xd])), new FuncKey("ENTER"));
-
-  assertEquals(
-    parse(new Uint8Array([0x1b, 0xd])),
-    new FuncKey("ENTER", { alt: true }),
-  );
+  eq([0xd], new FuncKey("ENTER"));
+  eq([0x1b, 0xd], new FuncKey("ENTER", { alt: true }));
 });
 
 Deno.test("ESC", () => {
-  assertEquals(parse(new Uint8Array([0x1b])), new FuncKey("ESC"));
-
-  assertEquals(
-    parse(new Uint8Array([0x1b, 0x1b])),
-    new FuncKey("ESC", { alt: true }),
-  );
+  eq([0x1b], new FuncKey("ESC"));
+  eq([0x1b, 0x1b], new FuncKey("ESC", { alt: true }));
 });
 
 Deno.test("BACKSPACE", () => {
-  assertEquals(parse(new Uint8Array([0x7f])), new FuncKey("BACKSPACE"));
-
-  assertEquals(
-    parse(new Uint8Array([0x8])),
-    new FuncKey("BACKSPACE", { ctrl: true }),
-  );
-
-  assertEquals(
-    parse(new Uint8Array([0x1b, 0x7f])),
-    new FuncKey("BACKSPACE", { alt: true }),
-  );
-
-  assertEquals(
-    parse(new Uint8Array([0x1b, 0x8])),
-    new FuncKey("BACKSPACE", { ctrl: true, alt: true }),
-  );
+  eq([0x7f], new FuncKey("BACKSPACE"));
+  eq([0x8], new FuncKey("BACKSPACE", { ctrl: true }));
+  eq([0x1b, 0x7f], new FuncKey("BACKSPACE", { alt: true }));
+  eq([0x1b, 0x8], new FuncKey("BACKSPACE", { ctrl: true, alt: true }));
 });
 
 Deno.test("TAB", () => {
-  assertEquals(parse(new Uint8Array([0x9])), new FuncKey("TAB"));
-
-  assertEquals(
-    parse(new Uint8Array([0x1b, 0x9])),
-    new FuncKey("TAB", { alt: true }),
-  );
-
-  assertEquals(
-    parse(encoder.encode("\x1b[Z")),
-    new FuncKey("TAB", { shift: true }),
-  );
-
-  assertEquals(
-    parse(encoder.encode("\x1b\x1b[Z")),
-    new FuncKey("TAB", { alt: true, shift: true }),
-  );
+  eq([0x9], new FuncKey("TAB"));
+  eq([0x1b, 0x9], new FuncKey("TAB", { alt: true }));
+  eq("\x1b[Z", new FuncKey("TAB", { shift: true }));
+  eq("\x1b\x1b[Z", new FuncKey("TAB", { alt: true, shift: true }));
 });
 
 Deno.test("SPACE", () => {
-  assertEquals(parse(new Uint8Array([0x20])), new CharKey(" "));
-
-  assertEquals(parse(new Uint8Array([0x0])), new CharKey(" ", { ctrl: true }));
-
-  assertEquals(
-    parse(new Uint8Array([0x1b, 0x20])),
-    new CharKey(" ", { alt: true }),
-  );
-
-  assertEquals(
-    parse(new Uint8Array([0x1b, 0x0])),
-    new CharKey(" ", { ctrl: true, alt: true }),
-  );
+  eq([0x20], new CharKey(" "));
+  eq([0x0], new CharKey(" ", { ctrl: true }));
+  eq([0x1b, 0x20], new CharKey(" ", { alt: true }));
+  eq([0x1b, 0x0], new CharKey(" ", { ctrl: true, alt: true }));
 });
 
 Deno.test("alt + character", () => {
-  assertEquals(
-    parse(encoder.encode("\x1bi")),
-    new CharKey("i", { alt: true }),
-  );
+  eq("\x1bi", new CharKey("i", { alt: true }));
+});
+
+Deno.test("ctrl + character", () => {
+  eq([0x0], new CharKey(" ", { ctrl: true }));
 });
