@@ -86,6 +86,11 @@ Deno.test("TAB", () => {
     parse(new Uint8Array([0x1b, 0x9])),
     new FuncKey("TAB", { alt: true }),
   );
+
+  assertEquals(
+    parse(encoder.encode("\x1b[Z")),
+    new FuncKey("TAB", { shift: true }),
+  );
 });
 
 Deno.test("SPACE", () => {

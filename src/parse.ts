@@ -18,6 +18,10 @@ export function parse(buf: Uint8Array): Key | undefined {
       if (buf[1] === 0x5b) {
         const csi = decoder.decode(buf.subarray(2));
 
+        if (csi === "Z") {
+          return new FuncKey("TAB", { shift: true });
+        }
+
         const match = csi.match(legacy_csi_re);
         if (match?.groups) {
           const { number, modifier } = match.groups;
