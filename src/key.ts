@@ -27,10 +27,17 @@ export class CharKey extends Key {
   /**
    * Creates an instance of CharKey
    */
-  constructor(char: string, mods?: string) {
-    super(parse_mods(mods));
+  constructor(char: string, mods?: Mods) {
+    super(mods);
 
     this.char = char;
+  }
+
+  /**
+   * Creates an instance of CharKey
+   */
+  static parse(char: string, mods?: string): CharKey {
+    return new CharKey(char, parse_mods(mods));
   }
 }
 
@@ -55,10 +62,7 @@ export class FuncKey extends Key {
   /**
    * Creates an instance of FuncKey from escape codes
    */
-  static from(esc_code: string, mods?: string): FuncKey {
-    return new FuncKey(
-      esc_code_name(esc_code) ?? esc_code,
-      parse_mods(mods),
-    );
+  static parse(esc_code: string, mods?: string): FuncKey {
+    return new FuncKey(esc_code_name(esc_code) ?? esc_code, parse_mods(mods));
   }
 }

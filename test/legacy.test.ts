@@ -13,9 +13,6 @@ Deno.test("Characters", () => {
 });
 
 Deno.test("Func keys", () => {
-  assertEquals(parse(new Uint8Array([0x9])), new FuncKey("TAB"));
-  assertEquals(parse(new Uint8Array([0x7f])), new FuncKey("BACKSPACE"));
-
   assertEquals(parse(encoder.encode("\x1b[2~")), new FuncKey("INSERT"));
   assertEquals(parse(encoder.encode("\x1b[3~")), new FuncKey("DELETE"));
   assertEquals(parse(encoder.encode("\x1b[5~")), new FuncKey("PAGE_UP"));
@@ -55,7 +52,7 @@ Deno.test("ENTER", () => {
 
   assertEquals(
     parse(new Uint8Array([0x1b, 0xd])),
-    new FuncKey("ENTER", { ctrl: true, alt: true, shift: true }),
+    new FuncKey("ENTER", { alt: true }),
   );
 });
 
@@ -64,6 +61,40 @@ Deno.test("ESC", () => {
 
   assertEquals(
     parse(new Uint8Array([0x1b, 0x1b])),
-    new FuncKey("ESC", { ctrl: true, alt: true, shift: true }),
+    new FuncKey("ESC", { alt: true }),
+  );
+});
+
+Deno.test("BACKSPACE", () => {
+  assertEquals(parse(new Uint8Array([0x7f])), new FuncKey("BACKSPACE"));
+
+  assertEquals(
+    parse(new Uint8Array([0x8])),
+    new FuncKey("BACKSPACE", { ctrl: true }),
+  );
+
+  assertEquals(
+    parse(new Uint8Array([0x1b, 0x7f])),
+    new FuncKey("BACKSPACE", { alt: true }),
+  );
+});
+
+Deno.test("TAB", () => {
+  assertEquals(parse(new Uint8Array([0x9])), new FuncKey("TAB"));
+
+  assertEquals(
+    parse(new Uint8Array([0x1b, 0x9])),
+    new FuncKey("TAB", { alt: true }),
+  );
+});
+
+Deno.test("SPACE", () => {
+  assertEquals(parse(new Uint8Array([0x20])), new CharKey(" "));
+
+  assertEquals(parse(new Uint8Array([0x0])), new CharKey(" ", { ctrl: true }));
+
+  assertEquals(
+    parse(new Uint8Array([0x1b, 0x20])),
+    new CharKey(" ", { alt: true }),
   );
 });
