@@ -1,4 +1,6 @@
-import { CharKey, FuncKey, type Key } from "./key.ts";
+import { CharKey } from "./char.ts";
+import { FuncKey } from "./func.ts";
+import type { Key } from "./key.ts";
 
 export const map = new Map<string, Key[]>([
   ["\x0d", [

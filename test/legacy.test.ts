@@ -1,7 +1,9 @@
 import { assertEquals } from "@std/assert";
 
+import { CharKey } from "../src/char.ts";
+import { FuncKey } from "../src/func.ts";
+import type { Key } from "../src/key.ts";
 import { parse } from "../src/parse.ts";
-import { CharKey, FuncKey, type Key } from "../src/key.ts";
 
 const encoder = new TextEncoder();
 

@@ -13,9 +13,7 @@ while (true) {
 
   console.log("\nstdin:", { buf, text, key });
 
-  if (key instanceof FuncKey) {
-    if (key.name === "ESC") {
-      break;
-    }
+  if (key.some((x) => x instanceof FuncKey && x.name === "ESC")) {
+    break;
   }
 }
