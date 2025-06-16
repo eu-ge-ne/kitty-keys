@@ -199,13 +199,13 @@ Deno.test("ctrl + character", () => {
   eq([15], [new CharKey("o", { ctrl: true })]);
   eq([16], [new CharKey("p", { ctrl: true })]);
   eq([17], [new CharKey("q", { ctrl: true })]);
-
   eq([18], [new CharKey("r", { ctrl: true })]);
   eq([19], [new CharKey("s", { ctrl: true })]);
   eq([20], [new CharKey("t", { ctrl: true })]);
   eq([21], [new CharKey("u", { ctrl: true })]);
   eq([22], [new CharKey("v", { ctrl: true })]);
   eq([23], [new CharKey("w", { ctrl: true })]);
+
   eq([24], [new CharKey("x", { ctrl: true })]);
   eq([25], [new CharKey("y", { ctrl: true })]);
   eq([26], [new CharKey("z", { ctrl: true })]);

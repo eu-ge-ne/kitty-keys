@@ -117,4 +117,10 @@ export const map = new Map<string, Key[]>([
   ["\x0f", [new CharKey("o", { ctrl: true })]],
   ["\x10", [new CharKey("p", { ctrl: true })]],
   ["\x11", [new CharKey("q", { ctrl: true })]],
+  ["\x12", [new CharKey("r", { ctrl: true })]],
+  ["\x13", [new CharKey("s", { ctrl: true })]],
+  ["\x14", [new CharKey("t", { ctrl: true })]],
+  ["\x15", [new CharKey("u", { ctrl: true })]],
+  ["\x16", [new CharKey("v", { ctrl: true })]],
+  ["\x17", [new CharKey("w", { ctrl: true })]],
 ]);
