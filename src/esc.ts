@@ -3,8 +3,6 @@ export function esc_code_name(esc_code: string): string {
 }
 
 const esc_codes = new Map<string, string>([
-  ["\x1b", "ESC"],
-  ["\r", "ENTER"],
   ["\t", "TAB"],
   ["\x7f", "BACKSPACE"],
   ["2", "INSERT"],

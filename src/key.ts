@@ -1,58 +1,17 @@
-import { esc_code_name } from "./esc-codes.ts";
+import { esc_code_name } from "./esc.ts";
+import { type Mods, parse_mods } from "./mods.ts";
 
 /**
  * Key event
  */
 export abstract class Key {
-  /**
-   * SHIFT
-   */
-  shift = false;
-  /**
-   * ALT/OPTION
-   */
-  alt = false;
-  /**
-   * CONTROL
-   */
-  ctrl = false;
-  /**
-   * WINDOWS/LINUX/COMMAND
-   */
-  super = false;
-  /**
-   * HYPER
-   */
-  hyper = false;
-  /**
-   * META
-   */
-  meta = false;
-  /**
-   * CAPS LOCK
-   */
-  caps_lock = false;
-  /**
-   * NUM LOCK
-   */
-  num_lock = false;
+  mods: Mods;
 
   /**
    * Creates an instance of Key
    */
-  constructor(modifiers?: string) {
-    if (typeof modifiers === "string") {
-      const n = Number.parseInt(modifiers, 10) - 1;
-
-      this.shift = Boolean(n & 1);
-      this.alt = Boolean(n & 2);
-      this.ctrl = Boolean(n & 4);
-      this.super = Boolean(n & 8);
-      this.hyper = Boolean(n & 16);
-      this.meta = Boolean(n & 32);
-      this.caps_lock = Boolean(n & 64);
-      this.num_lock = Boolean(n & 128);
-    }
+  constructor(mods: Mods = {}) {
+    this.mods = mods;
   }
 }
 
@@ -68,8 +27,8 @@ export class CharKey extends Key {
   /**
    * Creates an instance of CharKey
    */
-  constructor(char: string, modifiers?: string) {
-    super(modifiers);
+  constructor(char: string, mods?: string) {
+    super(parse_mods(mods));
 
     this.char = char;
   }
@@ -87,8 +46,8 @@ export class FuncKey extends Key {
   /**
    * Creates an instance of FuncKey
    */
-  constructor(name: string, modifiers?: string) {
-    super(modifiers);
+  constructor(name: string, mods?: Mods) {
+    super(mods);
 
     this.name = name;
   }
@@ -96,9 +55,10 @@ export class FuncKey extends Key {
   /**
    * Creates an instance of FuncKey from escape codes
    */
-  static from_esc(esc_code: string, modifiers?: string): FuncKey {
-    const name = esc_code_name(esc_code) ?? esc_code;
-
-    return new FuncKey(name, modifiers);
+  static from(esc_code: string, mods?: string): FuncKey {
+    return new FuncKey(
+      esc_code_name(esc_code) ?? esc_code,
+      parse_mods(mods),
+    );
   }
 }

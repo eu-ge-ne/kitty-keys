@@ -13,8 +13,6 @@ Deno.test("Characters", () => {
 });
 
 Deno.test("Func keys", () => {
-  assertEquals(parse(new Uint8Array([0x1b])), new FuncKey("ESC"));
-  assertEquals(parse(new Uint8Array([0xd])), new FuncKey("ENTER"));
   assertEquals(parse(new Uint8Array([0x9])), new FuncKey("TAB"));
   assertEquals(parse(new Uint8Array([0x7f])), new FuncKey("BACKSPACE"));
 
@@ -50,4 +48,22 @@ Deno.test("Func keys", () => {
   assertEquals(parse(encoder.encode("\x1b[24~")), new FuncKey("F12"));
 
   assertEquals(parse(encoder.encode("\x1b[29~")), new FuncKey("MENU"));
+});
+
+Deno.test("ENTER", () => {
+  assertEquals(parse(new Uint8Array([0xd])), new FuncKey("ENTER"));
+
+  assertEquals(
+    parse(new Uint8Array([0x1b, 0xd])),
+    new FuncKey("ENTER", { ctrl: true, alt: true, shift: true }),
+  );
+});
+
+Deno.test("ESC", () => {
+  assertEquals(parse(new Uint8Array([0x1b])), new FuncKey("ESC"));
+
+  assertEquals(
+    parse(new Uint8Array([0x1b, 0x1b])),
+    new FuncKey("ESC", { ctrl: true, alt: true, shift: true }),
+  );
 });
