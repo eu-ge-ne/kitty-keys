@@ -1,5 +1,1 @@
-export const enum Event {
-  press,
-  repeat,
-  release,
-}
+export type Event = "press" | "repeat" | "release";
