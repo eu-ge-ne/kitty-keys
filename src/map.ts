@@ -86,8 +86,17 @@ export const map = new Map<string, Key[]>([
     new CharKey("1"),
     new CharKey("1", { ctrl: true }),
   ]],
-  ["\x1c", [new CharKey("4", { ctrl: true })]],
-  ["\x1d", [new CharKey("5", { ctrl: true })]],
-  ["\x1e", [new CharKey("6", { ctrl: true })]],
+  ["\x1c", [
+    new CharKey("4", { ctrl: true }),
+    new CharKey("\\", { ctrl: true }),
+  ]],
+  ["\x1d", [
+    new CharKey("5", { ctrl: true }),
+    new CharKey("]", { ctrl: true }),
+  ]],
+  ["\x1e", [
+    new CharKey("6", { ctrl: true }),
+    new CharKey("^", { ctrl: true }),
+  ]],
   ["9", [new CharKey("9", { ctrl: true })]],
 ]);
