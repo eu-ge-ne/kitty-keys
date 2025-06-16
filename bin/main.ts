@@ -9,8 +9,8 @@ const decoder = new TextDecoder();
 
 const CSI = "\x1B\x5B";
 
-function enable_kitty_protocol(): void {
-  write(CSI + "=1u");
+function enable_kitty_protocol(flags: number): void {
+  write(CSI + `=${flags}u`);
 }
 
 function disable_kitty_protocol(): void {
@@ -29,7 +29,7 @@ function write(text: string): void {
   }
 }
 
-enable_kitty_protocol();
+enable_kitty_protocol(1 + 2);
 query_kitty_protocol();
 
 while (true) {
