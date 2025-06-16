@@ -91,6 +91,11 @@ Deno.test("TAB", () => {
     parse(encoder.encode("\x1b[Z")),
     new FuncKey("TAB", { shift: true }),
   );
+
+  assertEquals(
+    parse(encoder.encode("\x1b\x1b[Z")),
+    new FuncKey("TAB", { alt: true, shift: true }),
+  );
 });
 
 Deno.test("SPACE", () => {

@@ -15,6 +15,14 @@ const decoder = new TextDecoder();
 export function parse(buf: Uint8Array): Key | undefined {
   if (buf.length > 0) {
     if (buf[0] === 0x1b) {
+      if (buf[1] === 0x1b) {
+        if (buf[2] === 0x5b) {
+          if (decoder.decode(buf.subarray(3)) === "Z") {
+            return new FuncKey("TAB", { alt: true, shift: true });
+          }
+        }
+      }
+
       if (buf[1] === 0x5b) {
         const csi = decoder.decode(buf.subarray(2));
 
