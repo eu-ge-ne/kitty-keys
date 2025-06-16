@@ -12,18 +12,21 @@ function is(actual: string, expected: string | Key): void {
 Deno.test("ESC", () => {
   is("\x1b[27u", new_key("ESC"));
   is("\x1b[27;5u", new_key("ESC", { ctrl: true }));
+  is("\x1b[27;3u", new_key("ESC", { alt: true }));
 });
 
 Deno.test("ENTER", () => {
   is("\x0d", "\r");
   is("\x1b[13u", new_key("ENTER"));
   is("\x1b[13;5u", new_key("ENTER", { ctrl: true }));
+  is("\x1b[13;3u", new_key("ENTER", { alt: true }));
 });
 
 Deno.test("TAB", () => {
   is("\x09", "\t");
   is("\x1b[9u", new_key("TAB"));
   is("\x1b[9;5u", new_key("TAB", { ctrl: true }));
+  is("\x1b[9;3u", new_key("TAB", { alt: true }));
 });
 
 Deno.test("BACKSPACE", () => {
@@ -31,16 +34,19 @@ Deno.test("BACKSPACE", () => {
   is("\x08", "\x08");
   is("\x1b[127u", new_key("BACKSPACE"));
   is("\x1b[127;5u", new_key("BACKSPACE", { ctrl: true }));
+  is("\x1b[127;3u", new_key("BACKSPACE", { alt: true }));
 });
 
 Deno.test("INSERT", () => {
   is("\x1b[2~", new_key("INSERT"));
   is("\x1b[2;5u~", new_key("INSERT", { ctrl: true }));
+  is("\x1b[2;3u~", new_key("INSERT", { alt: true }));
 });
 
 Deno.test("DELETE", () => {
   is("\x1b[3~", new_key("DELETE"));
   is("\x1b[3;5u~", new_key("DELETE", { ctrl: true }));
+  is("\x1b[3;3u~", new_key("DELETE", { alt: true }));
 });
 
 Deno.test("LEFT-RIGHT", () => {
@@ -49,6 +55,9 @@ Deno.test("LEFT-RIGHT", () => {
 
   is("\x1b[1;5D", new_key("LEFT", { ctrl: true }));
   is("\x1b[1;5C", new_key("RIGHT", { ctrl: true }));
+
+  is("\x1b[1;3D", new_key("LEFT", { alt: true }));
+  is("\x1b[1;3C", new_key("RIGHT", { alt: true }));
 });
 
 Deno.test("UP-DOWN", () => {
@@ -57,6 +66,9 @@ Deno.test("UP-DOWN", () => {
 
   is("\x1b[1;5A", new_key("UP", { ctrl: true }));
   is("\x1b[1;5B", new_key("DOWN", { ctrl: true }));
+
+  is("\x1b[1;3A", new_key("UP", { alt: true }));
+  is("\x1b[1;3B", new_key("DOWN", { alt: true }));
 });
 
 Deno.test("PAGE_UP-PAGE_DOWN", () => {
@@ -65,6 +77,9 @@ Deno.test("PAGE_UP-PAGE_DOWN", () => {
 
   is("\x1b[5;5~", new_key("PAGE_UP", { ctrl: true }));
   is("\x1b[6;5~", new_key("PAGE_DOWN", { ctrl: true }));
+
+  is("\x1b[5;3~", new_key("PAGE_UP", { alt: true }));
+  is("\x1b[6;3~", new_key("PAGE_DOWN", { alt: true }));
 });
 
 Deno.test("HOME-END", () => {
@@ -76,6 +91,9 @@ Deno.test("HOME-END", () => {
 
   is("\x1b[7;5~", new_key("HOME", { ctrl: true }));
   is("\x1b[8;5~", new_key("END", { ctrl: true }));
+
+  is("\x1b[7;3~", new_key("HOME", { alt: true }));
+  is("\x1b[8;3~", new_key("END", { alt: true }));
 });
 
 Deno.test("F1-F12", () => {
@@ -100,4 +118,6 @@ Deno.test("F1-F12", () => {
   is("\x1b[24~", new_key("F12"));
 
   is("\x1b[1;5Q", new_key("F2", { ctrl: true }));
+
+  is("\x1b[1;3P", new_key("F1", { alt: true }));
 });
