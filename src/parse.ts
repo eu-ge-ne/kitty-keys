@@ -66,9 +66,7 @@ export function parse(buf: Uint8Array): Key[] {
     ];
   }
   if (text === "\x1b\x08") {
-    return [
-      new FuncKey("BACKSPACE", { ctrl: true, alt: true }),
-    ];
+    return [new FuncKey("BACKSPACE", { ctrl: true, alt: true })];
   }
 
   if (text === "\x09") {
@@ -90,9 +88,7 @@ export function parse(buf: Uint8Array): Key[] {
     ];
   }
   if (text === "\x1b\x1b[Z") {
-    return [
-      new FuncKey("TAB", { alt: true, shift: true }),
-    ];
+    return [new FuncKey("TAB", { alt: true, shift: true })];
   }
 
   if (text === "\x20") {
@@ -103,6 +99,7 @@ export function parse(buf: Uint8Array): Key[] {
   }
   if (text === "\x00") {
     return [
+      new CharKey("2", { ctrl: true }),
       new CharKey(" ", { ctrl: true }),
       new CharKey(" ", { ctrl: true, shift: true }),
     ];
@@ -114,30 +111,32 @@ export function parse(buf: Uint8Array): Key[] {
     ];
   }
   if (text === "\x1b\x00") {
-    return [
-      new CharKey(" ", { ctrl: true, alt: true }),
-    ];
+    return [new CharKey(" ", { ctrl: true, alt: true })];
   }
 
   if (buf.length === 2 && buf[0] === 0x1b) {
+    return [new CharKey(decoder.decode(buf.subarray(1)), { alt: true })];
+  }
+
+  if (text === "\x1f") {
+    return [new CharKey("/", { ctrl: true })];
+  }
+
+  if (text === "0") {
     return [
-      new CharKey(decoder.decode(buf.subarray(1)), { alt: true }),
+      new CharKey("0"),
+      new CharKey("0", { ctrl: true }),
+    ];
+  }
+
+  if (text === "1") {
+    return [
+      new CharKey("1"),
+      new CharKey("1", { ctrl: true }),
     ];
   }
 
   /*
-  if (buf[0] === 31) {
-    return new CharKey("/", { ctrl: true });
-  }
-
-  if (buf[0] === 48) {
-    return new CharKey("0", { ctrl: true });
-  }
-
-  if (buf[0] === 49) {
-    return new CharKey("1", { ctrl: true });
-  }
-
   if (buf[0] === 0x1b) {
     if (buf[1] === 0x5b) {
       const csi = decoder.decode(buf.subarray(2));

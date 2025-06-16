@@ -103,9 +103,7 @@ Deno.test("BACKSPACE", () => {
     new FuncKey("BACKSPACE", { alt: true, shift: true }),
   ]);
 
-  eq([0x1b, 0x8], [
-    new FuncKey("BACKSPACE", { ctrl: true, alt: true }),
-  ]);
+  eq([0x1b, 0x8], [new FuncKey("BACKSPACE", { ctrl: true, alt: true })]);
 });
 
 Deno.test("TAB", () => {
@@ -124,9 +122,7 @@ Deno.test("TAB", () => {
     new FuncKey("TAB", { ctrl: true, shift: true }),
   ]);
 
-  eq("\x1b\x1b[Z", [
-    new FuncKey("TAB", { alt: true, shift: true }),
-  ]);
+  eq("\x1b\x1b[Z", [new FuncKey("TAB", { alt: true, shift: true })]);
 });
 
 Deno.test("SPACE", () => {
@@ -136,6 +132,7 @@ Deno.test("SPACE", () => {
   ]);
 
   eq([0x0], [
+    new CharKey("2", { ctrl: true }),
     new CharKey(" ", { ctrl: true }),
     new CharKey(" ", { ctrl: true, shift: true }),
   ]);
@@ -145,29 +142,23 @@ Deno.test("SPACE", () => {
     new CharKey(" ", { alt: true, shift: true }),
   ]);
 
-  eq([0x1b, 0x0], [
-    new CharKey(" ", { ctrl: true, alt: true }),
-  ]);
+  eq([0x1b, 0x0], [new CharKey(" ", { ctrl: true, alt: true })]);
 });
 
 Deno.test("alt + character", () => {
-  eq("\x1bi", [
-    new CharKey("i", { alt: true }),
-  ]);
-
-  eq("\x1bI", [
-    new CharKey("I", { alt: true }),
-  ]);
+  eq("\x1bi", [new CharKey("i", { alt: true })]);
+  eq("\x1bI", [new CharKey("I", { alt: true })]);
 });
 
-/*
 Deno.test("ctrl + character", () => {
-  eq([0], new CharKey(" ", { ctrl: true, shift: true }));
-  eq([31], new CharKey("/", { ctrl: true }));
-  eq([48], new CharKey("0", { ctrl: true }));
+  eq([31], [new CharKey("/", { ctrl: true })]);
+  eq([48], [
+    new CharKey("0"),
+    new CharKey("0", { ctrl: true }),
+  ]);
 
-  //eq([49], new CharKey("1", { ctrl: true }));
-  //eq([0], new CharKey("2", { ctrl: true }));
-  //eq([27], new CharKey("3", { ctrl: true }));
+  eq([49], [
+    new CharKey("1"),
+    new CharKey("1", { ctrl: true }),
+  ]);
 });
-*/
