@@ -1,4 +1,6 @@
-import { CharKey, FuncKey, type Key } from "./key.ts";
+import { CharKey } from "./char.ts";
+import { FuncKey } from "./func.ts";
+import type { Key } from "./key.ts";
 import { map } from "./map.ts";
 
 // CSI number ; modifier ~
