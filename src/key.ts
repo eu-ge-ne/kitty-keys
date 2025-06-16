@@ -43,4 +43,8 @@ const csi_codes = new Map<string, string>([
   ["B", "DOWN"],
   ["5", "PAGE_UP"],
   ["6", "PAGE_DOWN"],
+  ["H", "HOME"],
+  ["7", "HOME"],
+  ["F", "END"],
+  ["8", "END"],
 ]);

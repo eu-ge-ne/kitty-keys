@@ -41,4 +41,10 @@ Deno.test("Keys", () => {
   eq("\x1b[5~", new Key("PAGE_UP"));
 
   eq("\x1b[6~", new Key("PAGE_DOWN"));
+
+  eq("\x1b[H", new Key("HOME"));
+  eq("\x1b[7~", new Key("HOME"));
+
+  eq("\x1b[F", new Key("END"));
+  eq("\x1b[8~", new Key("END"));
 });
