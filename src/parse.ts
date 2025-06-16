@@ -13,62 +13,67 @@ const decoder = new TextDecoder();
  * Parse key event from bytes
  */
 export function parse(buf: Uint8Array): Key[] {
+  const text = decoder.decode(buf);
+
   const keys: Key[] = [];
 
-  if (buf.length === 1 && buf[0] === 0xd) {
+  if (text === "\x0d") {
     keys.push(new FuncKey("ENTER"));
     keys.push(new FuncKey("ENTER", { ctrl: true }));
     keys.push(new FuncKey("ENTER", { shift: true }));
     keys.push(new FuncKey("ENTER", { ctrl: true, shift: true }));
   }
-  if (buf.length === 2 && buf[0] === 0x1b && buf[1] === 0xd) {
+  if (text === "\x1b\x0d") {
     keys.push(new FuncKey("ENTER", { alt: true }));
     keys.push(new FuncKey("ENTER", { alt: true, shift: true }));
     keys.push(new FuncKey("ENTER", { ctrl: true, alt: true }));
   }
 
-  if (buf.length === 1 && buf[0] === 0x1b) {
+  if (text === "\x1b") {
     keys.push(new FuncKey("ESC"));
     keys.push(new FuncKey("ESC", { ctrl: true }));
     keys.push(new FuncKey("ESC", { shift: true }));
     keys.push(new FuncKey("ESC", { ctrl: true, shift: true }));
   }
-  if (buf.length === 2 && buf[0] === 0x1b && buf[1] === 0x1b) {
+  if (text === "\x1b\x1b") {
     keys.push(new FuncKey("ESC", { alt: true }));
     keys.push(new FuncKey("ESC", { alt: true, shift: true }));
     keys.push(new FuncKey("ESC", { ctrl: true, alt: true }));
   }
 
-  if (buf.length === 1 && buf[0] === 0x7f) {
+  if (text === "\x7f") {
     keys.push(new FuncKey("BACKSPACE"));
     keys.push(new FuncKey("BACKSPACE", { shift: true }));
   }
-  if (buf.length === 1 && buf[0] === 0x8) {
+  if (text === "\x08") {
     keys.push(new FuncKey("BACKSPACE", { ctrl: true }));
     keys.push(new FuncKey("BACKSPACE", { ctrl: true, shift: true }));
   }
-  if (buf.length === 2 && buf[0] === 0x1b && buf[1] === 0x7f) {
+  if (text === "\x1b\x7f") {
     keys.push(new FuncKey("BACKSPACE", { alt: true }));
     keys.push(new FuncKey("BACKSPACE", { alt: true, shift: true }));
   }
-  if (buf.length === 2 && buf[0] === 0x1b && buf[1] === 0x8) {
+  if (text === "\x1b\x08") {
     keys.push(new FuncKey("BACKSPACE", { ctrl: true, alt: true }));
   }
 
+  if (text === "\x09") {
+    keys.push(new FuncKey("TAB"));
+    keys.push(new FuncKey("TAB", { ctrl: true }));
+  }
+  if (text === "\x1b\x09") {
+    keys.push(new FuncKey("TAB", { alt: true }));
+    keys.push(new FuncKey("TAB", { ctrl: true, alt: true }));
+  }
+  if (text === "\x1b[Z") {
+    keys.push(new FuncKey("TAB", { shift: true }));
+    keys.push(new FuncKey("TAB", { ctrl: true, shift: true }));
+  }
+  if (text === "\x1b\x1b[Z") {
+    keys.push(new FuncKey("TAB", { alt: true, shift: true }));
+  }
+
   /*
-  if (buf[0] === 0x9) {
-    return new FuncKey("TAB", { ctrl: true });
-  }
-  if (buf[0] === 0x1b && buf[1] === 0x9) {
-    return new FuncKey("TAB", { ctrl: true, alt: true });
-  }
-  if (buf[0] === 0x1b && buf[1] === 0x1b && buf[2] === 0x5b) {
-    if (decoder.decode(buf.subarray(3)) === "Z") {
-      return new FuncKey("TAB", { alt: true, shift: true });
-    }
-  }
-
-
   if (buf[0] === 0x20) {
     return new CharKey(" ", { shift: true });
   }
