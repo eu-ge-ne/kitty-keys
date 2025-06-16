@@ -14,61 +14,11 @@ const decoder = new TextDecoder();
  */
 export function parse(buf: Uint8Array): Key | undefined {
   if (buf.length > 0) {
-    if (buf[0] === 0x1b) {
-      if (buf[1] === 0x1b) {
-        if (buf[2] === 0x5b) {
-          if (decoder.decode(buf.subarray(3)) === "Z") {
-            return new FuncKey("TAB", { alt: true, shift: true });
-          }
-        }
-      }
-
-      if (buf[1] === 0x5b) {
-        const csi = decoder.decode(buf.subarray(2));
-
-        if (csi === "Z") {
-          return new FuncKey("TAB", { shift: true });
-        }
-
-        const match = csi.match(legacy_csi_re);
-        if (match?.groups) {
-          const { number, modifier } = match.groups;
-          return FuncKey.parse(number!, modifier);
-        }
-
-        const match1 = csi.match(legacy_csi1_re);
-        if (match1?.groups) {
-          const { modifier, key } = match1.groups;
-          return FuncKey.parse(key!, modifier);
-        }
-      }
-    }
-
-    if (buf[0] === 0x1b) {
-      if (buf[1] === 0x4f) {
-        const ss3 = decoder.decode(buf.subarray(2));
-
-        const match = ss3.match(legacy_ss3_re);
-        if (match?.groups) {
-          const { key } = match.groups;
-          return FuncKey.parse(key!);
-        }
-      }
-    }
-
     if (buf[0] === 0xd) {
       return new FuncKey("ENTER");
     }
     if (buf[0] === 0x1b && buf[1] === 0xd) {
       return new FuncKey("ENTER", { alt: true });
-    }
-
-    if (buf[0] === 0x1b) {
-      if (buf[1] === 0x1b) {
-        return new FuncKey("ESC", { alt: true });
-      } else if (typeof buf[1] === "undefined") {
-        return new FuncKey("ESC");
-      }
     }
 
     if (buf[0] === 0x7f) {
@@ -90,6 +40,19 @@ export function parse(buf: Uint8Array): Key | undefined {
     if (buf[0] === 0x1b && buf[1] === 0x9) {
       return new FuncKey("TAB", { alt: true });
     }
+    if (buf[0] === 0x1b && buf[1] === 0x1b && buf[2] === 0x5b) {
+      if (decoder.decode(buf.subarray(3)) === "Z") {
+        return new FuncKey("TAB", { alt: true, shift: true });
+      }
+    }
+
+    if (buf[0] === 0x1b) {
+      if (buf[1] === 0x1b) {
+        return new FuncKey("ESC", { alt: true });
+      } else if (typeof buf[1] === "undefined") {
+        return new FuncKey("ESC");
+      }
+    }
 
     if (buf[0] === 0x20) {
       return new CharKey(" ");
@@ -102,6 +65,40 @@ export function parse(buf: Uint8Array): Key | undefined {
     }
     if (buf[0] === 0x1b && buf[1] === 0x0) {
       return new CharKey(" ", { ctrl: true, alt: true });
+    }
+
+    if (buf[0] === 0x1b) {
+      if (buf[1] === 0x5b) {
+        const csi = decoder.decode(buf.subarray(2));
+
+        if (csi === "Z") {
+          return new FuncKey("TAB", { shift: true });
+        }
+
+        const match = csi.match(legacy_csi_re);
+        if (match?.groups) {
+          const { number, modifier } = match.groups;
+          return FuncKey.parse(number!, modifier);
+        }
+
+        const match1 = csi.match(legacy_csi1_re);
+        if (match1?.groups) {
+          const { modifier, key } = match1.groups;
+          return FuncKey.parse(key!, modifier);
+        }
+      }
+
+      if (buf[1] === 0x4f) {
+        const ss3 = decoder.decode(buf.subarray(2));
+
+        const match = ss3.match(legacy_ss3_re);
+        if (match?.groups) {
+          const { key } = match.groups;
+          return FuncKey.parse(key!);
+        }
+      }
+
+      return new CharKey(decoder.decode(buf.subarray(1)), { alt: true });
     }
 
     if (buf[0]! < 0x20 || buf[0]! === 0x7f) {

@@ -118,3 +118,10 @@ Deno.test("SPACE", () => {
     new CharKey(" ", { ctrl: true, alt: true }),
   );
 });
+
+Deno.test("alt + character", () => {
+  assertEquals(
+    parse(encoder.encode("\x1bi")),
+    new CharKey("i", { alt: true }),
+  );
+});
