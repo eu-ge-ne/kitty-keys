@@ -1,7 +1,7 @@
 /**
  * Modifiers
  */
-export interface Mods {
+export interface Modifiers {
   /**
    * SHIFT
    */
@@ -36,7 +36,7 @@ export interface Mods {
   num_lock?: boolean;
 }
 
-export function parse_mods(mods?: string): Mods | undefined {
+export function parse_modifiers(mods?: string): Modifiers | undefined {
   if (typeof mods === "string") {
     const n = Number.parseInt(mods, 10) - 1;
 

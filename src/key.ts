@@ -1,18 +1,23 @@
-import type { Mods } from "./mods.ts";
+import { csi_name } from "./csi.ts";
+import { type Modifiers, parse_modifiers } from "./modifiers.ts";
 
 /**
- * Key event
+ * Represents functional key or text key with modifiers
  */
-export abstract class Key {
+export interface Key extends Modifiers {
   /**
-   * Modifiers
+   * Name of the key
    */
-  mods: Mods;
+  name: string;
+}
 
-  /**
-   * Creates an instance of Key
-   */
-  constructor(mods: Mods = {}) {
-    this.mods = mods;
-  }
+export function new_key(name: string, mods: Modifiers = {}): Key {
+  return {
+    name,
+    ...mods,
+  };
+}
+
+export function parse_key(code: string, mods?: string): Key {
+  return new_key(csi_name(code), parse_modifiers(mods));
 }

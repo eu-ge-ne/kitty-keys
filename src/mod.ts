@@ -1,5 +1,3 @@
-export { CharKey } from "./char.ts";
-export { FuncKey } from "./func.ts";
-export { Key } from "./key.ts";
-export type { Mods } from "./mods.ts";
+export type { Key } from "./key.ts";
+export type { Modifiers } from "./modifiers.ts";
 export { parse } from "./parse.ts";
