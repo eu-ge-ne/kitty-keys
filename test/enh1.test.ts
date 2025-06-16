@@ -31,15 +31,12 @@ Deno.test("Keys", () => {
   eq("\x1b[3~", new Key("DELETE"));
 
   eq("\x1b[D", new Key("LEFT"));
-
   eq("\x1b[C", new Key("RIGHT"));
 
   eq("\x1b[A", new Key("UP"));
-
   eq("\x1b[B", new Key("DOWN"));
 
   eq("\x1b[5~", new Key("PAGE_UP"));
-
   eq("\x1b[6~", new Key("PAGE_DOWN"));
 
   eq("\x1b[H", new Key("HOME"));

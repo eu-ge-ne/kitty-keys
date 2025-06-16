@@ -47,4 +47,10 @@ const csi_codes = new Map<string, string>([
   ["7", "HOME"],
   ["F", "END"],
   ["8", "END"],
+  ["57358", "CAPS_LOCK"],
+  ["57359", "SCROLL_LOCK"],
+  ["57360", "NUM_LOCK"],
+  ["57361", "PRINT_SCREEN"],
+  ["57362", "PAUSE"],
+  ["57363", "MENU"],
 ]);
