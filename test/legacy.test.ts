@@ -87,14 +87,28 @@ Deno.test("ESC", () => {
   ]);
 });
 
-/*
 Deno.test("BACKSPACE", () => {
-  eq([0x7f], new FuncKey("BACKSPACE", { shift: true }));
-  eq([0x8], new FuncKey("BACKSPACE", { ctrl: true, shift: true }));
-  eq([0x1b, 0x7f], new FuncKey("BACKSPACE", { alt: true, shift: true }));
-  eq([0x1b, 0x8], new FuncKey("BACKSPACE", { ctrl: true, alt: true }));
+  eq([0x7f], [
+    new FuncKey("BACKSPACE"),
+    new FuncKey("BACKSPACE", { shift: true }),
+  ]);
+
+  eq([0x8], [
+    new FuncKey("BACKSPACE", { ctrl: true }),
+    new FuncKey("BACKSPACE", { ctrl: true, shift: true }),
+  ]);
+
+  eq([0x1b, 0x7f], [
+    new FuncKey("BACKSPACE", { alt: true }),
+    new FuncKey("BACKSPACE", { alt: true, shift: true }),
+  ]);
+
+  eq([0x1b, 0x8], [
+    new FuncKey("BACKSPACE", { ctrl: true, alt: true }),
+  ]);
 });
 
+/*
 Deno.test("TAB", () => {
   eq([0x9], new FuncKey("TAB", { ctrl: true }));
   eq([0x1b, 0x9], new FuncKey("TAB", { ctrl: true, alt: true }));

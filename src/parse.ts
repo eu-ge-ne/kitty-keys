@@ -39,20 +39,23 @@ export function parse(buf: Uint8Array): Key[] {
     keys.push(new FuncKey("ESC", { ctrl: true, alt: true }));
   }
 
-  /*
-  if (buf[0] === 0x7f) {
-    return new FuncKey("BACKSPACE", { shift: true });
+  if (buf.length === 1 && buf[0] === 0x7f) {
+    keys.push(new FuncKey("BACKSPACE"));
+    keys.push(new FuncKey("BACKSPACE", { shift: true }));
   }
-  if (buf[0] === 0x8) {
-    return new FuncKey("BACKSPACE", { ctrl: true, shift: true });
+  if (buf.length === 1 && buf[0] === 0x8) {
+    keys.push(new FuncKey("BACKSPACE", { ctrl: true }));
+    keys.push(new FuncKey("BACKSPACE", { ctrl: true, shift: true }));
   }
-  if (buf[0] === 0x1b && buf[1] === 0x7f) {
-    return new FuncKey("BACKSPACE", { alt: true, shift: true });
+  if (buf.length === 2 && buf[0] === 0x1b && buf[1] === 0x7f) {
+    keys.push(new FuncKey("BACKSPACE", { alt: true }));
+    keys.push(new FuncKey("BACKSPACE", { alt: true, shift: true }));
   }
-  if (buf[0] === 0x1b && buf[1] === 0x8) {
-    return new FuncKey("BACKSPACE", { ctrl: true, alt: true });
+  if (buf.length === 2 && buf[0] === 0x1b && buf[1] === 0x8) {
+    keys.push(new FuncKey("BACKSPACE", { ctrl: true, alt: true }));
   }
 
+  /*
   if (buf[0] === 0x9) {
     return new FuncKey("TAB", { ctrl: true });
   }
