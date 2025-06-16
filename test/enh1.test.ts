@@ -51,4 +51,15 @@ Deno.test("Functional keys", () => {
 
   is("\x1b[S", new Key("F4"));
   is("\x1b[14~", new Key("F4"));
+
+  is("\x1b[15~", new Key("F5"));
+  is("\x1b[17~", new Key("F6"));
+  is("\x1b[18~", new Key("F7"));
+  is("\x1b[19~", new Key("F8"));
+  is("\x1b[20~", new Key("F9"));
+  is("\x1b[21~", new Key("F10"));
+  is("\x1b[23~", new Key("F11"));
+  is("\x1b[24~", new Key("F12"));
+
+  // TODO: F13 - ...
 });
