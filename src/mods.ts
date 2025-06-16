@@ -1,3 +1,6 @@
+/**
+ * Modifiers
+ */
 export interface Mods {
   /**
    * SHIFT

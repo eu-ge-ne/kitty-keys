@@ -5,6 +5,9 @@ import { type Mods, parse_mods } from "./mods.ts";
  * Key event
  */
 export abstract class Key {
+  /**
+   * Modifiers
+   */
   mods: Mods;
 
   /**
