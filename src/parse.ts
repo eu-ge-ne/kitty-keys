@@ -80,6 +80,9 @@ export function parse(buf: Uint8Array): Key | undefined {
     if (buf[0] === 0x1b && buf[1] === 0x7f) {
       return new FuncKey("BACKSPACE", { alt: true });
     }
+    if (buf[0] === 0x1b && buf[1] === 0x8) {
+      return new FuncKey("BACKSPACE", { ctrl: true, alt: true });
+    }
 
     if (buf[0] === 0x9) {
       return new FuncKey("TAB");
@@ -96,6 +99,9 @@ export function parse(buf: Uint8Array): Key | undefined {
     }
     if (buf[0] === 0x1b && buf[1] === 0x20) {
       return new CharKey(" ", { alt: true });
+    }
+    if (buf[0] === 0x1b && buf[1] === 0x0) {
+      return new CharKey(" ", { ctrl: true, alt: true });
     }
 
     if (buf[0]! < 0x20 || buf[0]! === 0x7f) {

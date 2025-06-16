@@ -77,6 +77,11 @@ Deno.test("BACKSPACE", () => {
     parse(new Uint8Array([0x1b, 0x7f])),
     new FuncKey("BACKSPACE", { alt: true }),
   );
+
+  assertEquals(
+    parse(new Uint8Array([0x1b, 0x8])),
+    new FuncKey("BACKSPACE", { ctrl: true, alt: true }),
+  );
 });
 
 Deno.test("TAB", () => {
@@ -106,5 +111,10 @@ Deno.test("SPACE", () => {
   assertEquals(
     parse(new Uint8Array([0x1b, 0x20])),
     new CharKey(" ", { alt: true }),
+  );
+
+  assertEquals(
+    parse(new Uint8Array([0x1b, 0x0])),
+    new CharKey(" ", { ctrl: true, alt: true }),
   );
 });
