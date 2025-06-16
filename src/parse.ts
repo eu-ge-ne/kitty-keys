@@ -1,7 +1,7 @@
 import { Key } from "./key.ts";
 
 // CSI number; modifier u
-const csi0_re = /(?<number>\d+)(;(?<modifier>.*))?[u~]/s;
+const csi0_re = /(?<number>\d+)(;(?<modifier>.*))?(?<suffix>[u~])/s;
 
 // CSI 1; modifier [~ABCDEFHPQS]
 const csi1_re = /(1;(?<modifier>.*))?(?<key>[ABCDEFHPQS])/s;
@@ -19,8 +19,8 @@ export function parse(buf: Uint8Array): string | Key {
 
     const match0 = csi.match(csi0_re);
     if (match0?.groups) {
-      const { number, modifier } = match0.groups;
-      return Key.parse(number!, modifier);
+      const { number, modifier, suffix } = match0.groups;
+      return Key.parse(number! + suffix!, modifier);
     }
 
     const match1 = csi.match(csi1_re);
