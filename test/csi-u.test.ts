@@ -8,48 +8,48 @@ export function is(actual: string, expected: Key): void {
 }
 
 Deno.test("ESC", () => {
-  const key = "\x1b";
+  const key: Key = { key: "\x1b", event: "press", name: "ESC" };
 
-  is("\x1b[27u", { key, event: "press", name: "ESC" });
+  is("\x1b[27u", key);
 
-  is("\x1b[27;5u", { key, event: "press", ctrl: true, name: "ESC" });
-  is("\x1b[27;3u", { key, event: "press", alt: true, name: "ESC" });
-  is("\x1b[27;2u", { key, event: "press", shift: true, name: "ESC" });
-  is("\x1b[27;65u", { key, event: "press", caps_lock: true, name: "ESC" });
+  is("\x1b[27;5u", { ...key, ctrl: true });
+  is("\x1b[27;3u", { ...key, alt: true });
+  is("\x1b[27;2u", { ...key, shift: true });
+  is("\x1b[27;65u", { ...key, caps_lock: true });
 
-  is("\x1b[27;1:1u", { key, event: "press", name: "ESC" });
-  is("\x1b[27;1:2u", { key, event: "repeat", name: "ESC" });
-  is("\x1b[27;1:3u", { key, event: "release", name: "ESC" });
+  is("\x1b[27;1:1u", key);
+  is("\x1b[27;1:2u", { ...key, event: "repeat" });
+  is("\x1b[27;1:3u", { ...key, event: "release" });
 });
 
 Deno.test("ENTER", () => {
-  const key = "\r";
+  const key: Key = { key: "\r", event: "press", name: "ENTER" };
 
-  is("\x1b[13u", { key, event: "press" });
+  is("\x1b[13u", key);
 
-  is("\x1b[13;5u", { key, event: "press", ctrl: true });
-  is("\x1b[13;3u", { key, event: "press", alt: true });
-  is("\x1b[13;2u", { key, event: "press", shift: true });
-  is("\x1b[13;65u", { key, event: "press", caps_lock: true });
+  is("\x1b[13;5u", { ...key, ctrl: true });
+  is("\x1b[13;3u", { ...key, alt: true });
+  is("\x1b[13;2u", { ...key, shift: true });
+  is("\x1b[13;65u", { ...key, caps_lock: true });
 
-  is("\x1b[13;1:1u", { key, event: "press" });
-  is("\x1b[13;1:2u", { key, event: "repeat" });
-  is("\x1b[13;1:3u", { key, event: "release" });
+  is("\x1b[13;1:1u", key);
+  is("\x1b[13;1:2u", { ...key, event: "repeat" });
+  is("\x1b[13;1:3u", { ...key, event: "release" });
 });
 
 Deno.test("TAB", () => {
-  const key = "\t";
+  const key: Key = { key: "\t", event: "press", name: "TAB" };
 
-  is("\x1b[9u", { key, event: "press" });
+  is("\x1b[9u", key);
 
-  is("\x1b[9;5u", { key, event: "press", ctrl: true });
-  is("\x1b[9;3u", { key, event: "press", alt: true });
-  is("\x1b[9;2u", { key, event: "press", shift: true });
-  is("\x1b[9;65u", { key, event: "press", caps_lock: true });
+  is("\x1b[9;5u", { ...key, ctrl: true });
+  is("\x1b[9;3u", { ...key, alt: true });
+  is("\x1b[9;2u", { ...key, shift: true });
+  is("\x1b[9;65u", { ...key, caps_lock: true });
 
-  is("\x1b[9;1:1u", { key, event: "press" });
-  is("\x1b[9;1:2u", { key, event: "repeat" });
-  is("\x1b[9;1:3u", { key, event: "release" });
+  is("\x1b[9;1:1u", key);
+  is("\x1b[9;1:2u", { ...key, event: "repeat" });
+  is("\x1b[9;1:3u", { ...key, event: "release" });
 });
 
 Deno.test("BACKSPACE", () => {
