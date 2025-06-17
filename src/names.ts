@@ -3,4 +3,5 @@ export const names = new Map<string, string>([
   ["\r", "ENTER"],
   ["\t", "TAB"],
   ["\x7f", "BACKSPACE"],
+  ["2~", "INSERT"],
 ]);

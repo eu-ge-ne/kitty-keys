@@ -8,18 +8,18 @@ export function is(actual: string, expected: Key): void {
 }
 
 Deno.test("INSERT", () => {
-  const key = "2~";
+  const key: Key = { key: "2~", event: "press", name: "INSERT" };
 
-  is("\x1b[2~", { key, event: "press" });
+  is("\x1b[2~", key);
 
-  is("\x1b[2;5~", { key, event: "press", ctrl: true });
-  is("\x1b[2;3~", { key, event: "press", alt: true });
-  is("\x1b[2;2~", { key, event: "press", shift: true });
-  is("\x1b[2;65~", { key, event: "press", caps_lock: true });
+  is("\x1b[2;5~", { ...key, ctrl: true });
+  is("\x1b[2;3~", { ...key, alt: true });
+  is("\x1b[2;2~", { ...key, shift: true });
+  is("\x1b[2;65~", { ...key, caps_lock: true });
 
-  is("\x1b[2;1:1~", { key, event: "press" });
-  is("\x1b[2;1:2~", { key, event: "repeat" });
-  is("\x1b[2;1:3~", { key, event: "release" });
+  is("\x1b[2;1:1~", key);
+  is("\x1b[2;1:2~", { ...key, event: "repeat" });
+  is("\x1b[2;1:3~", { ...key, event: "release" });
 });
 
 Deno.test("DELETE", () => {
