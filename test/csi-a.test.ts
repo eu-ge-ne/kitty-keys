@@ -8,17 +8,19 @@ export function is(actual: string, expected: Key): void {
 }
 
 Deno.test("LEFT", () => {
-  is("\x1b[D", { key: "D", event: "press" });
-  is("\x1b[1D", { key: "1D", event: "press" });
+  const key: Key = { key: "1D", event: "press", name: "LEFT" };
 
-  is("\x1b[1;5D", { key: "1D", event: "press", ctrl: true });
-  is("\x1b[1;3D", { key: "1D", event: "press", alt: true });
-  is("\x1b[1;2D", { key: "1D", event: "press", shift: true });
-  is("\x1b[1;65D", { key: "1D", event: "press", caps_lock: true });
+  is("\x1b[D", { ...key, key: "D" });
+  is("\x1b[1D", key);
 
-  is("\x1b[1;1:1D", { key: "1D", event: "press" });
-  is("\x1b[1;1:2D", { key: "1D", event: "repeat" });
-  is("\x1b[1;1:3D", { key: "1D", event: "release" });
+  is("\x1b[1;5D", { ...key, ctrl: true });
+  is("\x1b[1;3D", { ...key, alt: true });
+  is("\x1b[1;2D", { ...key, shift: true });
+  is("\x1b[1;65D", { ...key, caps_lock: true });
+
+  is("\x1b[1;1:1D", key);
+  is("\x1b[1;1:2D", { ...key, event: "repeat" });
+  is("\x1b[1;1:3D", { ...key, event: "release" });
 });
 
 Deno.test("RIGHT", () => {
