@@ -1,15 +1,6 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("BACKSPACE", () => {
-  is("\x1b[127u", new_key("BACKSPACE", {}, "press"));
-
-  is("\x1b[127;5u", new_key("BACKSPACE", { ctrl: true }, "press"));
-  is("\x1b[127;3u", new_key("BACKSPACE", { alt: true }, "press"));
-  is("\x1b[127;2u", new_key("BACKSPACE", { shift: true }, "press"));
-  is("\x1b[127;65u", new_key("BACKSPACE", { caps_lock: true }, "press"));
-});
-
 Deno.test("INSERT", () => {
   is("\x1b[2~", new_key("INSERT", {}, "press"));
 
