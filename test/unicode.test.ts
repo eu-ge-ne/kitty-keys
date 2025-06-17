@@ -1,8 +1,10 @@
 import { assertEquals } from "@std/assert";
-import { parse_unicode_key_event, type UnicodeKeyEvent } from "../src/key.ts";
+import { parse, type UnicodeKeyEvent } from "../src/mod.ts";
 
-export function is(actual: string, expected: UnicodeKeyEvent): void {
-  assertEquals(parse_unicode_key_event(actual), expected);
+const encoder = new TextEncoder();
+
+export function is(actual: string, expected: UnicodeKeyEvent | string): void {
+  assertEquals(parse(encoder.encode(actual)), expected);
 }
 
 Deno.test("ESC", () => {
