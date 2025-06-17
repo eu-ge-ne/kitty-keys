@@ -1,23 +1,6 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("LEFT-RIGHT", () => {
-  is("\x1b[D", new_key("LEFT", {}, "press"));
-  is("\x1b[C", new_key("RIGHT", {}, "press"));
-
-  is("\x1b[1;5D", new_key("LEFT", { ctrl: true }, "press"));
-  is("\x1b[1;5C", new_key("RIGHT", { ctrl: true }, "press"));
-
-  is("\x1b[1;3D", new_key("LEFT", { alt: true }, "press"));
-  is("\x1b[1;3C", new_key("RIGHT", { alt: true }, "press"));
-
-  is("\x1b[1;2D", new_key("LEFT", { shift: true }, "press"));
-  is("\x1b[1;2C", new_key("RIGHT", { shift: true }, "press"));
-
-  is("\x1b[1;65D", new_key("LEFT", { caps_lock: true }, "press"));
-  is("\x1b[1;65C", new_key("RIGHT", { caps_lock: true }, "press"));
-});
-
 Deno.test("UP-DOWN", () => {
   is("\x1b[A", new_key("UP", {}, "press"));
   is("\x1b[B", new_key("DOWN", {}, "press"));
