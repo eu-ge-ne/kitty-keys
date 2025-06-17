@@ -126,3 +126,18 @@ Deno.test("PRINT_SCREEN", () => {
   is("\x1b[57361;1:2u", { key, type: "repeat" });
   is("\x1b[57361;1:3u", { key, type: "release" });
 });
+
+Deno.test("PAUSE", () => {
+  const key = String.fromCodePoint(57362);
+
+  is("\x1b[57362u", { key, type: "press" });
+
+  is("\x1b[57362;5u", { key, type: "press", ctrl: true });
+  is("\x1b[57362;3u", { key, type: "press", alt: true });
+  is("\x1b[57362;2u", { key, type: "press", shift: true });
+  is("\x1b[57362;65u", { key, type: "press", caps_lock: true });
+
+  is("\x1b[57362;1:1u", { key, type: "press" });
+  is("\x1b[57362;1:2u", { key, type: "repeat" });
+  is("\x1b[57362;1:3u", { key, type: "release" });
+});
