@@ -1,3 +1,2 @@
-export type { Key } from "./key.ts";
-export type { Modifiers } from "./modifiers.ts";
-export { parse } from "./parse.ts";
+export type { Key, Modifiers } from "./key.ts";
+export { parse_key } from "./parse.ts";

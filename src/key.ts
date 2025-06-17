@@ -1,36 +1,63 @@
-import { csi_name } from "./csi.ts";
-import type { Event } from "./event.ts";
-import { type Modifiers, parse_modifiers } from "./modifiers.ts";
-
 /**
- * Represents functional key or text key with modifiers
+ * Key
  */
 export interface Key extends Modifiers {
   /**
-   * Name of the key
+   * Key
    */
-  name: string;
-
+  key: string;
   /**
-   * Event type
+   * Event
    */
   event: "press" | "repeat" | "release";
+  /**
+   * Shifted key
+   */
+  shift_key?: string;
+  /**
+   * Base layout key
+   */
+  base_key?: string;
+  /**
+   * Text
+   */
+  text?: string;
 }
 
-export function new_key(
-  name: string,
-  mods: Modifiers,
-  event: Event,
-): Key {
-  return {
-    name,
-    event,
-    ...mods,
-  };
-}
-
-export function parse_key(code: string, mods?: string, ev?: string): Key {
-  const event = ev === "3" ? "release" : ev === "2" ? "repeat" : "press";
-
-  return new_key(csi_name(code), parse_modifiers(mods), event);
+/**
+ * Modifiers
+ */
+export interface Modifiers {
+  /**
+   * SHIFT
+   */
+  shift?: boolean;
+  /**
+   * ALT/OPTION
+   */
+  alt?: boolean;
+  /**
+   * CONTROL
+   */
+  ctrl?: boolean;
+  /**
+   * WINDOWS/LINUX/COMMAND
+   */
+  super?: boolean;
+  /**
+   * HYPER
+   */
+  hyper?: boolean;
+  /**
+   * META
+   */
+  meta?: boolean;
+  /**
+   * CAPS LOCK
+   */
+  caps_lock?: boolean;
+  /**
+   * NUM LOCK
+   */
+  num_lock?: boolean;
 }
