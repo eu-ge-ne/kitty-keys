@@ -1,12 +1,6 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("ENTER", () => {
-  is("\x1b[13;1:1u", new_key("ENTER", {}, "press"));
-  is("\x1b[13;1:2u", new_key("ENTER", {}, "repeat"));
-  is("\x1b[13;1:3u", new_key("ENTER", {}, "release"));
-});
-
 Deno.test("TAB", () => {
   is("\x1b[9;1:1u", new_key("TAB", {}, "press"));
   is("\x1b[9;1:2u", new_key("TAB", {}, "repeat"));

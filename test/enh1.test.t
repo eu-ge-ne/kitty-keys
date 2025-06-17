@@ -1,20 +1,7 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("ENTER", () => {
-  is("\x0d", "\r");
-
-  is("\x1b[13u", new_key("ENTER", {}, "press"));
-
-  is("\x1b[13;5u", new_key("ENTER", { ctrl: true }, "press"));
-  is("\x1b[13;3u", new_key("ENTER", { alt: true }, "press"));
-  is("\x1b[13;2u", new_key("ENTER", { shift: true }, "press"));
-  is("\x1b[13;65u", new_key("ENTER", { caps_lock: true }, "press"));
-});
-
 Deno.test("TAB", () => {
-  is("\x09", "\t");
-
   is("\x1b[9u", new_key("TAB", {}, "press"));
 
   is("\x1b[9;5u", new_key("TAB", { ctrl: true }, "press"));
@@ -24,9 +11,6 @@ Deno.test("TAB", () => {
 });
 
 Deno.test("BACKSPACE", () => {
-  is("\x7f", "\x7f");
-  is("\x08", "\x08");
-
   is("\x1b[127u", new_key("BACKSPACE", {}, "press"));
 
   is("\x1b[127;5u", new_key("BACKSPACE", { ctrl: true }, "press"));

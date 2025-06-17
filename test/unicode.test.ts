@@ -3,7 +3,7 @@ import { parse, type UnicodeKeyEvent } from "../src/mod.ts";
 
 const encoder = new TextEncoder();
 
-export function is(actual: string, expected: UnicodeKeyEvent | string): void {
+export function is(actual: string, expected: UnicodeKeyEvent): void {
   assertEquals(parse(encoder.encode(actual)), expected);
 }
 
@@ -18,4 +18,17 @@ Deno.test("ESC", () => {
   is("\x1b[27;1:1u", { key: "\x1b", type: "press" });
   is("\x1b[27;1:2u", { key: "\x1b", type: "repeat" });
   is("\x1b[27;1:3u", { key: "\x1b", type: "release" });
+});
+
+Deno.test("ENTER", () => {
+  is("\x1b[13u", { key: "\r", type: "press" });
+
+  is("\x1b[13;5u", { key: "\r", type: "press", ctrl: true });
+  is("\x1b[13;3u", { key: "\r", type: "press", alt: true });
+  is("\x1b[13;2u", { key: "\r", type: "press", shift: true });
+  is("\x1b[13;65u", { key: "\r", type: "press", caps_lock: true });
+
+  is("\x1b[13;1:1u", { key: "\r", type: "press" });
+  is("\x1b[13;1:2u", { key: "\r", type: "repeat" });
+  is("\x1b[13;1:3u", { key: "\r", type: "release" });
 });
