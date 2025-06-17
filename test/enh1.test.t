@@ -1,23 +1,6 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("PAGE_UP-PAGE_DOWN", () => {
-  is("\x1b[5~", new_key("PAGE_UP", {}, "press"));
-  is("\x1b[6~", new_key("PAGE_DOWN", {}, "press"));
-
-  is("\x1b[5;5~", new_key("PAGE_UP", { ctrl: true }, "press"));
-  is("\x1b[6;5~", new_key("PAGE_DOWN", { ctrl: true }, "press"));
-
-  is("\x1b[5;3~", new_key("PAGE_UP", { alt: true }, "press"));
-  is("\x1b[6;3~", new_key("PAGE_DOWN", { alt: true }, "press"));
-
-  is("\x1b[5;2~", new_key("PAGE_UP", { shift: true }, "press"));
-  is("\x1b[6;2~", new_key("PAGE_DOWN", { shift: true }, "press"));
-
-  is("\x1b[5;65~", new_key("PAGE_UP", { caps_lock: true }, "press"));
-  is("\x1b[6;65~", new_key("PAGE_DOWN", { caps_lock: true }, "press"));
-});
-
 Deno.test("HOME-END", () => {
   is("\x1b[H", new_key("HOME", {}, "press"));
   is("\x1b[7~", new_key("HOME", {}, "press"));
