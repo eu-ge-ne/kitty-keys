@@ -14,7 +14,7 @@ export function parse_key_event(buf: string): KeyEvent | undefined {
   }
 
   const mode = buf.at(-1) ?? "";
-  if (!/[u~]/.test(mode)) {
+  if (!/[u~ABCDEFHPQS]/.test(mode)) {
     return;
   }
 
