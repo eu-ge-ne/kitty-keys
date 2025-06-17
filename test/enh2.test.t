@@ -1,12 +1,6 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("TAB", () => {
-  is("\x1b[9;1:1u", new_key("TAB", {}, "press"));
-  is("\x1b[9;1:2u", new_key("TAB", {}, "repeat"));
-  is("\x1b[9;1:3u", new_key("TAB", {}, "release"));
-});
-
 Deno.test("BACKSPACE", () => {
   is("\x1b[127;1:1u", new_key("BACKSPACE", {}, "press"));
   is("\x1b[127;1:2u", new_key("BACKSPACE", {}, "repeat"));

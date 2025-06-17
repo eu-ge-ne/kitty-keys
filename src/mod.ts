@@ -1,2 +1,2 @@
-export type { UnicodeKeyEvent } from "./key.ts";
+export type { KeyEvent } from "./key.ts";
 export { parse } from "./parse.ts";

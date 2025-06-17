@@ -1,6 +1,6 @@
 import { type Modifiers, parse_modifiers } from "./modifiers.ts";
 
-export interface UnicodeKeyEvent extends Modifiers {
+export interface KeyEvent extends Modifiers {
   key: string;
   type: "press" | "repeat" | "release";
   shift_key?: string;
@@ -8,17 +8,17 @@ export interface UnicodeKeyEvent extends Modifiers {
   text?: string;
 }
 
-export function is_unicode_key_event(buf: string): boolean {
-  return buf.startsWith("\x1b[") && buf.endsWith("u");
-}
+export function parse_key_event(buf: string): KeyEvent | undefined {
+  if (!buf.startsWith("\x1b[") || !buf.endsWith("u")) {
+    return;
+  }
 
-export function parse_unicode_key_event(buf: string): UnicodeKeyEvent {
   const [key_codes = "", params = "", text_as_codepoints] = buf.slice(2, -1)
     .split(";");
   const [key_code, shift_code, base_code] = key_codes!.split(":");
   const [mods, ev] = params!.split(":");
 
-  const result: UnicodeKeyEvent = {
+  const result: KeyEvent = {
     key: parse_code_points(key_code)!,
     type: ev === "3" ? "release" : ev === "2" ? "repeat" : "press",
     ...parse_modifiers(mods),

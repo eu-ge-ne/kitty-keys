@@ -1,19 +1,16 @@
-import {
-  is_unicode_key_event,
-  parse_unicode_key_event,
-  type UnicodeKeyEvent,
-} from "./key.ts";
+import { type KeyEvent, parse_key_event } from "./key.ts";
 
 const decoder = new TextDecoder();
 
 /**
  * Parse key event from bytes
  */
-export function parse(buf: Uint8Array): UnicodeKeyEvent | string {
+export function parse(buf: Uint8Array): KeyEvent | string {
   const text = decoder.decode(buf);
 
-  if (is_unicode_key_event(text)) {
-    return parse_unicode_key_event(text);
+  const ev = parse_key_event(text);
+  if (ev) {
+    return ev;
   }
 
   return text;

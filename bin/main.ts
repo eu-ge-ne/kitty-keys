@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-console
-import { is_unicode_key_event, parse_unicode_key_event } from "../src/key.ts";
+import { parse } from "../src/mod.ts";
 
 Deno.stdin.setRaw(true);
 
@@ -36,9 +36,9 @@ while (true) {
   const { value: buf } = await reader.read();
   const text = decoder.decode(buf);
 
-  if (is_unicode_key_event(text)) {
-    const key = parse_unicode_key_event(text);
+  const key = parse(buf!);
 
+  if (key) {
     console.log("\nPARSED:", {
       buf,
       text,
