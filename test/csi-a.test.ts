@@ -90,3 +90,17 @@ Deno.test("END", () => {
   is("\x1b[1;1:2F", { key: "1F", type: "repeat" });
   is("\x1b[1;1:3F", { key: "1F", type: "release" });
 });
+
+Deno.test("F1", () => {
+  is("\x1b[P", { key: "P", type: "press" });
+  is("\x1b[1P", { key: "1P", type: "press" });
+
+  is("\x1b[1;5P", { key: "1P", type: "press", ctrl: true });
+  is("\x1b[1;3P", { key: "1P", type: "press", alt: true });
+  is("\x1b[1;2P", { key: "1P", type: "press", shift: true });
+  is("\x1b[1;65P", { key: "1P", type: "press", caps_lock: true });
+
+  is("\x1b[1;1:1P", { key: "1P", type: "press" });
+  is("\x1b[1;1:2P", { key: "1P", type: "repeat" });
+  is("\x1b[1;1:3P", { key: "1P", type: "release" });
+});
