@@ -9,4 +9,8 @@ export const names = new Map<string, string>([
   ["1D", "LEFT"],
   ["C", "RIGHT"],
   ["1C", "RIGHT"],
+  ["A", "UP"],
+  ["1A", "UP"],
+  ["B", "DOWN"],
+  ["1B", "DOWN"],
 ]);

@@ -40,31 +40,35 @@ Deno.test("RIGHT", () => {
 });
 
 Deno.test("UP", () => {
-  is("\x1b[A", { key: "A", event: "press" });
-  is("\x1b[1A", { key: "1A", event: "press" });
+  const key: Key = { key: "1A", event: "press", name: "UP" };
 
-  is("\x1b[1;5A", { key: "1A", event: "press", ctrl: true });
-  is("\x1b[1;3A", { key: "1A", event: "press", alt: true });
-  is("\x1b[1;2A", { key: "1A", event: "press", shift: true });
-  is("\x1b[1;65A", { key: "1A", event: "press", caps_lock: true });
+  is("\x1b[A", { ...key, key: "A" });
+  is("\x1b[1A", key);
 
-  is("\x1b[1;1:1A", { key: "1A", event: "press" });
-  is("\x1b[1;1:2A", { key: "1A", event: "repeat" });
-  is("\x1b[1;1:3A", { key: "1A", event: "release" });
+  is("\x1b[1;5A", { ...key, ctrl: true });
+  is("\x1b[1;3A", { ...key, alt: true });
+  is("\x1b[1;2A", { ...key, shift: true });
+  is("\x1b[1;65A", { ...key, caps_lock: true });
+
+  is("\x1b[1;1:1A", key);
+  is("\x1b[1;1:2A", { ...key, event: "repeat" });
+  is("\x1b[1;1:3A", { ...key, event: "release" });
 });
 
 Deno.test("DOWN", () => {
-  is("\x1b[B", { key: "B", event: "press" });
-  is("\x1b[1B", { key: "1B", event: "press" });
+  const key: Key = { key: "1B", event: "press", name: "DOWN" };
 
-  is("\x1b[1;5B", { key: "1B", event: "press", ctrl: true });
-  is("\x1b[1;3B", { key: "1B", event: "press", alt: true });
-  is("\x1b[1;2B", { key: "1B", event: "press", shift: true });
-  is("\x1b[1;65B", { key: "1B", event: "press", caps_lock: true });
+  is("\x1b[B", { ...key, key: "B" });
+  is("\x1b[1B", key);
 
-  is("\x1b[1;1:1B", { key: "1B", event: "press" });
-  is("\x1b[1;1:2B", { key: "1B", event: "repeat" });
-  is("\x1b[1;1:3B", { key: "1B", event: "release" });
+  is("\x1b[1;5B", { ...key, ctrl: true });
+  is("\x1b[1;3B", { ...key, alt: true });
+  is("\x1b[1;2B", { ...key, shift: true });
+  is("\x1b[1;65B", { ...key, caps_lock: true });
+
+  is("\x1b[1;1:1B", key);
+  is("\x1b[1;1:2B", { ...key, event: "repeat" });
+  is("\x1b[1;1:3B", { ...key, event: "release" });
 });
 
 Deno.test("HOME", () => {
