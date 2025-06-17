@@ -13,4 +13,6 @@ export const names = new Map<string, string>([
   ["1A", "UP"],
   ["B", "DOWN"],
   ["1B", "DOWN"],
+  ["5~", "PAGE_UP"],
+  ["6~", "PAGE_DOWN"],
 ]);
