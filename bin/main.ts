@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-console
-import { parse } from "../src/mod.ts";
+import { parse_key } from "../src/mod.ts";
 
 Deno.stdin.setRaw(true);
 
@@ -36,7 +36,7 @@ while (true) {
   const { value: buf } = await reader.read();
   const text = decoder.decode(buf);
 
-  const key = parse(buf!);
+  const key = parse_key(buf!);
 
   if (key) {
     console.log("\nPARSED:", {

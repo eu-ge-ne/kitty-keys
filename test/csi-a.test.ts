@@ -1,10 +1,10 @@
 import { assertEquals } from "@std/assert";
-import { type KeyEvent, parse } from "../src/mod.ts";
+import { type Key, parse_key } from "../src/mod.ts";
 
 const encoder = new TextEncoder();
 
-export function is(actual: string, expected: KeyEvent): void {
-  assertEquals(parse(encoder.encode(actual)), expected);
+export function is(actual: string, expected: Key): void {
+  assertEquals(parse_key(encoder.encode(actual)), expected);
 }
 
 Deno.test("LEFT", () => {

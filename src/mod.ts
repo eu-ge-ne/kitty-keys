@@ -1,2 +1,2 @@
-export type { KeyEvent } from "./key.ts";
-export { parse } from "./parse.ts";
+export type { Key, Modifiers } from "./key.ts";
+export { parse_key } from "./parse.ts";

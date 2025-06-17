@@ -1,10 +1,10 @@
 import { assertEquals } from "@std/assert";
-import { parse } from "../src/mod.ts";
+import { parse_key } from "../src/mod.ts";
 
 const encoder = new TextEncoder();
 
 export function is(actual: string, expected: string): void {
-  assertEquals(parse(encoder.encode(actual)), expected);
+  assertEquals(parse_key(encoder.encode(actual)), expected);
 }
 
 Deno.test("ENTER", () => {

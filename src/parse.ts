@@ -1,17 +1,105 @@
-import { type KeyEvent, parse_key_event } from "./key.ts";
+import type { Key, Modifiers } from "./key.ts";
 
 const decoder = new TextDecoder();
 
 /**
  * Parse key event from bytes
  */
-export function parse(buf: Uint8Array): KeyEvent | string {
+export function parse_key(buf: Uint8Array): Key | string {
   const text = decoder.decode(buf);
 
-  const ev = parse_key_event(text);
-  if (ev) {
-    return ev;
+  if (!text.startsWith("\x1b[")) {
+    return text;
   }
 
-  return text;
+  const mode = text.at(-1) ?? "";
+  if (!/[u~ABCDEFHPQS]/.test(text)) {
+    return text;
+  }
+
+  const [key_codes = "", params = "", text_as_codepoints] = text.slice(2, -1)
+    .split(";");
+  const [key_code = "", shift_code, base_code] = key_codes!.split(":");
+  const [mods, ev] = params!.split(":");
+
+  const key = mode === "u" ? parse_code_points(key_code)! : key_code + mode;
+  const type = ev === "3" ? "release" : ev === "2" ? "repeat" : "press";
+
+  const result: Key = {
+    key,
+    type,
+    ...parse_modifiers(mods),
+  };
+
+  if (mode === "u") {
+    const shift_key = parse_code_points(shift_code);
+    if (typeof shift_key === "string") {
+      result.shift_key = shift_key;
+    }
+
+    const base_key = parse_code_points(base_code);
+    if (typeof base_key === "string") {
+      result.base_key = base_key;
+    }
+
+    const text = parse_code_points(text_as_codepoints);
+    if (typeof text === "string") {
+      result.text = text;
+    }
+  }
+
+  return result;
+}
+
+function parse_modifiers(mods?: string): Modifiers {
+  const result: Modifiers = {};
+
+  if (typeof mods === "string") {
+    const n = Number.parseInt(mods, 10) - 1;
+
+    if (n & 1) {
+      result.shift = true;
+    }
+
+    if (n & 2) {
+      result.alt = true;
+    }
+
+    if (n & 4) {
+      result.ctrl = true;
+    }
+
+    if (n & 8) {
+      result.super = true;
+    }
+
+    if (n & 16) {
+      result.hyper = true;
+    }
+
+    if (n & 32) {
+      result.meta = true;
+    }
+
+    if (n & 64) {
+      result.caps_lock = true;
+    }
+
+    if (n & 128) {
+      result.num_lock = true;
+    }
+  }
+
+  return result;
+}
+function parse_code_points(
+  code_points: string | undefined,
+): string | undefined {
+  if (code_points) {
+    return String.fromCodePoint(
+      ...code_points.split(":").map((x) => Number.parseInt(x, 10)).filter((x) =>
+        Number.isSafeInteger(x)
+      ),
+    );
+  }
 }
