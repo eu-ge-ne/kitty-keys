@@ -1,8 +1,26 @@
+/**
+ * Key
+ */
 export interface Key extends Modifiers {
+  /**
+   * Key
+   */
   key: string;
+  /**
+   * Event
+   */
   event: "press" | "repeat" | "release";
+  /**
+   * Shifted key
+   */
   shift_key?: string;
+  /**
+   * Base layout key
+   */
   base_key?: string;
+  /**
+   * Text
+   */
   text?: string;
 }
 
