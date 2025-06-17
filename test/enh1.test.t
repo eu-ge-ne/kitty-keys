@@ -2,8 +2,6 @@ import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
 Deno.test("F1-F12", () => {
-  is("\x1b[13~", new_key("F3", {}, "press"));
-
   is("\x1b[S", new_key("F4", {}, "press"));
   is("\x1b[14~", new_key("F4", {}, "press"));
 
@@ -15,8 +13,6 @@ Deno.test("F1-F12", () => {
   is("\x1b[21~", new_key("F10", {}, "press"));
   is("\x1b[23~", new_key("F11", {}, "press"));
   is("\x1b[24~", new_key("F12", {}, "press"));
-
-  is("\x1b[13;2~", new_key("F3", { shift: true }, "press"));
 
   is("\x1b[1;65S", new_key("F4", { caps_lock: true }, "press"));
 });
