@@ -1,13 +1,5 @@
-import { assertEquals } from "@std/assert";
-
-import { type Key, new_key } from "../src/key.ts";
-import { parse } from "../src/parse.ts";
-
-const encoder = new TextEncoder();
-
-function is(actual: string, expected: string | Key): void {
-  assertEquals(parse(encoder.encode(actual)), expected);
-}
+import { new_key } from "../src/key.ts";
+import { is } from "./utils.ts";
 
 Deno.test("ESC", () => {
   is("\x1b[27u", new_key("ESC", {}, "press"));
@@ -55,19 +47,19 @@ Deno.test("BACKSPACE", () => {
 Deno.test("INSERT", () => {
   is("\x1b[2~", new_key("INSERT", {}, "press"));
 
-  is("\x1b[2;5u~", new_key("INSERT", { ctrl: true }, "press"));
-  is("\x1b[2;3u~", new_key("INSERT", { alt: true }, "press"));
-  is("\x1b[2;2u~", new_key("INSERT", { shift: true }, "press"));
-  is("\x1b[2;65u~", new_key("INSERT", { caps_lock: true }, "press"));
+  is("\x1b[2;5~", new_key("INSERT", { ctrl: true }, "press"));
+  is("\x1b[2;3~", new_key("INSERT", { alt: true }, "press"));
+  is("\x1b[2;2~", new_key("INSERT", { shift: true }, "press"));
+  is("\x1b[2;65~", new_key("INSERT", { caps_lock: true }, "press"));
 });
 
 Deno.test("DELETE", () => {
   is("\x1b[3~", new_key("DELETE", {}, "press"));
 
-  is("\x1b[3;5u~", new_key("DELETE", { ctrl: true }, "press"));
-  is("\x1b[3;3u~", new_key("DELETE", { alt: true }, "press"));
-  is("\x1b[3;2u~", new_key("DELETE", { shift: true }, "press"));
-  is("\x1b[3;65u~", new_key("DELETE", { caps_lock: true }, "press"));
+  is("\x1b[3;5~", new_key("DELETE", { ctrl: true }, "press"));
+  is("\x1b[3;3~", new_key("DELETE", { alt: true }, "press"));
+  is("\x1b[3;2~", new_key("DELETE", { shift: true }, "press"));
+  is("\x1b[3;65~", new_key("DELETE", { caps_lock: true }, "press"));
 });
 
 Deno.test("LEFT-RIGHT", () => {
