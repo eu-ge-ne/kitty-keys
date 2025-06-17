@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-console
-import { parse } from "../src/mod.ts";
+import { is_unicode_key_event, parse_unicode_key_event } from "../src/key.ts";
 
 Deno.stdin.setRaw(true);
 
@@ -29,17 +29,26 @@ function write(text: string): void {
   }
 }
 
-enable_kitty_protocol(1 + 2);
+enable_kitty_protocol(1 + 2 + 4 + 8 + 16);
 query_kitty_protocol();
 
 while (true) {
   const { value: buf } = await reader.read();
   const text = decoder.decode(buf);
-  const key = parse(buf!);
 
-  console.log("\nstdin:", { buf, text, key });
+  if (is_unicode_key_event(text)) {
+    const key = parse_unicode_key_event(text);
 
-  if (typeof key !== "string" && key.name === "ESC") {
+    console.log("\nPARSED:", {
+      buf,
+      text,
+      key,
+    });
+  } else {
+    console.log("\nUNKNOUN:", { buf, text });
+  }
+
+  if (text.includes("27")) {
     break;
   }
 }
