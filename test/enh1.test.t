@@ -1,26 +1,6 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("HOME-END", () => {
-  is("\x1b[H", new_key("HOME", {}, "press"));
-  is("\x1b[7~", new_key("HOME", {}, "press"));
-
-  is("\x1b[F", new_key("END", {}, "press"));
-  is("\x1b[8~", new_key("END", {}, "press"));
-
-  is("\x1b[7;5~", new_key("HOME", { ctrl: true }, "press"));
-  is("\x1b[8;5~", new_key("END", { ctrl: true }, "press"));
-
-  is("\x1b[7;3~", new_key("HOME", { alt: true }, "press"));
-  is("\x1b[8;3~", new_key("END", { alt: true }, "press"));
-
-  is("\x1b[7;2~", new_key("HOME", { shift: true }, "press"));
-  is("\x1b[8;2~", new_key("END", { shift: true }, "press"));
-
-  is("\x1b[7;65~", new_key("HOME", { caps_lock: true }, "press"));
-  is("\x1b[8;65~", new_key("END", { caps_lock: true }, "press"));
-});
-
 Deno.test("F1-F12", () => {
   is("\x1b[P", new_key("F1", {}, "press"));
   is("\x1b[11~", new_key("F1", {}, "press"));

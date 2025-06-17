@@ -67,6 +67,36 @@ Deno.test("PAGE_DOWN", () => {
   is("\x1b[6;1:3~", { key, type: "release" });
 });
 
+Deno.test("HOME", () => {
+  const key = "7~";
+
+  is("\x1b[7~", { key, type: "press" });
+
+  is("\x1b[7;5~", { key, type: "press", ctrl: true });
+  is("\x1b[7;3~", { key, type: "press", alt: true });
+  is("\x1b[7;2~", { key, type: "press", shift: true });
+  is("\x1b[7;65~", { key, type: "press", caps_lock: true });
+
+  is("\x1b[7;1:1~", { key, type: "press" });
+  is("\x1b[7;1:2~", { key, type: "repeat" });
+  is("\x1b[7;1:3~", { key, type: "release" });
+});
+
+Deno.test("END", () => {
+  const key = "8~";
+
+  is("\x1b[8~", { key, type: "press" });
+
+  is("\x1b[8;5~", { key, type: "press", ctrl: true });
+  is("\x1b[8;3~", { key, type: "press", alt: true });
+  is("\x1b[8;2~", { key, type: "press", shift: true });
+  is("\x1b[8;65~", { key, type: "press", caps_lock: true });
+
+  is("\x1b[8;1:1~", { key, type: "press" });
+  is("\x1b[8;1:2~", { key, type: "repeat" });
+  is("\x1b[8;1:3~", { key, type: "release" });
+});
+
 Deno.test("F5", () => {
   const key = "15~";
 

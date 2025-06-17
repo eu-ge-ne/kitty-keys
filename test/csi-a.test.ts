@@ -62,3 +62,31 @@ Deno.test("DOWN", () => {
   is("\x1b[1;1:2B", { key: "1B", type: "repeat" });
   is("\x1b[1;1:3B", { key: "1B", type: "release" });
 });
+
+Deno.test("HOME", () => {
+  is("\x1b[H", { key: "H", type: "press" });
+  is("\x1b[1H", { key: "1H", type: "press" });
+
+  is("\x1b[1;5H", { key: "1H", type: "press", ctrl: true });
+  is("\x1b[1;3H", { key: "1H", type: "press", alt: true });
+  is("\x1b[1;2H", { key: "1H", type: "press", shift: true });
+  is("\x1b[1;65H", { key: "1H", type: "press", caps_lock: true });
+
+  is("\x1b[1;1:1H", { key: "1H", type: "press" });
+  is("\x1b[1;1:2H", { key: "1H", type: "repeat" });
+  is("\x1b[1;1:3H", { key: "1H", type: "release" });
+});
+
+Deno.test("END", () => {
+  is("\x1b[F", { key: "F", type: "press" });
+  is("\x1b[1F", { key: "1F", type: "press" });
+
+  is("\x1b[1;5F", { key: "1F", type: "press", ctrl: true });
+  is("\x1b[1;3F", { key: "1F", type: "press", alt: true });
+  is("\x1b[1;2F", { key: "1F", type: "press", shift: true });
+  is("\x1b[1;65F", { key: "1F", type: "press", caps_lock: true });
+
+  is("\x1b[1;1:1F", { key: "1F", type: "press" });
+  is("\x1b[1;1:2F", { key: "1F", type: "repeat" });
+  is("\x1b[1;1:3F", { key: "1F", type: "release" });
+});
