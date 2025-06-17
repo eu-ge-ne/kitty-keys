@@ -9,7 +9,12 @@ export interface KeyEvent extends Modifiers {
 }
 
 export function parse_key_event(buf: string): KeyEvent | undefined {
-  if (!buf.startsWith("\x1b[") || !buf.endsWith("u")) {
+  if (!buf.startsWith("\x1b[")) {
+    return;
+  }
+
+  const mode = buf.at(-1) ?? "";
+  if (!/[u~]/.test(mode)) {
     return;
   }
 
