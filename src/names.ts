@@ -21,4 +21,5 @@ export const names = new Map<string, string>([
   ["F", "END"],
   ["1F", "END"],
   ["8~", "END"],
+  [String.fromCodePoint(57358), "CAPS_LOCK"],
 ]);

@@ -68,18 +68,22 @@ Deno.test("BACKSPACE", () => {
 });
 
 Deno.test("CAPS_LOCK", () => {
-  const key = String.fromCodePoint(57358);
+  const key: Key = {
+    key: String.fromCodePoint(57358),
+    event: "press",
+    name: "CAPS_LOCK",
+  };
 
-  is("\x1b[57358u", { key, event: "press" });
+  is("\x1b[57358u", key);
 
-  is("\x1b[57358;5u", { key, event: "press", ctrl: true });
-  is("\x1b[57358;3u", { key, event: "press", alt: true });
-  is("\x1b[57358;2u", { key, event: "press", shift: true });
-  is("\x1b[57358;65u", { key, event: "press", caps_lock: true });
+  is("\x1b[57358;5u", { ...key, ctrl: true });
+  is("\x1b[57358;3u", { ...key, alt: true });
+  is("\x1b[57358;2u", { ...key, shift: true });
+  is("\x1b[57358;65u", { ...key, caps_lock: true });
 
-  is("\x1b[57358;1:1u", { key, event: "press" });
-  is("\x1b[57358;1:2u", { key, event: "repeat" });
-  is("\x1b[57358;1:3u", { key, event: "release" });
+  is("\x1b[57358;1:1u", key);
+  is("\x1b[57358;1:2u", { ...key, event: "repeat" });
+  is("\x1b[57358;1:3u", { ...key, event: "release" });
 });
 
 Deno.test("SCROLL_LOCK", () => {
