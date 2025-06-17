@@ -1,6 +1,6 @@
 export interface Key extends Modifiers {
   key: string;
-  type: "press" | "repeat" | "release";
+  event: "press" | "repeat" | "release";
   shift_key?: string;
   base_key?: string;
   text?: string;

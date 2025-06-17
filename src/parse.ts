@@ -23,11 +23,11 @@ export function parse_key(buf: Uint8Array): Key | string {
   const [mods, ev] = params!.split(":");
 
   const key = mode === "u" ? parse_code_points(key_code)! : key_code + mode;
-  const type = ev === "3" ? "release" : ev === "2" ? "repeat" : "press";
+  const event = ev === "3" ? "release" : ev === "2" ? "repeat" : "press";
 
   const result: Key = {
     key,
-    type,
+    event,
     ...parse_modifiers(mods),
   };
 
