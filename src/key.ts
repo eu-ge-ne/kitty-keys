@@ -1,4 +1,5 @@
 import { csi_name } from "./csi.ts";
+import type { Event } from "./event.ts";
 import { type Modifiers, parse_modifiers } from "./modifiers.ts";
 
 /**
@@ -9,15 +10,27 @@ export interface Key extends Modifiers {
    * Name of the key
    */
   name: string;
+
+  /**
+   * Event type
+   */
+  event: "press" | "repeat" | "release";
 }
 
-export function new_key(name: string, mods: Modifiers = {}): Key {
+export function new_key(
+  name: string,
+  mods: Modifiers,
+  event: Event,
+): Key {
   return {
     name,
+    event,
     ...mods,
   };
 }
 
-export function parse_key(code: string, mods?: string): Key {
-  return new_key(csi_name(code), parse_modifiers(mods));
+export function parse_key(code: string, mods?: string, ev?: string): Key {
+  const event = ev === "3" ? "release" : ev === "2" ? "repeat" : "press";
+
+  return new_key(csi_name(code), parse_modifiers(mods), event);
 }
