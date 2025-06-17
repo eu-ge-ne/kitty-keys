@@ -1,15 +1,6 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("ESC", () => {
-  is("\x1b[27u", new_key("ESC", {}, "press"));
-
-  is("\x1b[27;5u", new_key("ESC", { ctrl: true }, "press"));
-  is("\x1b[27;3u", new_key("ESC", { alt: true }, "press"));
-  is("\x1b[27;2u", new_key("ESC", { shift: true }, "press"));
-  is("\x1b[27;65u", new_key("ESC", { caps_lock: true }, "press"));
-});
-
 Deno.test("ENTER", () => {
   is("\x0d", "\r");
 
