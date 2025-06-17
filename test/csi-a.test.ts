@@ -118,3 +118,17 @@ Deno.test("F2", () => {
   is("\x1b[1;1:2Q", { key: "1Q", type: "repeat" });
   is("\x1b[1;1:3Q", { key: "1Q", type: "release" });
 });
+
+Deno.test("F4", () => {
+  is("\x1b[S", { key: "S", type: "press" });
+  is("\x1b[1S", { key: "1S", type: "press" });
+
+  is("\x1b[1;5S", { key: "1S", type: "press", ctrl: true });
+  is("\x1b[1;3S", { key: "1S", type: "press", alt: true });
+  is("\x1b[1;2S", { key: "1S", type: "press", shift: true });
+  is("\x1b[1;65S", { key: "1S", type: "press", caps_lock: true });
+
+  is("\x1b[1;1:1S", { key: "1S", type: "press" });
+  is("\x1b[1;1:2S", { key: "1S", type: "repeat" });
+  is("\x1b[1;1:3S", { key: "1S", type: "release" });
+});
