@@ -112,6 +112,21 @@ Deno.test("F1", () => {
   is("\x1b[11;1:3~", { key, type: "release" });
 });
 
+Deno.test("F2", () => {
+  const key = "12~";
+
+  is("\x1b[12~", { key, type: "press" });
+
+  is("\x1b[12;5~", { key, type: "press", ctrl: true });
+  is("\x1b[12;3~", { key, type: "press", alt: true });
+  is("\x1b[12;2~", { key, type: "press", shift: true });
+  is("\x1b[12;65~", { key, type: "press", caps_lock: true });
+
+  is("\x1b[12;1:1~", { key, type: "press" });
+  is("\x1b[12;1:2~", { key, type: "repeat" });
+  is("\x1b[12;1:3~", { key, type: "release" });
+});
+
 Deno.test("F5", () => {
   const key = "15~";
 
