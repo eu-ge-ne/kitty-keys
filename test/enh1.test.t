@@ -1,15 +1,6 @@
 import { new_key } from "../src/key.ts";
 import { is } from "./utils.ts";
 
-Deno.test("INSERT", () => {
-  is("\x1b[2~", new_key("INSERT", {}, "press"));
-
-  is("\x1b[2;5~", new_key("INSERT", { ctrl: true }, "press"));
-  is("\x1b[2;3~", new_key("INSERT", { alt: true }, "press"));
-  is("\x1b[2;2~", new_key("INSERT", { shift: true }, "press"));
-  is("\x1b[2;65~", new_key("INSERT", { caps_lock: true }, "press"));
-});
-
 Deno.test("DELETE", () => {
   is("\x1b[3~", new_key("DELETE", {}, "press"));
 

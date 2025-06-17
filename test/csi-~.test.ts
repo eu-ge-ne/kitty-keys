@@ -7,6 +7,21 @@ export function is(actual: string, expected: KeyEvent): void {
   assertEquals(parse(encoder.encode(actual)), expected);
 }
 
+Deno.test("INSERT", () => {
+  const key = "2~";
+
+  is("\x1b[2~", { key, unicode: false, type: "press" });
+
+  is("\x1b[2;5~", { key, unicode: false, type: "press", ctrl: true });
+  is("\x1b[2;3~", { key, unicode: false, type: "press", alt: true });
+  is("\x1b[2;2~", { key, unicode: false, type: "press", shift: true });
+  is("\x1b[2;65~", { key, unicode: false, type: "press", caps_lock: true });
+
+  is("\x1b[2;1:1~", { key, unicode: false, type: "press" });
+  is("\x1b[2;1:2~", { key, unicode: false, type: "repeat" });
+  is("\x1b[2;1:3~", { key, unicode: false, type: "release" });
+});
+
 Deno.test("F5", () => {
   const key = "15~";
 
