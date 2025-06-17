@@ -2,7 +2,6 @@ import { type Modifiers, parse_modifiers } from "./modifiers.ts";
 
 export interface KeyEvent extends Modifiers {
   key: string;
-  unicode: boolean;
   type: "press" | "repeat" | "release";
   shift_key?: string;
   base_key?: string;
@@ -28,7 +27,6 @@ export function parse_key_event(buf: string): KeyEvent | undefined {
 
   const result: KeyEvent = {
     key,
-    unicode: mode === "u",
     type: ev === "3" ? "release" : ev === "2" ? "repeat" : "press",
     ...parse_modifiers(mods),
   };
