@@ -15,4 +15,10 @@ export const names = new Map<string, string>([
   ["1B", "DOWN"],
   ["5~", "PAGE_UP"],
   ["6~", "PAGE_DOWN"],
+  ["H", "HOME"],
+  ["1H", "HOME"],
+  ["7~", "HOME"],
+  ["F", "END"],
+  ["1F", "END"],
+  ["8~", "END"],
 ]);

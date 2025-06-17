@@ -68,33 +68,33 @@ Deno.test("PAGE_DOWN", () => {
 });
 
 Deno.test("HOME", () => {
-  const key = "7~";
+  const key: Key = { key: "7~", event: "press", name: "HOME" };
 
-  is("\x1b[7~", { key, event: "press" });
+  is("\x1b[7~", key);
 
-  is("\x1b[7;5~", { key, event: "press", ctrl: true });
-  is("\x1b[7;3~", { key, event: "press", alt: true });
-  is("\x1b[7;2~", { key, event: "press", shift: true });
-  is("\x1b[7;65~", { key, event: "press", caps_lock: true });
+  is("\x1b[7;5~", { ...key, ctrl: true });
+  is("\x1b[7;3~", { ...key, alt: true });
+  is("\x1b[7;2~", { ...key, shift: true });
+  is("\x1b[7;65~", { ...key, caps_lock: true });
 
-  is("\x1b[7;1:1~", { key, event: "press" });
-  is("\x1b[7;1:2~", { key, event: "repeat" });
-  is("\x1b[7;1:3~", { key, event: "release" });
+  is("\x1b[7;1:1~", key);
+  is("\x1b[7;1:2~", { ...key, event: "repeat" });
+  is("\x1b[7;1:3~", { ...key, event: "release" });
 });
 
 Deno.test("END", () => {
-  const key = "8~";
+  const key: Key = { key: "8~", event: "press", name: "END" };
 
-  is("\x1b[8~", { key, event: "press" });
+  is("\x1b[8~", key);
 
-  is("\x1b[8;5~", { key, event: "press", ctrl: true });
-  is("\x1b[8;3~", { key, event: "press", alt: true });
-  is("\x1b[8;2~", { key, event: "press", shift: true });
-  is("\x1b[8;65~", { key, event: "press", caps_lock: true });
+  is("\x1b[8;5~", { ...key, ctrl: true });
+  is("\x1b[8;3~", { ...key, alt: true });
+  is("\x1b[8;2~", { ...key, shift: true });
+  is("\x1b[8;65~", { ...key, caps_lock: true });
 
-  is("\x1b[8;1:1~", { key, event: "press" });
-  is("\x1b[8;1:2~", { key, event: "repeat" });
-  is("\x1b[8;1:3~", { key, event: "release" });
+  is("\x1b[8;1:1~", key);
+  is("\x1b[8;1:2~", { ...key, event: "repeat" });
+  is("\x1b[8;1:3~", { ...key, event: "release" });
 });
 
 Deno.test("F1", () => {

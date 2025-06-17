@@ -72,31 +72,35 @@ Deno.test("DOWN", () => {
 });
 
 Deno.test("HOME", () => {
-  is("\x1b[H", { key: "H", event: "press" });
-  is("\x1b[1H", { key: "1H", event: "press" });
+  const key: Key = { key: "1H", event: "press", name: "HOME" };
 
-  is("\x1b[1;5H", { key: "1H", event: "press", ctrl: true });
-  is("\x1b[1;3H", { key: "1H", event: "press", alt: true });
-  is("\x1b[1;2H", { key: "1H", event: "press", shift: true });
-  is("\x1b[1;65H", { key: "1H", event: "press", caps_lock: true });
+  is("\x1b[H", { ...key, key: "H" });
+  is("\x1b[1H", key);
 
-  is("\x1b[1;1:1H", { key: "1H", event: "press" });
-  is("\x1b[1;1:2H", { key: "1H", event: "repeat" });
-  is("\x1b[1;1:3H", { key: "1H", event: "release" });
+  is("\x1b[1;5H", { ...key, ctrl: true });
+  is("\x1b[1;3H", { ...key, alt: true });
+  is("\x1b[1;2H", { ...key, shift: true });
+  is("\x1b[1;65H", { ...key, caps_lock: true });
+
+  is("\x1b[1;1:1H", key);
+  is("\x1b[1;1:2H", { ...key, event: "repeat" });
+  is("\x1b[1;1:3H", { ...key, event: "release" });
 });
 
 Deno.test("END", () => {
-  is("\x1b[F", { key: "F", event: "press" });
-  is("\x1b[1F", { key: "1F", event: "press" });
+  const key: Key = { key: "1F", event: "press", name: "END" };
 
-  is("\x1b[1;5F", { key: "1F", event: "press", ctrl: true });
-  is("\x1b[1;3F", { key: "1F", event: "press", alt: true });
-  is("\x1b[1;2F", { key: "1F", event: "press", shift: true });
-  is("\x1b[1;65F", { key: "1F", event: "press", caps_lock: true });
+  is("\x1b[F", { ...key, key: "F" });
+  is("\x1b[1F", key);
 
-  is("\x1b[1;1:1F", { key: "1F", event: "press" });
-  is("\x1b[1;1:2F", { key: "1F", event: "repeat" });
-  is("\x1b[1;1:3F", { key: "1F", event: "release" });
+  is("\x1b[1;5F", { ...key, ctrl: true });
+  is("\x1b[1;3F", { ...key, alt: true });
+  is("\x1b[1;2F", { ...key, shift: true });
+  is("\x1b[1;65F", { ...key, caps_lock: true });
+
+  is("\x1b[1;1:1F", key);
+  is("\x1b[1;1:2F", { ...key, event: "repeat" });
+  is("\x1b[1;1:3F", { ...key, event: "release" });
 });
 
 Deno.test("F1", () => {
