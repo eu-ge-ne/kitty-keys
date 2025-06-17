@@ -23,18 +23,18 @@ Deno.test("INSERT", () => {
 });
 
 Deno.test("DELETE", () => {
-  const key = "3~";
+  const key: Key = { key: "3~", event: "press", name: "DELETE" };
 
-  is("\x1b[3~", { key, event: "press" });
+  is("\x1b[3~", key);
 
-  is("\x1b[3;5~", { key, event: "press", ctrl: true });
-  is("\x1b[3;3~", { key, event: "press", alt: true });
-  is("\x1b[3;2~", { key, event: "press", shift: true });
-  is("\x1b[3;65~", { key, event: "press", caps_lock: true });
+  is("\x1b[3;5~", { ...key, ctrl: true });
+  is("\x1b[3;3~", { ...key, alt: true });
+  is("\x1b[3;2~", { ...key, shift: true });
+  is("\x1b[3;65~", { ...key, caps_lock: true });
 
-  is("\x1b[3;1:1~", { key, event: "press" });
-  is("\x1b[3;1:2~", { key, event: "repeat" });
-  is("\x1b[3;1:3~", { key, event: "release" });
+  is("\x1b[3;1:1~", key);
+  is("\x1b[3;1:2~", { ...key, event: "repeat" });
+  is("\x1b[3;1:3~", { ...key, event: "release" });
 });
 
 Deno.test("PAGE_UP", () => {
