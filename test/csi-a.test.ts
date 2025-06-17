@@ -8,13 +8,13 @@ export function is(actual: string, expected: KeyEvent): void {
 }
 
 Deno.test("LEFT", () => {
-  const key = "\x01";
+  const key = "1D";
 
-  is("\x1b[1D", { key, type: "press" });
+  is("\x1b[1D", { key, unicode: false, type: "press" });
 });
 
 Deno.test("RIGHT", () => {
-  const key = "\x01";
+  const key = "1C";
 
-  is("\x1b[1C", { key, type: "press" });
+  is("\x1b[1C", { key, unicode: false, type: "press" });
 });

@@ -8,16 +8,16 @@ export function is(actual: string, expected: KeyEvent): void {
 }
 
 Deno.test("F5", () => {
-  const key = "\x0f";
+  const key = "15~";
 
-  is("\x1b[15~", { key, type: "press" });
+  is("\x1b[15~", { key, unicode: false, type: "press" });
 
-  is("\x1b[15;5~", { key, type: "press", ctrl: true });
-  is("\x1b[15;3~", { key, type: "press", alt: true });
-  is("\x1b[15;2~", { key, type: "press", shift: true });
-  is("\x1b[15;65~", { key, type: "press", caps_lock: true });
+  is("\x1b[15;5~", { key, unicode: false, type: "press", ctrl: true });
+  is("\x1b[15;3~", { key, unicode: false, type: "press", alt: true });
+  is("\x1b[15;2~", { key, unicode: false, type: "press", shift: true });
+  is("\x1b[15;65~", { key, unicode: false, type: "press", caps_lock: true });
 
-  is("\x1b[15;1:1~", { key, type: "press" });
-  is("\x1b[15;1:2~", { key, type: "repeat" });
-  is("\x1b[15;1:3~", { key, type: "release" });
+  is("\x1b[15;1:1~", { key, unicode: false, type: "press" });
+  is("\x1b[15;1:2~", { key, unicode: false, type: "repeat" });
+  is("\x1b[15;1:3~", { key, unicode: false, type: "release" });
 });
