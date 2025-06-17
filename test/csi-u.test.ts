@@ -53,18 +53,18 @@ Deno.test("TAB", () => {
 });
 
 Deno.test("BACKSPACE", () => {
-  const key = "\x7f";
+  const key: Key = { key: "\x7f", event: "press", name: "BACKSPACE" };
 
-  is("\x1b[127u", { key, event: "press" });
+  is("\x1b[127u", key);
 
-  is("\x1b[127;5u", { key, event: "press", ctrl: true });
-  is("\x1b[127;3u", { key, event: "press", alt: true });
-  is("\x1b[127;2u", { key, event: "press", shift: true });
-  is("\x1b[127;65u", { key, event: "press", caps_lock: true });
+  is("\x1b[127;5u", { ...key, ctrl: true });
+  is("\x1b[127;3u", { ...key, alt: true });
+  is("\x1b[127;2u", { ...key, shift: true });
+  is("\x1b[127;65u", { ...key, caps_lock: true });
 
-  is("\x1b[127;1:1u", { key, event: "press" });
-  is("\x1b[127;1:2u", { key, event: "repeat" });
-  is("\x1b[127;1:3u", { key, event: "release" });
+  is("\x1b[127;1:1u", key);
+  is("\x1b[127;1:2u", { ...key, event: "repeat" });
+  is("\x1b[127;1:3u", { ...key, event: "release" });
 });
 
 Deno.test("CAPS_LOCK", () => {
