@@ -1,4 +1,5 @@
 import type { Key, Modifiers } from "./key.ts";
+import { names } from "./names.ts";
 
 const decoder = new TextDecoder();
 
@@ -30,6 +31,11 @@ export function parse_key(buf: Uint8Array): Key | string {
     event,
     ...parse_modifiers(mods),
   };
+
+  const name = names.get(key);
+  if (typeof name === "string") {
+    result.name = name;
+  }
 
   if (mode === "u") {
     const shift_key = parse_code_points(shift_code);

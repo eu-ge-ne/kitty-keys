@@ -22,6 +22,10 @@ export interface Key extends Modifiers {
    * Text
    */
   text?: string;
+  /**
+   * Name
+   */
+  name?: string;
 }
 
 /**

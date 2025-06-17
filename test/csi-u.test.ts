@@ -10,16 +10,16 @@ export function is(actual: string, expected: Key): void {
 Deno.test("ESC", () => {
   const key = "\x1b";
 
-  is("\x1b[27u", { key, event: "press" });
+  is("\x1b[27u", { key, event: "press", name: "ESC" });
 
-  is("\x1b[27;5u", { key, event: "press", ctrl: true });
-  is("\x1b[27;3u", { key, event: "press", alt: true });
-  is("\x1b[27;2u", { key, event: "press", shift: true });
-  is("\x1b[27;65u", { key, event: "press", caps_lock: true });
+  is("\x1b[27;5u", { key, event: "press", ctrl: true, name: "ESC" });
+  is("\x1b[27;3u", { key, event: "press", alt: true, name: "ESC" });
+  is("\x1b[27;2u", { key, event: "press", shift: true, name: "ESC" });
+  is("\x1b[27;65u", { key, event: "press", caps_lock: true, name: "ESC" });
 
-  is("\x1b[27;1:1u", { key, event: "press" });
-  is("\x1b[27;1:2u", { key, event: "repeat" });
-  is("\x1b[27;1:3u", { key, event: "release" });
+  is("\x1b[27;1:1u", { key, event: "press", name: "ESC" });
+  is("\x1b[27;1:2u", { key, event: "repeat", name: "ESC" });
+  is("\x1b[27;1:3u", { key, event: "release", name: "ESC" });
 });
 
 Deno.test("ENTER", () => {
