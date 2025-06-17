@@ -11,6 +11,9 @@ export interface Key extends Modifiers {
    */
   name: string;
 
+  /**
+   * Event type
+   */
   event: "press" | "repeat" | "release";
 }
 
