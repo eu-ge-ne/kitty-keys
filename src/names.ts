@@ -45,4 +45,6 @@ export const names = new Map<string, string>([
   ["21~", "F10"],
   ["23~", "F11"],
   ["24~", "F12"],
+  [String.fromCodePoint(57376), "F13"],
+  [String.fromCodePoint(57441), "LEFT_SHIFT"],
 ]);
