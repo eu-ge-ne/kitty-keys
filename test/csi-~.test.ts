@@ -143,48 +143,48 @@ Deno.test("F3", () => {
 });
 
 Deno.test("F4", () => {
-  const key = "14~";
+  const key: Key = { key: "14~", event: "press", name: "F4" };
 
-  is("\x1b[14~", { key, event: "press" });
+  is("\x1b[14~", key);
 
-  is("\x1b[14;5~", { key, event: "press", ctrl: true });
-  is("\x1b[14;3~", { key, event: "press", alt: true });
-  is("\x1b[14;2~", { key, event: "press", shift: true });
-  is("\x1b[14;65~", { key, event: "press", caps_lock: true });
+  is("\x1b[14;5~", { ...key, ctrl: true });
+  is("\x1b[14;3~", { ...key, alt: true });
+  is("\x1b[14;2~", { ...key, shift: true });
+  is("\x1b[14;65~", { ...key, caps_lock: true });
 
-  is("\x1b[14;1:1~", { key, event: "press" });
-  is("\x1b[14;1:2~", { key, event: "repeat" });
-  is("\x1b[14;1:3~", { key, event: "release" });
+  is("\x1b[14;1:1~", key);
+  is("\x1b[14;1:2~", { ...key, event: "repeat" });
+  is("\x1b[14;1:3~", { ...key, event: "release" });
 });
 
 Deno.test("F5", () => {
-  const key = "15~";
+  const key: Key = { key: "15~", event: "press", name: "F5" };
 
-  is("\x1b[15~", { key, event: "press" });
+  is("\x1b[15~", key);
 
-  is("\x1b[15;5~", { key, event: "press", ctrl: true });
-  is("\x1b[15;3~", { key, event: "press", alt: true });
-  is("\x1b[15;2~", { key, event: "press", shift: true });
-  is("\x1b[15;65~", { key, event: "press", caps_lock: true });
+  is("\x1b[15;5~", { ...key, ctrl: true });
+  is("\x1b[15;3~", { ...key, alt: true });
+  is("\x1b[15;2~", { ...key, shift: true });
+  is("\x1b[15;65~", { ...key, caps_lock: true });
 
-  is("\x1b[15;1:1~", { key, event: "press" });
-  is("\x1b[15;1:2~", { key, event: "repeat" });
-  is("\x1b[15;1:3~", { key, event: "release" });
+  is("\x1b[15;1:1~", key);
+  is("\x1b[15;1:2~", { ...key, event: "repeat" });
+  is("\x1b[15;1:3~", { ...key, event: "release" });
 });
 
 Deno.test("F6", () => {
-  const key = "17~";
+  const key: Key = { key: "17~", event: "press", name: "F6" };
 
-  is("\x1b[17~", { key, event: "press" });
+  is("\x1b[17~", key);
 
-  is("\x1b[17;5~", { key, event: "press", ctrl: true });
-  is("\x1b[17;3~", { key, event: "press", alt: true });
-  is("\x1b[17;2~", { key, event: "press", shift: true });
-  is("\x1b[17;65~", { key, event: "press", caps_lock: true });
+  is("\x1b[17;5~", { ...key, ctrl: true });
+  is("\x1b[17;3~", { ...key, alt: true });
+  is("\x1b[17;2~", { ...key, shift: true });
+  is("\x1b[17;65~", { ...key, caps_lock: true });
 
-  is("\x1b[17;1:1~", { key, event: "press" });
-  is("\x1b[17;1:2~", { key, event: "repeat" });
-  is("\x1b[17;1:3~", { key, event: "release" });
+  is("\x1b[17;1:1~", key);
+  is("\x1b[17;1:2~", { ...key, event: "repeat" });
+  is("\x1b[17;1:3~", { ...key, event: "release" });
 });
 
 Deno.test("F7", () => {
