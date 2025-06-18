@@ -1,6 +1,31 @@
-import { is } from "./utils.ts";
+import { is, is_text } from "./utils.ts";
 
-Deno.test("1 + 2 + 4 + 8 + 16 (all)", () => {
+Deno.test("Disambiguate escape codes", () => {
+  is("\x1b[27u", {
+    key: "\x1b",
+    event: "press",
+    name: "ESC",
+  });
+
+  is_text("\r", "\r");
+  is_text("\t", "\t");
+  is_text("\x7f", "\x7f");
+
+  is_text("Ж", "Ж");
+
+  is("\x1b[1078;8u", {
+    key: "ж",
+    event: "press",
+    shift: true,
+    alt: true,
+    ctrl: true,
+  });
+});
+
+Deno.test("1 + Report alternate keys", () => {
+});
+
+Deno.test("1 + 2 + 4 + 8 + 16", () => {
   is("\x1b[1078:1046:59;2;1046u", {
     key: "ж",
     event: "press",
@@ -27,7 +52,7 @@ Deno.test("1 + 2 + 4 + 8 + 16 (all)", () => {
   });
 });
 
-Deno.test("1 + 4 + 8 + 16 (no events)", () => {
+Deno.test("no event", () => {
   is("\x1b[1078:1046:59;2;1046u", {
     key: "ж",
     event: "press",
@@ -38,7 +63,7 @@ Deno.test("1 + 4 + 8 + 16 (no events)", () => {
   });
 });
 
-Deno.test("1 + 4 + 8 (no events, text)", () => {
+Deno.test("no event, no text", () => {
   is("\x1b[1078:1046:59;2u", {
     key: "ж",
     event: "press",
@@ -48,7 +73,7 @@ Deno.test("1 + 4 + 8 (no events, text)", () => {
   });
 });
 
-Deno.test("1 + 8 (no events, text, alter)", () => {
+Deno.test("no event, no text, no alter", () => {
   is("\x1b[1078;2u", {
     key: "ж",
     event: "press",
