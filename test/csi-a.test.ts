@@ -14,7 +14,7 @@ Deno.test("LEFT", () => {
   is("\x1b[1D", key);
 
   is("\x1b[1;5D", { ...key, ctrl: true });
-  is("\x1b[1;3D", { ...key, alt: true });
+  is("\x1b[1;3D", { ...key, alt_option: true });
   is("\x1b[1;2D", { ...key, shift: true });
 
   is("\x1b[1;1:1D", key);
@@ -29,7 +29,7 @@ Deno.test("RIGHT", () => {
   is("\x1b[1C", key);
 
   is("\x1b[1;5C", { ...key, ctrl: true });
-  is("\x1b[1;3C", { ...key, alt: true });
+  is("\x1b[1;3C", { ...key, alt_option: true });
   is("\x1b[1;2C", { ...key, shift: true });
 
   is("\x1b[1;1:1C", key);
@@ -44,7 +44,7 @@ Deno.test("UP", () => {
   is("\x1b[1A", key);
 
   is("\x1b[1;5A", { ...key, ctrl: true });
-  is("\x1b[1;3A", { ...key, alt: true });
+  is("\x1b[1;3A", { ...key, alt_option: true });
   is("\x1b[1;2A", { ...key, shift: true });
 
   is("\x1b[1;1:1A", key);
@@ -59,7 +59,7 @@ Deno.test("DOWN", () => {
   is("\x1b[1B", key);
 
   is("\x1b[1;5B", { ...key, ctrl: true });
-  is("\x1b[1;3B", { ...key, alt: true });
+  is("\x1b[1;3B", { ...key, alt_option: true });
   is("\x1b[1;2B", { ...key, shift: true });
 
   is("\x1b[1;1:1B", key);
@@ -74,7 +74,7 @@ Deno.test("HOME", () => {
   is("\x1b[1H", key);
 
   is("\x1b[1;5H", { ...key, ctrl: true });
-  is("\x1b[1;3H", { ...key, alt: true });
+  is("\x1b[1;3H", { ...key, alt_option: true });
   is("\x1b[1;2H", { ...key, shift: true });
 
   is("\x1b[1;1:1H", key);
@@ -89,7 +89,7 @@ Deno.test("END", () => {
   is("\x1b[1F", key);
 
   is("\x1b[1;5F", { ...key, ctrl: true });
-  is("\x1b[1;3F", { ...key, alt: true });
+  is("\x1b[1;3F", { ...key, alt_option: true });
   is("\x1b[1;2F", { ...key, shift: true });
 
   is("\x1b[1;1:1F", key);
@@ -104,7 +104,7 @@ Deno.test("F1", () => {
   is("\x1b[1P", key);
 
   is("\x1b[1;5P", { ...key, ctrl: true });
-  is("\x1b[1;3P", { ...key, alt: true });
+  is("\x1b[1;3P", { ...key, alt_option: true });
   is("\x1b[1;2P", { ...key, shift: true });
 
   is("\x1b[1;1:1P", key);
@@ -119,7 +119,7 @@ Deno.test("F2", () => {
   is("\x1b[1Q", key);
 
   is("\x1b[1;5Q", { ...key, ctrl: true });
-  is("\x1b[1;3Q", { ...key, alt: true });
+  is("\x1b[1;3Q", { ...key, alt_option: true });
   is("\x1b[1;2Q", { ...key, shift: true });
 
   is("\x1b[1;1:1Q", key);
@@ -134,7 +134,7 @@ Deno.test("F4", () => {
   is("\x1b[1S", key);
 
   is("\x1b[1;5S", { ...key, ctrl: true });
-  is("\x1b[1;3S", { ...key, alt: true });
+  is("\x1b[1;3S", { ...key, alt_option: true });
   is("\x1b[1;2S", { ...key, shift: true });
 
   is("\x1b[1;1:1S", key);

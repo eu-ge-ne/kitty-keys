@@ -13,9 +13,9 @@ Deno.test("a", () => {
   is("\x1b[97;;97u", { ...key, text: "a" });
 
   is("\x1b[97;2u", { ...key, shift: true });
-  is("\x1b[97;3u", { ...key, alt: true });
+  is("\x1b[97;3u", { ...key, alt_option: true });
   is("\x1b[97;5u", { ...key, ctrl: true });
-  is("\x1b[97;9u", { ...key, super: true });
+  is("\x1b[97;9u", { ...key, super_command: true });
   is("\x1b[97;17u", { ...key, hyper: true });
   is("\x1b[97;33u", { ...key, meta: true });
   is("\x1b[97;65u", { ...key, caps_lock: true });

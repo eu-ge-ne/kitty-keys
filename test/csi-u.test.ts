@@ -13,7 +13,7 @@ Deno.test("ESC", () => {
   is("\x1b[27u", key);
 
   is("\x1b[27;5u", { ...key, ctrl: true });
-  is("\x1b[27;3u", { ...key, alt: true });
+  is("\x1b[27;3u", { ...key, alt_option: true });
   is("\x1b[27;2u", { ...key, shift: true });
 
   is("\x1b[27;1:1u", key);
@@ -27,7 +27,7 @@ Deno.test("ENTER", () => {
   is("\x1b[13u", key);
 
   is("\x1b[13;5u", { ...key, ctrl: true });
-  is("\x1b[13;3u", { ...key, alt: true });
+  is("\x1b[13;3u", { ...key, alt_option: true });
   is("\x1b[13;2u", { ...key, shift: true });
 
   is("\x1b[13;1:1u", key);
@@ -41,7 +41,7 @@ Deno.test("TAB", () => {
   is("\x1b[9u", key);
 
   is("\x1b[9;5u", { ...key, ctrl: true });
-  is("\x1b[9;3u", { ...key, alt: true });
+  is("\x1b[9;3u", { ...key, alt_option: true });
   is("\x1b[9;2u", { ...key, shift: true });
 
   is("\x1b[9;1:1u", key);
@@ -55,7 +55,7 @@ Deno.test("BACKSPACE", () => {
   is("\x1b[127u", key);
 
   is("\x1b[127;5u", { ...key, ctrl: true });
-  is("\x1b[127;3u", { ...key, alt: true });
+  is("\x1b[127;3u", { ...key, alt_option: true });
   is("\x1b[127;2u", { ...key, shift: true });
 
   is("\x1b[127;1:1u", key);
@@ -73,7 +73,7 @@ Deno.test("CAPS_LOCK", () => {
   is("\x1b[57358u", key);
 
   is("\x1b[57358;5u", { ...key, ctrl: true });
-  is("\x1b[57358;3u", { ...key, alt: true });
+  is("\x1b[57358;3u", { ...key, alt_option: true });
   is("\x1b[57358;2u", { ...key, shift: true });
 
   is("\x1b[57358;1:1u", key);
@@ -91,7 +91,7 @@ Deno.test("SCROLL_LOCK", () => {
   is("\x1b[57359u", key);
 
   is("\x1b[57359;5u", { ...key, ctrl: true });
-  is("\x1b[57359;3u", { ...key, alt: true });
+  is("\x1b[57359;3u", { ...key, alt_option: true });
   is("\x1b[57359;2u", { ...key, shift: true });
 
   is("\x1b[57359;1:1u", key);
@@ -109,7 +109,7 @@ Deno.test("NUM_LOCK", () => {
   is("\x1b[57360u", key);
 
   is("\x1b[57360;5u", { ...key, ctrl: true });
-  is("\x1b[57360;3u", { ...key, alt: true });
+  is("\x1b[57360;3u", { ...key, alt_option: true });
   is("\x1b[57360;2u", { ...key, shift: true });
 
   is("\x1b[57360;1:1u", key);
@@ -127,7 +127,7 @@ Deno.test("PRINT_SCREEN", () => {
   is("\x1b[57361u", key);
 
   is("\x1b[57361;5u", { ...key, ctrl: true });
-  is("\x1b[57361;3u", { ...key, alt: true });
+  is("\x1b[57361;3u", { ...key, alt_option: true });
   is("\x1b[57361;2u", { ...key, shift: true });
 
   is("\x1b[57361;1:1u", key);
@@ -145,7 +145,7 @@ Deno.test("PAUSE", () => {
   is("\x1b[57362u", key);
 
   is("\x1b[57362;5u", { ...key, ctrl: true });
-  is("\x1b[57362;3u", { ...key, alt: true });
+  is("\x1b[57362;3u", { ...key, alt_option: true });
   is("\x1b[57362;2u", { ...key, shift: true });
 
   is("\x1b[57362;1:1u", key);
@@ -163,7 +163,7 @@ Deno.test("MENU", () => {
   is("\x1b[57363u", key);
 
   is("\x1b[57363;5u", { ...key, ctrl: true });
-  is("\x1b[57363;3u", { ...key, alt: true });
+  is("\x1b[57363;3u", { ...key, alt_option: true });
   is("\x1b[57363;2u", { ...key, shift: true });
 
   is("\x1b[57363;1:1u", key);
@@ -181,7 +181,7 @@ Deno.test("F13", () => {
   is("\x1b[57376u", key);
 
   is("\x1b[57376;5u", { ...key, ctrl: true });
-  is("\x1b[57376;3u", { ...key, alt: true });
+  is("\x1b[57376;3u", { ...key, alt_option: true });
   is("\x1b[57376;2u", { ...key, shift: true });
 
   is("\x1b[57376;1:1u", key);
@@ -199,7 +199,7 @@ Deno.test("LEFT_SHIFT", () => {
   is("\x1b[57441u", key);
 
   is("\x1b[57441;5u", { ...key, ctrl: true });
-  is("\x1b[57441;3u", { ...key, alt: true });
+  is("\x1b[57441;3u", { ...key, alt_option: true });
   is("\x1b[57441;2u", { ...key, shift: true });
 
   is("\x1b[57441;1:1u", key);

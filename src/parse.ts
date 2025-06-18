@@ -68,7 +68,7 @@ function parse_modifiers(mods?: string): Modifiers {
     }
 
     if (n & 2) {
-      result.alt = true;
+      result.alt_option = true;
     }
 
     if (n & 4) {
@@ -76,7 +76,7 @@ function parse_modifiers(mods?: string): Modifiers {
     }
 
     if (n & 8) {
-      result.super = true;
+      result.super_command = true;
     }
 
     if (n & 16) {
