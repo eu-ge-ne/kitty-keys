@@ -104,31 +104,35 @@ Deno.test("END", () => {
 });
 
 Deno.test("F1", () => {
-  is("\x1b[P", { key: "P", event: "press" });
-  is("\x1b[1P", { key: "1P", event: "press" });
+  const key: Key = { key: "1P", event: "press", name: "F1" };
 
-  is("\x1b[1;5P", { key: "1P", event: "press", ctrl: true });
-  is("\x1b[1;3P", { key: "1P", event: "press", alt: true });
-  is("\x1b[1;2P", { key: "1P", event: "press", shift: true });
-  is("\x1b[1;65P", { key: "1P", event: "press", caps_lock: true });
+  is("\x1b[P", { ...key, key: "P" });
+  is("\x1b[1P", key);
 
-  is("\x1b[1;1:1P", { key: "1P", event: "press" });
-  is("\x1b[1;1:2P", { key: "1P", event: "repeat" });
-  is("\x1b[1;1:3P", { key: "1P", event: "release" });
+  is("\x1b[1;5P", { ...key, ctrl: true });
+  is("\x1b[1;3P", { ...key, alt: true });
+  is("\x1b[1;2P", { ...key, shift: true });
+  is("\x1b[1;65P", { ...key, caps_lock: true });
+
+  is("\x1b[1;1:1P", key);
+  is("\x1b[1;1:2P", { ...key, event: "repeat" });
+  is("\x1b[1;1:3P", { ...key, event: "release" });
 });
 
 Deno.test("F2", () => {
-  is("\x1b[Q", { key: "Q", event: "press" });
-  is("\x1b[1Q", { key: "1Q", event: "press" });
+  const key: Key = { key: "1Q", event: "press", name: "F2" };
 
-  is("\x1b[1;5Q", { key: "1Q", event: "press", ctrl: true });
-  is("\x1b[1;3Q", { key: "1Q", event: "press", alt: true });
-  is("\x1b[1;2Q", { key: "1Q", event: "press", shift: true });
-  is("\x1b[1;65Q", { key: "1Q", event: "press", caps_lock: true });
+  is("\x1b[Q", { ...key, key: "Q" });
+  is("\x1b[1Q", key);
 
-  is("\x1b[1;1:1Q", { key: "1Q", event: "press" });
-  is("\x1b[1;1:2Q", { key: "1Q", event: "repeat" });
-  is("\x1b[1;1:3Q", { key: "1Q", event: "release" });
+  is("\x1b[1;5Q", { ...key, ctrl: true });
+  is("\x1b[1;3Q", { ...key, alt: true });
+  is("\x1b[1;2Q", { ...key, shift: true });
+  is("\x1b[1;65Q", { ...key, caps_lock: true });
+
+  is("\x1b[1;1:1Q", key);
+  is("\x1b[1;1:2Q", { ...key, event: "repeat" });
+  is("\x1b[1;1:3Q", { ...key, event: "release" });
 });
 
 Deno.test("F4", () => {

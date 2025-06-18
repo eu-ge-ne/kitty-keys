@@ -27,4 +27,11 @@ export const names = new Map<string, string>([
   [String.fromCodePoint(57361), "PRINT_SCREEN"],
   [String.fromCodePoint(57362), "PAUSE"],
   [String.fromCodePoint(57363), "MENU"],
+  ["P", "F1"],
+  ["1P", "F1"],
+  ["11~", "F1"],
+  ["Q", "F2"],
+  ["1Q", "F2"],
+  ["12~", "F2"],
+  ["13~", "F3"],
 ]);
