@@ -47,7 +47,7 @@ export interface Modifiers {
   /**
    * ALT/OPTION
    */
-  alt_option?: boolean;
+  alt?: boolean;
   /**
    * CONTROL
    */
@@ -55,7 +55,7 @@ export interface Modifiers {
   /**
    * WINDOWS/LINUX/COMMAND
    */
-  super_command?: boolean;
+  super?: boolean;
   /**
    * HYPER
    */
