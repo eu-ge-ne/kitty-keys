@@ -1,6 +1,6 @@
 {
   "name": "@eu-ge-ne/kitty-keys",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "exports": "./src/mod.ts",
   "imports": {
@@ -10,7 +10,7 @@
     "exclude": [
       ".github",
       ".vscode",
-      "bench",
+      "bin",
       "test",
       "codecov.yml"
     ]
