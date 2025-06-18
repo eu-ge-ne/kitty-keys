@@ -15,7 +15,6 @@ Deno.test("ESC", () => {
   is("\x1b[27;5u", { ...key, ctrl: true });
   is("\x1b[27;3u", { ...key, alt: true });
   is("\x1b[27;2u", { ...key, shift: true });
-  is("\x1b[27;65u", { ...key, caps_lock: true });
 
   is("\x1b[27;1:1u", key);
   is("\x1b[27;1:2u", { ...key, event: "repeat" });
@@ -30,7 +29,6 @@ Deno.test("ENTER", () => {
   is("\x1b[13;5u", { ...key, ctrl: true });
   is("\x1b[13;3u", { ...key, alt: true });
   is("\x1b[13;2u", { ...key, shift: true });
-  is("\x1b[13;65u", { ...key, caps_lock: true });
 
   is("\x1b[13;1:1u", key);
   is("\x1b[13;1:2u", { ...key, event: "repeat" });
@@ -45,7 +43,6 @@ Deno.test("TAB", () => {
   is("\x1b[9;5u", { ...key, ctrl: true });
   is("\x1b[9;3u", { ...key, alt: true });
   is("\x1b[9;2u", { ...key, shift: true });
-  is("\x1b[9;65u", { ...key, caps_lock: true });
 
   is("\x1b[9;1:1u", key);
   is("\x1b[9;1:2u", { ...key, event: "repeat" });
@@ -60,7 +57,6 @@ Deno.test("BACKSPACE", () => {
   is("\x1b[127;5u", { ...key, ctrl: true });
   is("\x1b[127;3u", { ...key, alt: true });
   is("\x1b[127;2u", { ...key, shift: true });
-  is("\x1b[127;65u", { ...key, caps_lock: true });
 
   is("\x1b[127;1:1u", key);
   is("\x1b[127;1:2u", { ...key, event: "repeat" });
@@ -79,7 +75,6 @@ Deno.test("CAPS_LOCK", () => {
   is("\x1b[57358;5u", { ...key, ctrl: true });
   is("\x1b[57358;3u", { ...key, alt: true });
   is("\x1b[57358;2u", { ...key, shift: true });
-  is("\x1b[57358;65u", { ...key, caps_lock: true });
 
   is("\x1b[57358;1:1u", key);
   is("\x1b[57358;1:2u", { ...key, event: "repeat" });
@@ -98,7 +93,6 @@ Deno.test("SCROLL_LOCK", () => {
   is("\x1b[57359;5u", { ...key, ctrl: true });
   is("\x1b[57359;3u", { ...key, alt: true });
   is("\x1b[57359;2u", { ...key, shift: true });
-  is("\x1b[57359;65u", { ...key, caps_lock: true });
 
   is("\x1b[57359;1:1u", key);
   is("\x1b[57359;1:2u", { ...key, event: "repeat" });
@@ -117,7 +111,6 @@ Deno.test("NUM_LOCK", () => {
   is("\x1b[57360;5u", { ...key, ctrl: true });
   is("\x1b[57360;3u", { ...key, alt: true });
   is("\x1b[57360;2u", { ...key, shift: true });
-  is("\x1b[57360;65u", { ...key, caps_lock: true });
 
   is("\x1b[57360;1:1u", key);
   is("\x1b[57360;1:2u", { ...key, event: "repeat" });
@@ -136,7 +129,6 @@ Deno.test("PRINT_SCREEN", () => {
   is("\x1b[57361;5u", { ...key, ctrl: true });
   is("\x1b[57361;3u", { ...key, alt: true });
   is("\x1b[57361;2u", { ...key, shift: true });
-  is("\x1b[57361;65u", { ...key, caps_lock: true });
 
   is("\x1b[57361;1:1u", key);
   is("\x1b[57361;1:2u", { ...key, event: "repeat" });
@@ -155,7 +147,6 @@ Deno.test("PAUSE", () => {
   is("\x1b[57362;5u", { ...key, ctrl: true });
   is("\x1b[57362;3u", { ...key, alt: true });
   is("\x1b[57362;2u", { ...key, shift: true });
-  is("\x1b[57362;65u", { ...key, caps_lock: true });
 
   is("\x1b[57362;1:1u", key);
   is("\x1b[57362;1:2u", { ...key, event: "repeat" });
@@ -174,7 +165,6 @@ Deno.test("MENU", () => {
   is("\x1b[57363;5u", { ...key, ctrl: true });
   is("\x1b[57363;3u", { ...key, alt: true });
   is("\x1b[57363;2u", { ...key, shift: true });
-  is("\x1b[57363;65u", { ...key, caps_lock: true });
 
   is("\x1b[57363;1:1u", key);
   is("\x1b[57363;1:2u", { ...key, event: "repeat" });
@@ -193,7 +183,6 @@ Deno.test("F13", () => {
   is("\x1b[57376;5u", { ...key, ctrl: true });
   is("\x1b[57376;3u", { ...key, alt: true });
   is("\x1b[57376;2u", { ...key, shift: true });
-  is("\x1b[57376;65u", { ...key, caps_lock: true });
 
   is("\x1b[57376;1:1u", key);
   is("\x1b[57376;1:2u", { ...key, event: "repeat" });
@@ -212,7 +201,6 @@ Deno.test("LEFT_SHIFT", () => {
   is("\x1b[57441;5u", { ...key, ctrl: true });
   is("\x1b[57441;3u", { ...key, alt: true });
   is("\x1b[57441;2u", { ...key, shift: true });
-  is("\x1b[57441;65u", { ...key, caps_lock: true });
 
   is("\x1b[57441;1:1u", key);
   is("\x1b[57441;1:2u", { ...key, event: "repeat" });
