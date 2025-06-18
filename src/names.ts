@@ -22,4 +22,9 @@ export const names = new Map<string, string>([
   ["1F", "END"],
   ["8~", "END"],
   [String.fromCodePoint(57358), "CAPS_LOCK"],
+  [String.fromCodePoint(57359), "SCROLL_LOCK"],
+  [String.fromCodePoint(57360), "NUM_LOCK"],
+  [String.fromCodePoint(57361), "PRINT_SCREEN"],
+  [String.fromCodePoint(57362), "PAUSE"],
+  [String.fromCodePoint(57363), "MENU"],
 ]);
