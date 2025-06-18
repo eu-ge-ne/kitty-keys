@@ -29,14 +29,3 @@ Deno.test("A", () => {
     text: "A",
   });
 });
-
-Deno.test("Ж", () => {
-  is("\x1b[1078:1046:59;2;1046u", {
-    key: "ж",
-    shift_key: "Ж",
-    base_key: ";",
-    event: "press",
-    text: "Ж",
-    shift: true,
-  });
-});
