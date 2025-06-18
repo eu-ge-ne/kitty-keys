@@ -12,7 +12,6 @@ Deno.test("a", () => {
 
   is("\x1b[97;;97u", { ...key, text: "a" });
 
-  is("\x1b[97;2u", { ...key, shift: true });
   is("\x1b[97;3u", { ...key, alt: true });
   is("\x1b[97;5u", { ...key, ctrl: true });
   is("\x1b[97;9u", { ...key, super: true });
@@ -26,15 +25,23 @@ Deno.test("a", () => {
   is("\x1b[97;1:3u", { ...key, event: "release" });
 });
 
+Deno.test("A", () => {
+  is("\x1b[97:65;2;65u", {
+    key: "a",
+    event: "press",
+    shift: true,
+    shift_key: "A",
+    text: "A",
+  });
+});
+
 Deno.test("Ж", () => {
-  const key: Key = {
+  is("\x1b[1078:1046:59;2;1046u", {
     key: "ж",
     shift_key: "Ж",
     base_key: ";",
     event: "press",
     text: "Ж",
     shift: true,
-  };
-
-  is("\x1b[1078:1046:59;2;1046u", key);
+  });
 });
