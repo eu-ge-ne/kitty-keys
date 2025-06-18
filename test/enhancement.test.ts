@@ -47,3 +47,11 @@ Deno.test("1 + 4 + 8 (no events, text)", () => {
     shift: true,
   });
 });
+
+Deno.test("1 + 8 (no events, text, alter)", () => {
+  is("\x1b[1078;2u", {
+    key: "ж",
+    event: "press",
+    shift: true,
+  });
+});
