@@ -3,27 +3,33 @@
  */
 export interface Key extends Modifiers {
   /**
-   * Key
+   * Text representation of the `unicode-key-code` field.
+   * @link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes
    */
   key: string;
   /**
-   * Event
+   * Text representation of the `event-type` sub-field.
+   * @link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#event-types
    */
   event: "press" | "repeat" | "release";
   /**
-   * Shifted key
+   * Text representation of the `shifted-key-code` field.
+   * @link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes
    */
   shift_key?: string;
   /**
-   * Base layout key
+   * Text representation of the `base-layout-key-code` field.
+   * @link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes
    */
   base_key?: string;
   /**
-   * Text
+   * Text representation of the `text-as-codepoints` field.
+   * @link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#text-as-code-points
    */
   text?: string;
   /**
-   * Name
+   * Name of the functional key
+   * @link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions
    */
   name?: string;
 }
