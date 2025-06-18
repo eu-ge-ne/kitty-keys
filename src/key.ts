@@ -1,5 +1,6 @@
 /**
- * Key
+ * Represents key event
+ * @link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview
  */
 export interface Key extends Modifiers {
   /**
