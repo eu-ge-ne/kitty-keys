@@ -25,3 +25,16 @@ Deno.test("a", () => {
   is("\x1b[97;1:2u", { ...key, event: "repeat" });
   is("\x1b[97;1:3u", { ...key, event: "release" });
 });
+
+Deno.test("Ж", () => {
+  const key: Key = {
+    key: "ж",
+    shift_key: "Ж",
+    base_key: ";",
+    event: "press",
+    text: "Ж",
+    shift: true,
+  };
+
+  is("\x1b[1078:1046:59;2;1046u", key);
+});
