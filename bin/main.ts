@@ -29,7 +29,7 @@ function write(text: string): void {
   }
 }
 
-enable_kitty_protocol(1 + 2 + 4 + 8 + 16);
+enable_kitty_protocol(1 /*+ 2*/ + 4 + 8 + 16);
 query_kitty_protocol();
 
 while (true) {
