@@ -98,6 +98,7 @@ function parse_modifiers(mods?: string): Modifiers {
 
   return result;
 }
+
 function parse_code_points(
   code_points: string | undefined,
 ): string | undefined {
