@@ -1,5 +1,5 @@
+import { func_keys } from "./const.ts";
 import type { Key, Modifiers } from "./key.ts";
-import { names } from "./names.ts";
 
 const decoder = new TextDecoder();
 
@@ -32,7 +32,7 @@ export function parse_key(buf: Uint8Array): Key | string {
     ...parse_modifiers(mods),
   };
 
-  const name = names.get(key);
+  const name = func_keys.get(key);
   if (typeof name === "string") {
     result.name = name;
   }
