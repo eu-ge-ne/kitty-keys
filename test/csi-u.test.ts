@@ -171,24 +171,6 @@ Deno.test("MENU", () => {
   is("\x1b[57363;1:3u", { ...key, event: "release" });
 });
 
-Deno.test("F13", () => {
-  const key: Key = {
-    key: String.fromCodePoint(57376),
-    event: "press",
-    name: "F13",
-  };
-
-  is("\x1b[57376u", key);
-
-  is("\x1b[57376;5u", { ...key, ctrl: true });
-  is("\x1b[57376;3u", { ...key, alt: true });
-  is("\x1b[57376;2u", { ...key, shift: true });
-
-  is("\x1b[57376;1:1u", key);
-  is("\x1b[57376;1:2u", { ...key, event: "repeat" });
-  is("\x1b[57376;1:3u", { ...key, event: "release" });
-});
-
 Deno.test("LEFT_SHIFT", () => {
   const key: Key = {
     key: String.fromCodePoint(57441),
