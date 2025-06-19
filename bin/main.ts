@@ -8,7 +8,7 @@ Deno.stdin.setRaw(true);
 const reader = Deno.stdin.readable.getReader();
 const decoder = new TextDecoder();
 
-enable_kitty(1 + 4 + 8 + 16);
+enable_kitty(1 + 4 + 8 + 16 + 2);
 query_kitty();
 
 self.onunload = () => {
