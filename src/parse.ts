@@ -6,16 +6,16 @@ const decoder = new TextDecoder();
 /**
  * Parse key event from bytes
  */
-export function parse_key(buf: Uint8Array): Key | string {
+export function parse_key(buf: Uint8Array): Key | undefined {
   const text = decoder.decode(buf);
 
   if (!text.startsWith("\x1b[")) {
-    return text;
+    return;
   }
 
   const mode = text.at(-1) ?? "";
   if (!/[u~ABCDEFHPQS]/.test(text)) {
-    return text;
+    return;
   }
 
   const [key_codes = "", params = "", text_as_codepoints] = text.slice(2, -1)

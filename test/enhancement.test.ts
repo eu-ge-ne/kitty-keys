@@ -1,4 +1,4 @@
-import { is, is_text } from "./utils.ts";
+import { is } from "./utils.ts";
 
 Deno.test("1 Disambiguate escape codes", () => {
   is("\x1b[27u", {
@@ -6,12 +6,6 @@ Deno.test("1 Disambiguate escape codes", () => {
     event: "press",
     name: "ESC",
   });
-
-  is_text("\r", "\r");
-  is_text("\t", "\t");
-  is_text("\x7f", "\x7f");
-
-  is_text("Ж", "Ж");
 
   is("\x1b[1078;8u", {
     key: "ж",
