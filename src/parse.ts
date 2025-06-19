@@ -13,14 +13,12 @@ export function parse_key(bytes: Uint8Array): Key | undefined {
     return;
   }
 
-  text = text.slice(2);
-
-  const mode = text.at(-1) ?? "";
+  const mode = text.at(-1)!;
   if (!/[u~ABCDEFHPQS]/.test(text)) {
     return;
   }
 
-  text = text.slice(0, -1);
+  text = text.slice(2, -1);
   if (/[^\d:;]/.test(text)) {
     return;
   }
