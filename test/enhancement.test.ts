@@ -1,6 +1,6 @@
 import { is, is_text } from "./utils.ts";
 
-Deno.test("Disambiguate escape codes", () => {
+Deno.test("1 Disambiguate escape codes", () => {
   is("\x1b[27u", {
     key: "\x1b",
     event: "press",
@@ -22,7 +22,7 @@ Deno.test("Disambiguate escape codes", () => {
   });
 });
 
-Deno.test("1 + Report alternate keys", () => {
+Deno.test("1 + 4 Report alternate keys", () => {
   is("\x1b[1078:1046:59;8u", {
     key: "ж",
     event: "press",
@@ -34,7 +34,7 @@ Deno.test("1 + Report alternate keys", () => {
   });
 });
 
-Deno.test("1 + 4 + Report all keys as escape codes", () => {
+Deno.test("1 + 4 + 8 Report all keys as escape codes", () => {
   is("\x1b[13u", {
     key: "\r",
     event: "press",
@@ -69,7 +69,7 @@ Deno.test("1 + 4 + Report all keys as escape codes", () => {
   });
 });
 
-Deno.test("1 + 4 + 8 + Report associated text", () => {
+Deno.test("1 + 4 + 8 + 16 Report associated text", () => {
   is("\x1b[1078:1046:59;2;1046u", {
     key: "ж",
     event: "press",
