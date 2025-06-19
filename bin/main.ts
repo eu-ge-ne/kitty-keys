@@ -32,32 +32,28 @@ for (let i = 0;; i += 1) {
   const text = decoder.decode(buf);
   const key = parse_key(buf!);
 
-  if (!key) {
-    console.log(text);
-  } else {
-    const {
-      event,
-      text: txt,
-      name,
-      key: k,
-      shift_key,
-      base_key,
-      shift,
-      alt,
-      ctrl,
-      super: sup,
-      caps_lock,
-      num_lock,
-    } = typeof key !== "string" ? key : {};
+  const {
+    event,
+    text: txt,
+    name,
+    key: k,
+    shift_key,
+    base_key,
+    shift,
+    alt,
+    ctrl,
+    super: sup,
+    caps_lock,
+    num_lock,
+  } = key ?? {};
 
-    console.log(
-      `${s(event)}${s(txt)}${s(name, 15)}${x(k)}${x(shift_key)}${x(base_key)}${
-        b(shift)
-      }${b(alt)}${b(ctrl)}${b(sup)}${b(caps_lock)}${b(num_lock)}${y(text)}`,
-    );
+  console.log(
+    `${s(event)}${s(txt)}${s(name, 15)}${x(k)}${x(shift_key)}${x(base_key)}${
+      b(shift)
+    }${b(alt)}${b(ctrl)}${b(sup)}${b(caps_lock)}${b(num_lock)}${y(text)}`,
+  );
 
-    if (key.key === "c" && key.ctrl) {
-      break;
-    }
+  if (key?.key === "c" && key.ctrl) {
+    break;
   }
 }
