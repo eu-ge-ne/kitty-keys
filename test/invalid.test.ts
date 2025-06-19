@@ -7,3 +7,17 @@ Deno.test("CSI ? flags u", () => {
 
   assertEquals(key, undefined);
 });
+
+Deno.test("a", () => {
+  const bytes = new TextEncoder().encode("a");
+  const key = parse_key(bytes);
+
+  assertEquals(key, undefined);
+});
+
+Deno.test("CSI 1 z", () => {
+  const bytes = new TextEncoder().encode("\x1b[1z");
+  const key = parse_key(bytes);
+
+  assertEquals(key, undefined);
+});
