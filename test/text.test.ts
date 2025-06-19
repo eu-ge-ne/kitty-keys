@@ -1,11 +1,6 @@
-import { assertEquals } from "@std/assert";
-import { type Key, parse_key } from "../src/mod.ts";
+import type { Key } from "../src/mod.ts";
 
-const encoder = new TextEncoder();
-
-export function is(actual: string, expected: Key): void {
-  assertEquals(parse_key(encoder.encode(actual)), expected);
-}
+import { is } from "./utils.ts";
 
 Deno.test("a", () => {
   const key: Key = { key: "a", event: "press" };
@@ -32,16 +27,5 @@ Deno.test("A", () => {
     shift: true,
     shift_key: "A",
     text: "A",
-  });
-});
-
-Deno.test("Ж", () => {
-  is("\x1b[1078:1046:59;2;1046u", {
-    key: "ж",
-    shift_key: "Ж",
-    base_key: ";",
-    event: "press",
-    text: "Ж",
-    shift: true,
   });
 });

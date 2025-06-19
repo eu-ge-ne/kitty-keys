@@ -8,7 +8,7 @@ Deno.stdin.setRaw(true);
 const reader = Deno.stdin.readable.getReader();
 const decoder = new TextDecoder();
 
-enable_kitty(1 + 2 + 4 + 8 + 16);
+enable_kitty(1 + 4 + 8 + 16 + 2);
 query_kitty();
 
 self.onunload = () => {
@@ -23,7 +23,7 @@ for (let i = 0;; i += 1) {
         s("BASE_KEY")
       }${s("SHIFT")}${s("ALT")}${s("CTRL")}${s("SUPER")}${s("CAPS_LOCK")}${
         s("NUM_LOCK")
-      }BYTES\n`,
+      }RAW\n`,
     );
   }
 
@@ -32,28 +32,26 @@ for (let i = 0;; i += 1) {
   const text = decoder.decode(buf);
   const key = parse_key(buf!);
 
-  if (typeof key !== "string") {
-    const {
-      event,
-      text: txt,
-      name,
-      key: k,
-      shift_key,
-      base_key,
-      shift,
-      alt,
-      ctrl,
-      super: sup,
-      caps_lock,
-      num_lock,
-    } = key;
+  const {
+    event,
+    text: txt,
+    name,
+    key: k,
+    shift_key,
+    base_key,
+    shift,
+    alt,
+    ctrl,
+    super: sup,
+    caps_lock,
+    num_lock,
+  } = typeof key !== "string" ? key : {};
 
-    console.log(
-      `${s(event)}${s(txt)}${s(name, 15)}${x(k)}${x(shift_key)}${x(base_key)}${
-        b(shift)
-      }${b(alt)}${b(ctrl)}${b(sup)}${b(caps_lock)}${b(num_lock)}${y(text)}`,
-    );
-  }
+  console.log(
+    `${s(event)}${s(txt)}${s(name, 15)}${x(k)}${x(shift_key)}${x(base_key)}${
+      b(shift)
+    }${b(alt)}${b(ctrl)}${b(sup)}${b(caps_lock)}${b(num_lock)}${y(text)}`,
+  );
 
   if (typeof key === "object" && key.key === "c" && key.ctrl) {
     break;
