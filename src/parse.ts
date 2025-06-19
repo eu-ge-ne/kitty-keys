@@ -6,20 +6,26 @@ const decoder = new TextDecoder();
 /**
  * Parse key event from bytes
  */
-export function parse_key(buf: Uint8Array): Key | undefined {
-  const text = decoder.decode(buf);
+export function parse_key(bytes: Uint8Array): Key | undefined {
+  let text = decoder.decode(bytes);
 
   if (!text.startsWith("\x1b[")) {
     return;
   }
+
+  text = text.slice(2);
 
   const mode = text.at(-1) ?? "";
   if (!/[u~ABCDEFHPQS]/.test(text)) {
     return;
   }
 
-  const [key_codes = "", params = "", text_as_codepoints] = text.slice(2, -1)
-    .split(";");
+  text = text.slice(0, -1);
+  if (/[^\d:;]/.test(text)) {
+    return;
+  }
+
+  const [key_codes = "", params = "", text_as_codepoints] = text.split(";");
   const [key_code = "", shift_code, base_code] = key_codes!.split(":");
   const [mods, ev] = params!.split(":");
 

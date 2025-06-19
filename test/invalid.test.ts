@@ -21,3 +21,17 @@ Deno.test("CSI 1 z", () => {
 
   assertEquals(key, undefined);
 });
+
+Deno.test("CSI 1", () => {
+  const bytes = new TextEncoder().encode("\x1b[1");
+  const key = parse_key(bytes);
+
+  assertEquals(key, undefined);
+});
+
+Deno.test("CSI", () => {
+  const bytes = new TextEncoder().encode("\x1b[");
+  const key = parse_key(bytes);
+
+  assertEquals(key, undefined);
+});
