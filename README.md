@@ -11,7 +11,38 @@ https://www.leonerd.org.uk/hacks/fixterms
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=eu-ge-ne_kitty-keys&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=eu-ge-ne_kitty-keys)
 
 - [@eu-ge-ne/kitty-keys](#eu-ge-nekitty-keys)
+  - [Installation](#installation)
+    - [Deno](#deno)
+    - [Node.js](#nodejs)
+    - [Bun](#bun)
   - [License](#license)
+
+## Installation
+
+### Deno
+
+```bash
+deno add jsr:@eu-ge-ne/kitty-keys
+```
+
+### Node.js
+
+```bash
+# pnpm
+pnpm i jsr:@eu-ge-ne/kitty-keys
+
+# yarn
+yarn add jsr:@eu-ge-ne/kitty-keys
+
+# npm
+npx jsr add @eu-ge-ne/kitty-keys
+```
+
+### Bun
+
+```bash
+bunx jsr add @eu-ge-ne/kitty-keys
+```
 
 ## License
 
