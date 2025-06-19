@@ -34,6 +34,41 @@ Deno.test("1 + Report alternate keys", () => {
   });
 });
 
+Deno.test("1 + 4 + Report all keys as escape codes", () => {
+  is("\x1b[13u", {
+    key: "\r",
+    event: "press",
+    name: "ENTER",
+  });
+
+  is("\x1b[9u", {
+    key: "\t",
+    event: "press",
+    name: "TAB",
+  });
+
+  is("\x1b[127u", {
+    key: "\x7f",
+    event: "press",
+    name: "BACKSPACE",
+  });
+
+  is("\x1b[57444;9u", {
+    key: String.fromCodePoint(57444),
+    event: "press",
+    name: "LEFT_SUPER",
+    super: true,
+  });
+
+  is("\x1b[1078:1046:59;2u", {
+    key: "ж",
+    event: "press",
+    shift_key: "Ж",
+    base_key: ";",
+    shift: true,
+  });
+});
+
 Deno.test("1 + 2 + 4 + 8 + 16", () => {
   is("\x1b[1078:1046:59;2;1046u", {
     key: "ж",
