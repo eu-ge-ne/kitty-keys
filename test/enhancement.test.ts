@@ -23,6 +23,15 @@ Deno.test("Disambiguate escape codes", () => {
 });
 
 Deno.test("1 + Report alternate keys", () => {
+  is("\x1b[1078:1046:59;8u", {
+    key: "ж",
+    event: "press",
+    shift_key: "Ж",
+    base_key: ";",
+    shift: true,
+    alt: true,
+    ctrl: true,
+  });
 });
 
 Deno.test("1 + 2 + 4 + 8 + 16", () => {
