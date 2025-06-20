@@ -99,8 +99,9 @@ while (true) {
 
 ### `parse_key()`
 
-Parses key event from bytes. See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>
+Parses key event from bytes.
+
+See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>.
 
 Syntax
 
@@ -110,8 +111,10 @@ function parse_key(bytes: Uint8Array): Key | undefined;
 
 ### `set_flags()`
 
-Serializes `Set progressive enhancement flags` request to bytes. See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>
+Serializes `Set progressive enhancement flags` request to bytes.
+
+See
+<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
 
 Syntax
 
@@ -132,8 +135,9 @@ function set_flags(
 
 ### `Key`
 
-Represents key event. See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>
+Represents key event.
+
+See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>.
 
 ```ts ignore
 interface Key extends Modifiers {
@@ -171,8 +175,9 @@ interface Key extends Modifiers {
 
 ### `Modifiers`
 
-Represents modifier keys. See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers>
+Represents modifier keys.
+
+See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers>.
 
 ```ts ignore
 interface Modifiers {
@@ -220,8 +225,9 @@ interface Modifiers {
 
 ### `Flags`
 
-The progressive enhancement flags. See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#id5>.
+The progressive enhancement flags.
+
+See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#id5>.
 
 ```ts ignore
 interface Flags {
