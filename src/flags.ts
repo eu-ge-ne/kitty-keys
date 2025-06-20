@@ -54,7 +54,7 @@ export function set_flags(
 }
 
 /**
- * Serializes `Push progressive enhancement flags` message to bytes
+ * Serializes `Push progressive enhancement flags` request to bytes.
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export function push_flags(flags: Flags): Uint8Array {
