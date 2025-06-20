@@ -37,21 +37,22 @@ export interface Flags {
 }
 
 /**
- * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ * Serializes `Set progressive enhancement flags` message to bytes
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export function set_flags(
   flags: Flags,
   mode: "all" | "set" | "reset" = "all",
 ): Uint8Array {
   const f = stringify_flags(flags);
-
   const m = mode === "set" ? ";2" : mode === "reset" ? ";3" : "";
 
   return encoder.encode(`\x1b[=${f}${m}u`);
 }
 
 /**
- * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ * Serializes `Push progressive enhancement flags` message to bytes
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export function push_flags(flags: Flags): Uint8Array {
   const f = stringify_flags(flags);
@@ -60,29 +61,30 @@ export function push_flags(flags: Flags): Uint8Array {
 }
 
 /**
- * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ * Serializes `Pop progressive enhancement flags` message to bytes
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export function pop_flags(number: number): Uint8Array {
   return encoder.encode(`\x1b[<${number}u`);
 }
 
 /**
- * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ * Serialized `Query progressive enhancement flags` message
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
-export const get_flags: Uint8Array = encoder.encode("\x1b[?u");
+export const query_flags: Uint8Array = encoder.encode("\x1b[?u");
 
 /**
- * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ * Parses progressive enhancement flags from bytes
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export function parse_flags(bytes: Uint8Array): Flags | undefined {
   const text = decoder.decode(bytes);
-
   if (!text.startsWith("\x1b[?") || text.at(-1) !== "u") {
     return;
   }
 
   const f = Number.parseInt(text.slice(3, -1), 10);
-
   if (!Number.isSafeInteger(f)) {
     return;
   }
