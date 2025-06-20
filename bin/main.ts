@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-console
-import { get_flags, parse_key, set_flags } from "../src/mod.ts";
+import { parse_key, query_flags, set_flags } from "../src/mod.ts";
 import { b, s, x, y } from "./fmt.ts";
+import { write } from "./write.ts";
 
 Deno.stdin.setRaw(true);
 
@@ -17,7 +18,7 @@ write(
   }),
 );
 
-write(get_flags);
+write(query_flags);
 
 self.onunload = () => {
   write(set_flags({}));
@@ -63,12 +64,5 @@ for (let i = 0;; i += 1) {
 
   if (key?.key === "c" && key.ctrl) {
     break;
-  }
-}
-
-function write(bytes: Uint8Array): void {
-  let x = 0;
-  while (x < bytes.length) {
-    x += Deno.stdout.writeSync(bytes.subarray(x));
   }
 }
