@@ -1,50 +1,32 @@
 import { assertEquals } from "@std/assert";
-import { new_request } from "../src/mod.ts";
+import { parse_reply } from "../src/mod.ts";
 
 Deno.test("disambiguate", () => {
-  const text = new_request({ disambiguate: true });
+  const flags = parse_reply(new TextEncoder().encode("\x1b[?1u"));
 
-  assertEquals(text, "\x1b[=1u");
+  assertEquals(flags, { disambiguate: true });
 });
 
 Deno.test("events", () => {
-  const text = new_request({ events: true });
+  const flags = parse_reply(new TextEncoder().encode("\x1b[?2u"));
 
-  assertEquals(text, "\x1b[=2u");
+  assertEquals(flags, { events: true });
 });
 
 Deno.test("alternates", () => {
-  const text = new_request({ alternates: true });
+  const flags = parse_reply(new TextEncoder().encode("\x1b[?4u"));
 
-  assertEquals(text, "\x1b[=4u");
+  assertEquals(flags, { alternates: true });
 });
 
 Deno.test("all_keys", () => {
-  const text = new_request({ all_keys: true });
+  const flags = parse_reply(new TextEncoder().encode("\x1b[?8u"));
 
-  assertEquals(text, "\x1b[=8u");
+  assertEquals(flags, { all_keys: true });
 });
 
 Deno.test("text", () => {
-  const text = new_request({ text: true });
+  const flags = parse_reply(new TextEncoder().encode("\x1b[?16u"));
 
-  assertEquals(text, "\x1b[=16u");
-});
-
-Deno.test("all", () => {
-  const text = new_request({}, "all");
-
-  assertEquals(text, "\x1b[=0u");
-});
-
-Deno.test("set", () => {
-  const text = new_request({}, "set");
-
-  assertEquals(text, "\x1b[=0;2u");
-});
-
-Deno.test("reset", () => {
-  const text = new_request({}, "reset");
-
-  assertEquals(text, "\x1b[=0;3u");
+  assertEquals(flags, { text: true });
 });
