@@ -29,3 +29,29 @@ export interface Flags {
    */
   text?: boolean;
 }
+
+export function stringify_flags(flags: Flags): string {
+  let result = 0;
+
+  if (flags.disambiguate) {
+    result += 1;
+  }
+
+  if (flags.events) {
+    result += 2;
+  }
+
+  if (flags.alternates) {
+    result += 4;
+  }
+
+  if (flags.all) {
+    result += 8;
+  }
+
+  if (flags.text) {
+    result += 16;
+  }
+
+  return result === 0 ? "" : result.toString();
+}
