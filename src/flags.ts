@@ -34,7 +34,37 @@ export interface Flags {
   text?: boolean;
 }
 
-export function stringify_flags(flags: Flags): string {
+/**
+ * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ */
+export function set_flags(
+  flags: Flags,
+  mode: "all" | "set" | "reset" = "all",
+): string {
+  const f = stringify_flags(flags);
+
+  const m = mode === "set" ? ";2" : mode === "reset" ? ";3" : "";
+
+  return `\x1b[=${f}${m}u`;
+}
+
+/**
+ * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ */
+export function push_flags(flags: Flags): string {
+  const f = stringify_flags(flags);
+
+  return `\x1b[>${f}u`;
+}
+
+/**
+ * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ */
+export function pop_flags(number: number): string {
+  return `\x1b[<${number}u`;
+}
+
+function stringify_flags(flags: Flags): string {
   let result = 0;
 
   if (flags.disambiguate) {
