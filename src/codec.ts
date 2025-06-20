@@ -1,3 +1,3 @@
-export const decoder = new TextDecoder();
+export const decoder: TextDecoder = new TextDecoder();
 
-export const encoder = new TextEncoder();
+export const encoder: TextEncoder = new TextEncoder();
