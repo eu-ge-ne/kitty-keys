@@ -72,7 +72,7 @@ export function pop_flags(number: number): Uint8Array {
 }
 
 /**
- * Serialized `Query progressive enhancement flags` message
+ * Serialized `Query progressive enhancement flags` request.
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export const query_flags: Uint8Array = encoder.encode("\x1b[?u");

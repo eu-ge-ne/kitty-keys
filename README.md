@@ -17,7 +17,7 @@ parser library for Node.js, Deno and Bun.
 - [API](#api)
   - [`parse_key()`](#parse_key)
   - [`set_flags()`](#set_flags)
-  - [`query_flags()`](#query_flags)
+  - [`query_flags`](#query_flags)
   - [`parse_flags()`](#parse_flags)
   - [`pop_flags()`](#pop_flags)
   - [`push_flags()`](#push_flags)
@@ -125,7 +125,18 @@ function set_flags(
 ): Uint8Array;
 ```
 
-### `query_flags()`
+### `query_flags`
+
+Serialized `Query progressive enhancement flags` request.
+
+See
+<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
+
+Syntax
+
+```ts ignore
+const query_flags: Uint8Array;
+```
 
 ### `parse_flags()`
 
