@@ -30,3 +30,9 @@ Deno.test("text", () => {
 
   assertEquals(flags, { text: true });
 });
+
+Deno.test("invalid flag", () => {
+  const flags = parse_reply(new TextEncoder().encode("\x1b[?au"));
+
+  assertEquals(flags, undefined);
+});
