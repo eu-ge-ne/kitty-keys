@@ -1,3 +1,7 @@
+/**
+ * The progressive enhancement flags
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#id5}
+ */
 export interface Flags {
   /**
    * 0b1 (1) Disambiguate escape codes
