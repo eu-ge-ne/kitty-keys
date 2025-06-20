@@ -113,6 +113,53 @@ while (true) {
 
 ### `Modifiers`
 
+Represents modifier keys. See
+<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers>
+
+```ts ignore
+interface Modifiers {
+  /**
+   * SHIFT
+   */
+  shift?: boolean;
+
+  /**
+   * ALT/OPTION
+   */
+  alt?: boolean;
+
+  /**
+   * CONTROL
+   */
+  ctrl?: boolean;
+
+  /**
+   * WINDOWS/LINUX/COMMAND
+   */
+  super?: boolean;
+
+  /**
+   * HYPER
+   */
+  hyper?: boolean;
+
+  /**
+   * META
+   */
+  meta?: boolean;
+
+  /**
+   * CAPS LOCK
+   */
+  caps_lock?: boolean;
+
+  /**
+   * NUM LOCK
+   */
+  num_lock?: boolean;
+}
+```
+
 ### `Flags`
 
 The progressive enhancement flags. See
