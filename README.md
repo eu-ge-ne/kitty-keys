@@ -99,7 +99,8 @@ while (true) {
 
 ### `parse_key()`
 
-Parses key event from bytes.
+Parses key event from bytes. See
+<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>
 
 Syntax
 
@@ -108,6 +109,18 @@ function parse_key(bytes: Uint8Array): Key | undefined;
 ```
 
 ### `set_flags()`
+
+Serializes `Set progressive enhancement flags` request to bytes. See
+<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>
+
+Syntax
+
+```ts ignore
+function set_flags(
+  flags: Flags,
+  mode: "all" | "set" | "reset" = "all",
+): Uint8Array;
+```
 
 ### `query_flags()`
 

@@ -37,7 +37,10 @@ export interface Flags {
 }
 
 /**
- * Serializes `Set progressive enhancement flags` message to bytes
+ * Serializes `Set progressive enhancement flags` request to bytes
+ * @param flags
+ * @param mode
+ * @returns bytes
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export function set_flags(

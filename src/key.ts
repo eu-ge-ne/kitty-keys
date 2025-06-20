@@ -48,6 +48,7 @@ export interface Key extends Modifiers {
  * Parses key event from bytes.
  * @param bytes
  * @returns object of {@link Key} type
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
 export function parse_key(bytes: Uint8Array): Key | undefined {
   let text = decoder.decode(bytes);
