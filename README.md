@@ -166,6 +166,15 @@ function push_flags(flags: Flags): Uint8Array;
 
 ### `pop_flags()`
 
+Serializes `Pop progressive enhancement flags` request to bytes.
+
+See
+<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
+
+```ts ignore
+function pop_flags(number: number): Uint8Array;
+```
+
 ### `Key`
 
 Represents key event.

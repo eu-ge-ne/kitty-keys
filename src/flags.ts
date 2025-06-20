@@ -64,7 +64,7 @@ export function push_flags(flags: Flags): Uint8Array {
 }
 
 /**
- * Serializes `Pop progressive enhancement flags` message to bytes
+ * Serializes `Pop progressive enhancement flags` request to bytes.
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export function pop_flags(number: number): Uint8Array {
