@@ -1,5 +1,6 @@
 export {
   type Flags,
+  get_flags,
   parse_flags,
   pop_flags,
   push_flags,

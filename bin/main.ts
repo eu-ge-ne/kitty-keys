@@ -1,18 +1,26 @@
 // deno-lint-ignore-file no-console
-import { parse_key } from "../src/mod.ts";
+import { get_flags, parse_key, set_flags } from "../src/mod.ts";
 import { b, s, x, y } from "./fmt.ts";
-import { disable_kitty, enable_kitty, query_kitty } from "./kitty.ts";
 
 Deno.stdin.setRaw(true);
 
 const reader = Deno.stdin.readable.getReader();
 const decoder = new TextDecoder();
 
-enable_kitty(1 + 4 + 8 + 16 + 2);
-query_kitty();
+write(
+  set_flags({
+    disambiguate: true,
+    events: true,
+    alternates: true,
+    all_keys: true,
+    text: true,
+  }),
+);
+
+write(get_flags);
 
 self.onunload = () => {
-  disable_kitty();
+  write(set_flags({}));
   console.log("\nExit.");
 };
 
@@ -55,5 +63,12 @@ for (let i = 0;; i += 1) {
 
   if (key?.key === "c" && key.ctrl) {
     break;
+  }
+}
+
+function write(bytes: Uint8Array): void {
+  let x = 0;
+  while (x < bytes.length) {
+    x += Deno.stdout.writeSync(bytes.subarray(x));
   }
 }
