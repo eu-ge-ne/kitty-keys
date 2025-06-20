@@ -59,3 +59,35 @@ export function stringify_flags(flags: Flags): string {
 
   return result.toString();
 }
+
+export function parse_flags(text: string): Flags | undefined {
+  const f = Number.parseInt(text, 10);
+
+  if (!Number.isSafeInteger(f)) {
+    return;
+  }
+
+  const flags: Flags = {};
+
+  if (f & 1) {
+    flags.disambiguate = true;
+  }
+
+  if (f & 2) {
+    flags.events = true;
+  }
+
+  if (f & 4) {
+    flags.alternates = true;
+  }
+
+  if (f & 8) {
+    flags.all_keys = true;
+  }
+
+  if (f & 16) {
+    flags.text = true;
+  }
+
+  return flags;
+}
