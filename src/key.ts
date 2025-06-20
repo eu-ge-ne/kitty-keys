@@ -45,7 +45,7 @@ export interface Key extends Modifiers {
 }
 
 /**
- * Parse key event from bytes
+ * Parses key event from bytes
  */
 export function parse_key(bytes: Uint8Array): Key | undefined {
   let text = decoder.decode(bytes);
