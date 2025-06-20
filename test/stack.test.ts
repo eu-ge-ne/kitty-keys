@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { new_push } from "../src/mod.ts";
+import { new_pop, new_push } from "../src/mod.ts";
 
 Deno.test("disambiguate", () => {
   const text = new_push({ disambiguate: true });
@@ -29,4 +29,10 @@ Deno.test("text", () => {
   const text = new_push({ text: true });
 
   assertEquals(text, "\x1b[>16u");
+});
+
+Deno.test("pop", () => {
+  const text = new_pop(1);
+
+  assertEquals(text, "\x1b[<1u");
 });

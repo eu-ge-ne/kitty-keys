@@ -12,6 +12,6 @@ export function new_push(flags: Flags): string {
 /**
  * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
  */
-export function new_pop(number: string): string {
+export function new_pop(number: number): string {
   return `\x1b[<${number}u`;
 }
