@@ -111,6 +111,43 @@ while (true) {
 
 ### `Key`
 
+Represents key event. See
+<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>
+
+```ts ignore
+interface Key extends Modifiers {
+  /**
+   * Text representation of the `unicode-key-code` field.
+   */
+  key: string;
+
+  /**
+   * Text representation of the `event-type` sub-field.
+   */
+  event: "press" | "repeat" | "release";
+
+  /**
+   * Text representation of the `shifted-key-code` field.
+   */
+  shift_key?: string;
+
+  /**
+   * Text representation of the `base-layout-key-code` field.
+   */
+  base_key?: string;
+
+  /**
+   * Text representation of the `text-as-codepoints` field.
+   */
+  text?: string;
+
+  /**
+   * Name of the functional key.
+   */
+  name?: string;
+}
+```
+
 ### `Modifiers`
 
 Represents modifier keys. See

@@ -3,7 +3,7 @@ import { func_keys } from "./const.ts";
 import { type Modifiers, parse_modifiers } from "./modifiers.ts";
 
 /**
- * Represents key event
+ * Represents key event.
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
 export interface Key extends Modifiers {
@@ -38,7 +38,7 @@ export interface Key extends Modifiers {
   text?: string;
 
   /**
-   * Name of the functional key
+   * Name of the functional key.
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
    */
   name?: string;
