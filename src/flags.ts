@@ -1,4 +1,4 @@
-import { decoder } from "./codec.ts";
+import { decoder, encoder } from "./codec.ts";
 
 /**
  * The progressive enhancement flags
@@ -42,34 +42,34 @@ export interface Flags {
 export function set_flags(
   flags: Flags,
   mode: "all" | "set" | "reset" = "all",
-): string {
+): Uint8Array {
   const f = stringify_flags(flags);
 
   const m = mode === "set" ? ";2" : mode === "reset" ? ";3" : "";
 
-  return `\x1b[=${f}${m}u`;
+  return encoder.encode(`\x1b[=${f}${m}u`);
 }
 
 /**
  * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
  */
-export function push_flags(flags: Flags): string {
+export function push_flags(flags: Flags): Uint8Array {
   const f = stringify_flags(flags);
 
-  return `\x1b[>${f}u`;
+  return encoder.encode(`\x1b[>${f}u`);
 }
 
 /**
  * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
  */
-export function pop_flags(number: number): string {
-  return `\x1b[<${number}u`;
+export function pop_flags(number: number): Uint8Array {
+  return encoder.encode(`\x1b[<${number}u`);
 }
 
 /**
  * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
  */
-export const get_flags = "\x1b[?u";
+export const get_flags = encoder.encode("\x1b[?u");
 
 /**
  * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
