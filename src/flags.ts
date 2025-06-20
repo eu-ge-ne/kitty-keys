@@ -21,7 +21,7 @@ export interface Flags {
    * 0b1000 (8) Report all keys as escape codes
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#report-all-keys}
    */
-  all?: boolean;
+  all_keys?: boolean;
 
   /**
    * 0b10000 (16) Report associated text
@@ -45,7 +45,7 @@ export function stringify_flags(flags: Flags): string {
     result += 4;
   }
 
-  if (flags.all) {
+  if (flags.all_keys) {
     result += 8;
   }
 
