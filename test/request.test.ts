@@ -30,3 +30,21 @@ Deno.test("text", () => {
 
   assertEquals(text, "\x1b[=16u");
 });
+
+Deno.test("all", () => {
+  const text = new_request({}, "all");
+
+  assertEquals(text, "\x1b[=0u");
+});
+
+Deno.test("set", () => {
+  const text = new_request({}, "set");
+
+  assertEquals(text, "\x1b[=0;2u");
+});
+
+Deno.test("reset", () => {
+  const text = new_request({}, "reset");
+
+  assertEquals(text, "\x1b[=0;3u");
+});
