@@ -99,6 +99,14 @@ while (true) {
 
 ### `parse_key()`
 
+Parses key event from bytes.
+
+Syntax
+
+```ts ignore
+function parse_key(bytes: Uint8Array): Key | undefined;
+```
+
 ### `set_flags()`
 
 ### `query_flags()`
