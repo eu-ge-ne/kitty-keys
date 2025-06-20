@@ -14,6 +14,16 @@ parser library for Node.js, Deno and Bun.
   - [Node.js](#nodejs)
   - [Bun](#bun)
 - [Example](#example)
+- [API](#api)
+  - [`parse_key()`](#parse_key)
+  - [`set_flags()`](#set_flags)
+  - [`query_flags()`](#query_flags)
+  - [`parse_flags()`](#parse_flags)
+  - [`pop_flags()`](#pop_flags)
+  - [`push_flags()`](#push_flags)
+  - [`Key`](#key)
+  - [`Modifiers`](#modifiers)
+  - [`Flags`](#flags)
 - [Links](#links)
 - [License](#license)
 
@@ -84,6 +94,26 @@ while (true) {
   }
 }
 ```
+
+## API
+
+### `parse_key()`
+
+### `set_flags()`
+
+### `query_flags()`
+
+### `parse_flags()`
+
+### `pop_flags()`
+
+### `push_flags()`
+
+### `Key`
+
+### `Modifiers`
+
+### `Flags`
 
 ## Links
 
