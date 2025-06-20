@@ -7,5 +7,9 @@ export function new_request(
   flags: Flags,
   mode: "all" | "set" | "reset" = "all",
 ): string {
-  return `\x1b[=${stringify_flags(flags)}u`;
+  const f = stringify_flags(flags);
+
+  const m = mode === "set" ? ";2" : mode === "reset" ? ";3" : "";
+
+  return `\x1b[=${f}${m}u`;
 }

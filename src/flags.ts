@@ -53,5 +53,5 @@ export function stringify_flags(flags: Flags): string {
     result += 16;
   }
 
-  return result === 0 ? "" : result.toString();
+  return result.toString();
 }
