@@ -32,7 +32,19 @@ Deno.test("text", () => {
 });
 
 Deno.test("invalid flag", () => {
-  const flags = parse_reply(new TextEncoder().encode("\x1b[?au"));
+  const flags = parse_reply(new TextEncoder().encode("\x1b[?xu"));
+
+  assertEquals(flags, undefined);
+});
+
+Deno.test("invalid prefix", () => {
+  const flags = parse_reply(new TextEncoder().encode("\x1b[1u"));
+
+  assertEquals(flags, undefined);
+});
+
+Deno.test("invalid postfix", () => {
+  const flags = parse_reply(new TextEncoder().encode("\x1b[?1x"));
 
   assertEquals(flags, undefined);
 });
