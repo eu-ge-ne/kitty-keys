@@ -1,5 +1,5 @@
 /**
- * Represents modifier keys
+ * Represents modifier keys.
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
  */
 export interface Modifiers {
