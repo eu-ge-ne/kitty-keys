@@ -1,3 +1,4 @@
+import { decoder } from "./codec.ts";
 import { func_keys } from "./const.ts";
 import { type Modifiers, parse_modifiers } from "./modifiers.ts";
 
@@ -42,8 +43,6 @@ export interface Key extends Modifiers {
    */
   name?: string;
 }
-
-const decoder = new TextDecoder();
 
 /**
  * Parse key event from bytes
