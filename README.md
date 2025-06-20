@@ -63,6 +63,7 @@ Deno.stdout.writeSync(flags);
 
 self.onunload = () => {
   Deno.stdout.writeSync(set_flags({}));
+
   console.log("Exit");
 };
 
