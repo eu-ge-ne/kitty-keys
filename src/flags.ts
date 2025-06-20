@@ -1,3 +1,5 @@
+const decoder = new TextDecoder();
+
 /**
  * The progressive enhancement flags
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#id5}
@@ -64,34 +66,22 @@ export function pop_flags(number: number): string {
   return `\x1b[<${number}u`;
 }
 
-function stringify_flags(flags: Flags): string {
-  let result = 0;
+/**
+ * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ */
+export const get_flags = "\x1b[?u";
 
-  if (flags.disambiguate) {
-    result += 1;
+/**
+ * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
+ */
+export function parse_flags(bytes: Uint8Array): Flags | undefined {
+  const text = decoder.decode(bytes);
+
+  if (!text.startsWith("\x1b[?") || text.at(-1) !== "u") {
+    return;
   }
 
-  if (flags.events) {
-    result += 2;
-  }
-
-  if (flags.alternates) {
-    result += 4;
-  }
-
-  if (flags.all_keys) {
-    result += 8;
-  }
-
-  if (flags.text) {
-    result += 16;
-  }
-
-  return result.toString();
-}
-
-export function parse_flags(text: string): Flags | undefined {
-  const f = Number.parseInt(text, 10);
+  const f = Number.parseInt(text.slice(3, -1), 10);
 
   if (!Number.isSafeInteger(f)) {
     return;
@@ -120,4 +110,30 @@ export function parse_flags(text: string): Flags | undefined {
   }
 
   return flags;
+}
+
+function stringify_flags(flags: Flags): string {
+  let result = 0;
+
+  if (flags.disambiguate) {
+    result += 1;
+  }
+
+  if (flags.events) {
+    result += 2;
+  }
+
+  if (flags.alternates) {
+    result += 4;
+  }
+
+  if (flags.all_keys) {
+    result += 8;
+  }
+
+  if (flags.text) {
+    result += 16;
+  }
+
+  return result.toString();
 }

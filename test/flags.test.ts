@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 
-import { pop_flags, push_flags, set_flags } from "../src/mod.ts";
+import { parse_flags, pop_flags, push_flags, set_flags } from "../src/mod.ts";
 
 Deno.test("set disambiguate", () => {
   const text = set_flags({ disambiguate: true });
@@ -84,4 +84,52 @@ Deno.test("pop", () => {
   const text = pop_flags(1);
 
   assertEquals(text, "\x1b[<1u");
+});
+
+Deno.test("parse disambiguate", () => {
+  const flags = parse_flags(new TextEncoder().encode("\x1b[?1u"));
+
+  assertEquals(flags, { disambiguate: true });
+});
+
+Deno.test("parse events", () => {
+  const flags = parse_flags(new TextEncoder().encode("\x1b[?2u"));
+
+  assertEquals(flags, { events: true });
+});
+
+Deno.test("parse alternates", () => {
+  const flags = parse_flags(new TextEncoder().encode("\x1b[?4u"));
+
+  assertEquals(flags, { alternates: true });
+});
+
+Deno.test("parse all_keys", () => {
+  const flags = parse_flags(new TextEncoder().encode("\x1b[?8u"));
+
+  assertEquals(flags, { all_keys: true });
+});
+
+Deno.test("parse text", () => {
+  const flags = parse_flags(new TextEncoder().encode("\x1b[?16u"));
+
+  assertEquals(flags, { text: true });
+});
+
+Deno.test("parse invalid flags", () => {
+  const flags = parse_flags(new TextEncoder().encode("\x1b[?xu"));
+
+  assertEquals(flags, undefined);
+});
+
+Deno.test("parse invalid prefix", () => {
+  const flags = parse_flags(new TextEncoder().encode("\x1b[1u"));
+
+  assertEquals(flags, undefined);
+});
+
+Deno.test("parse invalid postfix", () => {
+  const flags = parse_flags(new TextEncoder().encode("\x1b[?1x"));
+
+  assertEquals(flags, undefined);
 });
