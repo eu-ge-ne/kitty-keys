@@ -13,6 +13,7 @@ parser library for Node.js, Deno and Bun.
   - [Deno](#deno)
   - [Node.js](#nodejs)
   - [Bun](#bun)
+- [Example](#example)
 - [Links](#links)
 - [License](#license)
 
@@ -41,6 +42,46 @@ npx jsr add @eu-ge-ne/kitty-keys
 
 ```bash
 bunx jsr add @eu-ge-ne/kitty-keys
+```
+
+## Example
+
+```ts ignore
+import { parse_key, set_flags } from "jsr:@eu-ge-ne/kitty-keys";
+
+Deno.stdin.setRaw(true);
+
+const flags = set_flags({
+  disambiguate: true,
+  events: true,
+  alternates: true,
+  all_keys: true,
+  text: true,
+});
+
+Deno.stdout.writeSync(flags);
+
+self.onunload = () => {
+  Deno.stdout.writeSync(set_flags({}));
+  console.log("Exit");
+};
+
+const reader = Deno.stdin.readable.getReader();
+
+while (true) {
+  const { value } = await reader.read();
+
+  const key = parse_key(value!);
+  if (!key) {
+    continue;
+  }
+
+  console.log(key);
+
+  if (key?.key === "c" && key.ctrl) {
+    break;
+  }
+}
 ```
 
 ## Links
