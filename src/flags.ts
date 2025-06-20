@@ -69,7 +69,7 @@ export function pop_flags(number: number): Uint8Array {
 /**
  * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
  */
-export const get_flags = encoder.encode("\x1b[?u");
+export const get_flags: Uint8Array = encoder.encode("\x1b[?u");
 
 /**
  * https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement
