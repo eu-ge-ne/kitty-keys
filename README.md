@@ -140,6 +140,17 @@ const query_flags: Uint8Array;
 
 ### `parse_flags()`
 
+Parses progressive enhancement flags reply from bytes.
+
+See
+<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
+
+Syntax
+
+```ts ignore
+function parse_flags(bytes: Uint8Array): Flags | undefined;
+```
+
 ### `pop_flags()`
 
 ### `push_flags()`

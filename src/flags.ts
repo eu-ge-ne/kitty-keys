@@ -78,7 +78,7 @@ export function pop_flags(number: number): Uint8Array {
 export const query_flags: Uint8Array = encoder.encode("\x1b[?u");
 
 /**
- * Parses progressive enhancement flags from bytes
+ * Parses progressive enhancement flags reply from bytes.
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement}
  */
 export function parse_flags(bytes: Uint8Array): Flags | undefined {
