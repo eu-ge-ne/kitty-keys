@@ -1,17 +1,29 @@
 import { decoder } from "./codec.ts";
-import { func_keys } from "./const.ts";
 import { type Modifiers, parse_modifiers } from "./modifiers.ts";
+import { key_name } from "./name.ts";
 
 /**
- * Represents key event.
+ * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
 export interface Key extends Modifiers {
   /**
-   * Text representation of the `unicode-key-code` field.
+   * `unicode-key-code` field.
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
    */
-  key: string;
+  code: number | undefined;
+
+  /**
+   * `shifted-key-code` field.
+   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
+   */
+  shifted_code: number | undefined;
+
+  /**
+   * `base-layout-key-code` field.
+   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
+   */
+  base_layout_code: number | undefined;
 
   /**
    * Text representation of the `event-type` sub-field.
@@ -20,32 +32,25 @@ export interface Key extends Modifiers {
   event: "press" | "repeat" | "release";
 
   /**
-   * Text representation of the `shifted-key-code` field.
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
-   */
-  shift_key?: string;
-
-  /**
-   * Text representation of the `base-layout-key-code` field.
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
-   */
-  base_key?: string;
-
-  /**
    * Text representation of the `text-as-codepoints` field.
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#text-as-code-points}
    */
-  text?: string;
+  text: string | undefined;
 
   /**
-   * Name of the functional key.
+   * Name of the key.
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
    */
-  name?: string;
+  name: string;
 }
 
+// deno-lint-ignore no-control-regex
+const PREFIX_RE = /(?:\x1b\[)|(?:\x1bO)/;
+const BODY_RE = /[^\d:;]/;
+const SCHEME_RE = /[u~ABCDEFHPQS]/;
+
 /**
- * Parses key event from bytes.
+ * Parses key event from bytes
  * @param bytes
  * @returns object of {@link Key} type
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
@@ -53,64 +58,75 @@ export interface Key extends Modifiers {
 export function parse_key(bytes: Uint8Array): Key | undefined {
   let text = decoder.decode(bytes);
 
-  if (!text.startsWith("\x1b[")) {
+  const prefix = parse_prefix(text);
+  if (!prefix) {
     return;
   }
 
-  const mode = text.at(-1)!;
-  if (!/[u~ABCDEFHPQS]/.test(text)) {
+  const scheme = parse_scheme(text);
+  if (!scheme) {
     return;
   }
 
   text = text.slice(2, -1);
-  if (/[^\d:;]/.test(text)) {
+  if (BODY_RE.test(text)) {
     return;
   }
 
-  const [key_codes = "", params = "", text_as_codepoints] = text.split(";");
-  const [key_code = "", shift_code, base_code] = key_codes!.split(":");
-  const [mods, ev] = params!.split(":");
+  const [codes, params = "", text_codepoints] = text.split(";");
+  const [raw_code, shifted_code, base_layout_code] = codes!.split(":");
+  const [modifiers, event] = params!.split(":");
 
-  const key = mode === "u" ? parse_code_points(key_code)! : key_code + mode;
-  const event = ev === "3" ? "release" : ev === "2" ? "repeat" : "press";
+  const code = parse_number(raw_code);
 
-  const result: Key = {
-    key,
-    event,
-    ...parse_modifiers(mods),
+  const key: Key = {
+    name: key_name(prefix, code, scheme),
+
+    code,
+    shifted_code: parse_number(shifted_code),
+    base_layout_code: parse_number(base_layout_code),
+    event: parse_event(event),
+    text: parse_code_points(text_codepoints),
+
+    ...parse_modifiers(modifiers),
   };
 
-  const name = func_keys.get(key);
-  if (typeof name === "string") {
-    result.name = name;
-  }
-
-  if (mode === "u") {
-    const shift_key = parse_code_points(shift_code);
-    if (typeof shift_key === "string") {
-      result.shift_key = shift_key;
-    }
-
-    const base_key = parse_code_points(base_code);
-    if (typeof base_key === "string") {
-      result.base_key = base_key;
-    }
-
-    const text = parse_code_points(text_as_codepoints);
-    if (typeof text === "string") {
-      result.text = text;
-    }
-  }
-
-  return result;
+  return key;
 }
 
-function parse_code_points(
-  code_points: string | undefined,
-): string | undefined {
+function parse_prefix(text: string): string | undefined {
+  const prefix = text.slice(0, 2);
+
+  if (PREFIX_RE.test(prefix)) {
+    return prefix;
+  }
+}
+
+export function parse_scheme(text: string): string | undefined {
+  const scheme = text.at(-1) ?? "";
+
+  if (SCHEME_RE.test(scheme)) {
+    return scheme;
+  }
+}
+
+function parse_number(text?: string): number | undefined {
+  if (text) {
+    const n = Number.parseInt(text);
+    if (Number.isSafeInteger(n)) {
+      return n;
+    }
+  }
+}
+
+function parse_event(event?: string): "press" | "repeat" | "release" {
+  return event === "3" ? "release" : event === "2" ? "repeat" : "press";
+}
+
+function parse_code_points(code_points = ""): string | undefined {
   if (code_points) {
     return String.fromCodePoint(
-      ...code_points.split(":").map((x) => Number.parseInt(x, 10)).filter((x) =>
+      ...code_points.split(":").map((x) => Number.parseInt(x)).filter((x) =>
         Number.isSafeInteger(x)
       ),
     );

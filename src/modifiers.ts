@@ -1,87 +1,63 @@
 /**
- * Represents modifier keys.
+ * Represents modifier keys
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
  */
 export interface Modifiers {
   /**
    * SHIFT
    */
-  shift?: boolean;
+  shift: boolean;
 
   /**
    * ALT/OPTION
    */
-  alt?: boolean;
+  alt: boolean;
 
   /**
    * CONTROL
    */
-  ctrl?: boolean;
+  ctrl: boolean;
 
   /**
-   * WINDOWS/LINUX/COMMAND
+   * SUPER/COMMAND
    */
-  super?: boolean;
-
-  /**
-   * HYPER
-   */
-  hyper?: boolean;
-
-  /**
-   * META
-   */
-  meta?: boolean;
+  super: boolean;
 
   /**
    * CAPS LOCK
    */
-  caps_lock?: boolean;
+  caps_lock: boolean;
 
   /**
    * NUM LOCK
    */
-  num_lock?: boolean;
+  num_lock: boolean;
 }
 
-export function parse_modifiers(mods?: string): Modifiers {
-  const result: Modifiers = {};
+const NO_MODIFIERS: Modifiers = {
+  shift: false,
+  alt: false,
+  ctrl: false,
+  super: false,
+  caps_lock: false,
+  num_lock: false,
+};
 
-  if (typeof mods === "string") {
-    const n = Number.parseInt(mods, 10) - 1;
-
-    if (n & 1) {
-      result.shift = true;
-    }
-
-    if (n & 2) {
-      result.alt = true;
-    }
-
-    if (n & 4) {
-      result.ctrl = true;
-    }
-
-    if (n & 8) {
-      result.super = true;
-    }
-
-    if (n & 16) {
-      result.hyper = true;
-    }
-
-    if (n & 32) {
-      result.meta = true;
-    }
-
-    if (n & 64) {
-      result.caps_lock = true;
-    }
-
-    if (n & 128) {
-      result.num_lock = true;
-    }
+export function parse_modifiers(modifiers: string | undefined): Modifiers {
+  if (!modifiers) {
+    return NO_MODIFIERS;
   }
+
+  const n = Number.parseInt(modifiers) - 1;
+
+  const result: Modifiers = {
+    shift: Boolean(n & 1),
+    alt: Boolean(n & 2),
+    ctrl: Boolean(n & 4),
+    super: Boolean(n & 8),
+    caps_lock: Boolean(n & 64),
+    num_lock: Boolean(n & 128),
+  };
 
   return result;
 }
