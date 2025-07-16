@@ -3,7 +3,13 @@ import type { Key } from "../src/mod.ts";
 import { assert_parse_key } from "./assert.ts";
 
 Deno.test("ESC", () => {
-  const key: Key = { key: "\x1b", event: "press", name: "ESC" };
+  const key: Key = {
+    key: "\x1b",
+    event: "press",
+    func: "ESC",
+    prefix: "\x1b[",
+    scheme: "u",
+  };
 
   assert_parse_key("\x1b[27u", key);
 
@@ -17,7 +23,13 @@ Deno.test("ESC", () => {
 });
 
 Deno.test("ENTER", () => {
-  const key: Key = { key: "\r", event: "press", name: "ENTER" };
+  const key: Key = {
+    key: "\r",
+    event: "press",
+    func: "ENTER",
+    prefix: "\x1b[",
+    scheme: "u",
+  };
 
   assert_parse_key("\x1b[13u", key);
 
@@ -31,7 +43,13 @@ Deno.test("ENTER", () => {
 });
 
 Deno.test("TAB", () => {
-  const key: Key = { key: "\t", event: "press", name: "TAB" };
+  const key: Key = {
+    key: "\t",
+    event: "press",
+    func: "TAB",
+    prefix: "\x1b[",
+    scheme: "u",
+  };
 
   assert_parse_key("\x1b[9u", key);
 
@@ -45,7 +63,13 @@ Deno.test("TAB", () => {
 });
 
 Deno.test("BACKSPACE", () => {
-  const key: Key = { key: "\x7f", event: "press", name: "BACKSPACE" };
+  const key: Key = {
+    key: "\x7f",
+    event: "press",
+    func: "BACKSPACE",
+    prefix: "\x1b[",
+    scheme: "u",
+  };
 
   assert_parse_key("\x1b[127u", key);
 
@@ -62,7 +86,9 @@ Deno.test("CAPS_LOCK", () => {
   const key: Key = {
     key: String.fromCodePoint(57358),
     event: "press",
-    name: "CAPS_LOCK",
+    func: "CAPS_LOCK",
+    prefix: "\x1b[",
+    scheme: "u",
   };
 
   assert_parse_key("\x1b[57358u", key);
@@ -80,7 +106,9 @@ Deno.test("SCROLL_LOCK", () => {
   const key: Key = {
     key: String.fromCodePoint(57359),
     event: "press",
-    name: "SCROLL_LOCK",
+    func: "SCROLL_LOCK",
+    prefix: "\x1b[",
+    scheme: "u",
   };
 
   assert_parse_key("\x1b[57359u", key);
@@ -98,7 +126,9 @@ Deno.test("NUM_LOCK", () => {
   const key: Key = {
     key: String.fromCodePoint(57360),
     event: "press",
-    name: "NUM_LOCK",
+    func: "NUM_LOCK",
+    prefix: "\x1b[",
+    scheme: "u",
   };
 
   assert_parse_key("\x1b[57360u", key);
@@ -116,7 +146,9 @@ Deno.test("PRINT_SCREEN", () => {
   const key: Key = {
     key: String.fromCodePoint(57361),
     event: "press",
-    name: "PRINT_SCREEN",
+    func: "PRINT_SCREEN",
+    prefix: "\x1b[",
+    scheme: "u",
   };
 
   assert_parse_key("\x1b[57361u", key);
@@ -134,7 +166,9 @@ Deno.test("PAUSE", () => {
   const key: Key = {
     key: String.fromCodePoint(57362),
     event: "press",
-    name: "PAUSE",
+    func: "PAUSE",
+    prefix: "\x1b[",
+    scheme: "u",
   };
 
   assert_parse_key("\x1b[57362u", key);
@@ -152,7 +186,9 @@ Deno.test("MENU", () => {
   const key: Key = {
     key: String.fromCodePoint(57363),
     event: "press",
-    name: "MENU",
+    func: "MENU",
+    prefix: "\x1b[",
+    scheme: "u",
   };
 
   assert_parse_key("\x1b[57363u", key);
@@ -170,7 +206,9 @@ Deno.test("LEFT_SHIFT", () => {
   const key: Key = {
     key: String.fromCodePoint(57441),
     event: "press",
-    name: "LEFT_SHIFT",
+    func: "LEFT_SHIFT",
+    prefix: "\x1b[",
+    scheme: "u",
   };
 
   assert_parse_key("\x1b[57441u", key);

@@ -3,7 +3,13 @@ import type { Key } from "../src/mod.ts";
 import { assert_parse_key } from "./assert.ts";
 
 Deno.test("INSERT", () => {
-  const key: Key = { key: "2~", event: "press", name: "INSERT" };
+  const key: Key = {
+    key: "2~",
+    event: "press",
+    func: "INSERT",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[2~", key);
 
@@ -17,7 +23,13 @@ Deno.test("INSERT", () => {
 });
 
 Deno.test("DELETE", () => {
-  const key: Key = { key: "3~", event: "press", name: "DELETE" };
+  const key: Key = {
+    key: "3~",
+    event: "press",
+    func: "DELETE",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[3~", key);
 
@@ -31,7 +43,13 @@ Deno.test("DELETE", () => {
 });
 
 Deno.test("PAGE_UP", () => {
-  const key: Key = { key: "5~", event: "press", name: "PAGE_UP" };
+  const key: Key = {
+    key: "5~",
+    event: "press",
+    func: "PAGE_UP",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[5~", key);
 
@@ -45,7 +63,13 @@ Deno.test("PAGE_UP", () => {
 });
 
 Deno.test("PAGE_DOWN", () => {
-  const key: Key = { key: "6~", event: "press", name: "PAGE_DOWN" };
+  const key: Key = {
+    key: "6~",
+    event: "press",
+    func: "PAGE_DOWN",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[6~", key);
 
@@ -59,7 +83,13 @@ Deno.test("PAGE_DOWN", () => {
 });
 
 Deno.test("HOME", () => {
-  const key: Key = { key: "7~", event: "press", name: "HOME" };
+  const key: Key = {
+    key: "7~",
+    event: "press",
+    func: "HOME",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[7~", key);
 
@@ -73,7 +103,13 @@ Deno.test("HOME", () => {
 });
 
 Deno.test("END", () => {
-  const key: Key = { key: "8~", event: "press", name: "END" };
+  const key: Key = {
+    key: "8~",
+    event: "press",
+    func: "END",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[8~", key);
 
@@ -87,7 +123,13 @@ Deno.test("END", () => {
 });
 
 Deno.test("F1", () => {
-  const key: Key = { key: "11~", event: "press", name: "F1" };
+  const key: Key = {
+    key: "11~",
+    event: "press",
+    func: "F1",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[11~", key);
 
@@ -101,7 +143,13 @@ Deno.test("F1", () => {
 });
 
 Deno.test("F2", () => {
-  const key: Key = { key: "12~", event: "press", name: "F2" };
+  const key: Key = {
+    key: "12~",
+    event: "press",
+    func: "F2",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[12~", key);
 
@@ -115,7 +163,13 @@ Deno.test("F2", () => {
 });
 
 Deno.test("F3", () => {
-  const key: Key = { key: "13~", event: "press", name: "F3" };
+  const key: Key = {
+    key: "13~",
+    event: "press",
+    func: "F3",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[13~", key);
 
@@ -129,7 +183,13 @@ Deno.test("F3", () => {
 });
 
 Deno.test("F4", () => {
-  const key: Key = { key: "14~", event: "press", name: "F4" };
+  const key: Key = {
+    key: "14~",
+    event: "press",
+    func: "F4",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[14~", key);
 
@@ -143,7 +203,13 @@ Deno.test("F4", () => {
 });
 
 Deno.test("F5", () => {
-  const key: Key = { key: "15~", event: "press", name: "F5" };
+  const key: Key = {
+    key: "15~",
+    event: "press",
+    func: "F5",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[15~", key);
 
@@ -157,7 +223,13 @@ Deno.test("F5", () => {
 });
 
 Deno.test("F6", () => {
-  const key: Key = { key: "17~", event: "press", name: "F6" };
+  const key: Key = {
+    key: "17~",
+    event: "press",
+    func: "F6",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[17~", key);
 
@@ -171,7 +243,13 @@ Deno.test("F6", () => {
 });
 
 Deno.test("F7", () => {
-  const key: Key = { key: "18~", event: "press", name: "F7" };
+  const key: Key = {
+    key: "18~",
+    event: "press",
+    func: "F7",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[18~", key);
 
@@ -185,7 +263,13 @@ Deno.test("F7", () => {
 });
 
 Deno.test("F8", () => {
-  const key: Key = { key: "19~", event: "press", name: "F8" };
+  const key: Key = {
+    key: "19~",
+    event: "press",
+    func: "F8",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[19~", key);
 
@@ -199,7 +283,13 @@ Deno.test("F8", () => {
 });
 
 Deno.test("F9", () => {
-  const key: Key = { key: "20~", event: "press", name: "F9" };
+  const key: Key = {
+    key: "20~",
+    event: "press",
+    func: "F9",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[20~", key);
 
@@ -213,7 +303,13 @@ Deno.test("F9", () => {
 });
 
 Deno.test("F10", () => {
-  const key: Key = { key: "21~", event: "press", name: "F10" };
+  const key: Key = {
+    key: "21~",
+    event: "press",
+    func: "F10",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[21~", key);
 
@@ -227,7 +323,13 @@ Deno.test("F10", () => {
 });
 
 Deno.test("F11", () => {
-  const key: Key = { key: "23~", event: "press", name: "F11" };
+  const key: Key = {
+    key: "23~",
+    event: "press",
+    func: "F11",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[23~", key);
 
@@ -241,7 +343,13 @@ Deno.test("F11", () => {
 });
 
 Deno.test("F12", () => {
-  const key: Key = { key: "24~", event: "press", name: "F12" };
+  const key: Key = {
+    key: "24~",
+    event: "press",
+    func: "F12",
+    prefix: "\x1b[",
+    scheme: "~",
+  };
 
   assert_parse_key("\x1b[24~", key);
 

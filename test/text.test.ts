@@ -3,7 +3,7 @@ import type { Key } from "../src/mod.ts";
 import { assert_parse_key } from "./assert.ts";
 
 Deno.test("a", () => {
-  const key: Key = { key: "a", event: "press" };
+  const key: Key = { key: "a", event: "press", prefix: "\x1b[", scheme: "u" };
 
   assert_parse_key("\x1b[97;;97u", { ...key, text: "a" });
 
@@ -27,5 +27,7 @@ Deno.test("A", () => {
     shift: true,
     shift_key: "A",
     text: "A",
+    prefix: "\x1b[",
+    scheme: "u",
   });
 });

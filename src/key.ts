@@ -1,6 +1,8 @@
 import { decoder } from "./codec.ts";
 import { func_keys } from "./const.ts";
 import { type Modifiers, parse_modifiers } from "./modifiers.ts";
+import { parse_prefix, type Prefix } from "./prefix.ts";
+import { parse_scheme, type Scheme } from "./scheme.ts";
 
 /**
  * Represents key event.
@@ -41,7 +43,19 @@ export interface Key extends Modifiers {
    * Name of the functional key.
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
    */
-  name?: string;
+  func?: string;
+
+  /**
+   * @ignore
+   * @internal
+   */
+  prefix: Prefix;
+
+  /**
+   * @ignore
+   * @internal
+   */
+  scheme: Scheme;
 }
 
 /**
@@ -53,12 +67,13 @@ export interface Key extends Modifiers {
 export function parse_key(bytes: Uint8Array): Key | undefined {
   let text = decoder.decode(bytes);
 
-  if (!text.startsWith("\x1b[")) {
+  const prefix = parse_prefix(text);
+  if (!prefix) {
     return;
   }
 
-  const mode = text.at(-1)!;
-  if (!/[u~ABCDEFHPQS]/.test(text)) {
+  const scheme = parse_scheme(text);
+  if (!scheme) {
     return;
   }
 
@@ -71,21 +86,23 @@ export function parse_key(bytes: Uint8Array): Key | undefined {
   const [key_code = "", shift_code, base_code] = key_codes!.split(":");
   const [mods, ev] = params!.split(":");
 
-  const key = mode === "u" ? parse_code_points(key_code)! : key_code + mode;
+  const key = scheme === "u" ? parse_code_points(key_code)! : key_code + scheme;
   const event = ev === "3" ? "release" : ev === "2" ? "repeat" : "press";
 
   const result: Key = {
     key,
     event,
     ...parse_modifiers(mods),
+    prefix,
+    scheme,
   };
 
   const name = func_keys.get(key);
   if (typeof name === "string") {
-    result.name = name;
+    result.func = name;
   }
 
-  if (mode === "u") {
+  if (scheme === "u") {
     const shift_key = parse_code_points(shift_code);
     if (typeof shift_key === "string") {
       result.shift_key = shift_key;
