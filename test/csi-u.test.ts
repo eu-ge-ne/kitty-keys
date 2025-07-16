@@ -4,6 +4,8 @@ import { assert_parse_key } from "./assert.ts";
 
 Deno.test("ESC", () => {
   const key: Key = {
+    name: "ESC",
+
     code: 27,
     shifted_code: undefined,
     base_layout_code: undefined,
@@ -16,10 +18,6 @@ Deno.test("ESC", () => {
     super: false,
     caps_lock: false,
     num_lock: false,
-
-    name: "ESC",
-    prefix: "\x1b[",
-    scheme: "u",
   };
 
   assert_parse_key("\x1b[27u", key);
@@ -35,6 +33,8 @@ Deno.test("ESC", () => {
 
 Deno.test("ENTER", () => {
   const key: Key = {
+    name: "ENTER",
+
     code: 13,
     shifted_code: undefined,
     base_layout_code: undefined,
@@ -47,10 +47,6 @@ Deno.test("ENTER", () => {
     super: false,
     caps_lock: false,
     num_lock: false,
-
-    name: "ENTER",
-    prefix: "\x1b[",
-    scheme: "u",
   };
 
   assert_parse_key("\x1b[13u", key);
@@ -66,6 +62,8 @@ Deno.test("ENTER", () => {
 
 Deno.test("TAB", () => {
   const key: Key = {
+    name: "TAB",
+
     code: 9,
     shifted_code: undefined,
     base_layout_code: undefined,
@@ -78,10 +76,6 @@ Deno.test("TAB", () => {
     super: false,
     caps_lock: false,
     num_lock: false,
-
-    name: "TAB",
-    prefix: "\x1b[",
-    scheme: "u",
   };
 
   assert_parse_key("\x1b[9u", key);
@@ -97,6 +91,8 @@ Deno.test("TAB", () => {
 
 Deno.test("BACKSPACE", () => {
   const key: Key = {
+    name: "BACKSPACE",
+
     code: 127,
     shifted_code: undefined,
     base_layout_code: undefined,
@@ -109,10 +105,6 @@ Deno.test("BACKSPACE", () => {
     super: false,
     caps_lock: false,
     num_lock: false,
-
-    name: "BACKSPACE",
-    prefix: "\x1b[",
-    scheme: "u",
   };
 
   assert_parse_key("\x1b[127u", key);
@@ -128,6 +120,8 @@ Deno.test("BACKSPACE", () => {
 
 Deno.test("CAPS_LOCK", () => {
   const key: Key = {
+    name: "CAPS_LOCK",
+
     code: 57358,
     shifted_code: undefined,
     base_layout_code: undefined,
@@ -140,10 +134,6 @@ Deno.test("CAPS_LOCK", () => {
     super: false,
     caps_lock: false,
     num_lock: false,
-
-    name: "CAPS_LOCK",
-    prefix: "\x1b[",
-    scheme: "u",
   };
 
   assert_parse_key("\x1b[57358u", key);

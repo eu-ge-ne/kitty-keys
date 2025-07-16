@@ -1,6 +1,3 @@
-import type { Prefix } from "./prefix.ts";
-import type { Scheme } from "./scheme.ts";
-
 const func_keys = new Map<string, string>([
   ["\x1b[27u", "ESC"],
   ["\x1b[13u", "ENTER"],
@@ -57,10 +54,11 @@ const func_keys = new Map<string, string>([
 ]);
 
 export function key_name(
-  prefix: Prefix,
+  prefix: string,
   code: number | undefined,
-  scheme: Scheme,
+  scheme: string,
 ): string {
   const name = `${prefix}${typeof code === "number" ? code : ""}${scheme}`;
+
   return func_keys.get(name) ?? name;
 }

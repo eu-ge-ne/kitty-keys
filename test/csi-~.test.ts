@@ -4,6 +4,8 @@ import { assert_parse_key } from "./assert.ts";
 
 Deno.test("INSERT", () => {
   const key: Key = {
+    name: "INSERT",
+
     code: 2,
     shifted_code: undefined,
     base_layout_code: undefined,
@@ -16,10 +18,6 @@ Deno.test("INSERT", () => {
     super: false,
     caps_lock: false,
     num_lock: false,
-
-    name: "INSERT",
-    prefix: "\x1b[",
-    scheme: "~",
   };
 
   assert_parse_key("\x1b[2~", key);
