@@ -1,15 +1,26 @@
-export const func_keys = new Map<string, string>([
-  ["\x1b", "ESC"],
-  ["\r", "ENTER"],
-  ["\t", "TAB"],
-  ["\x7f", "BACKSPACE"],
+import type { Prefix } from "./prefix.ts";
+import type { Scheme } from "./scheme.ts";
 
-  ["2~", "INSERT"],
-  ["3~", "DELETE"],
-  ["5~", "PAGE_UP"],
-  ["6~", "PAGE_DOWN"],
-  ["7~", "HOME"],
-  ["8~", "END"],
+const func_keys = new Map<string, string>([
+  ["\x1b[27u", "ESC"],
+  ["\x1b[13u", "ENTER"],
+  ["\x1b[9u", "TAB"],
+  ["\x1b[127u", "BACKSPACE"],
+  ["\x1b[2~", "INSERT"],
+  ["\x1b[3~", "DELETE"],
+  ["\x1b[1D", "LEFT"],
+  ["\x1b[1C", "RIGHT"],
+  ["\x1b[1A", "UP"],
+  ["\x1b[1B", "DOWN"],
+  ["\x1b[5~", "PAGE_UP"],
+  ["\x1b[6~", "PAGE_DOWN"],
+  ["\x1b[1H", "HOME"],
+  ["\x1b[7~", "HOME"],
+  ["\x1b[1F", "END"],
+  ["\x1b[8~", "END"],
+
+  // TODO
+
   ["11~", "F1"],
   ["12~", "F2"],
   ["13~", "F3"],
@@ -23,27 +34,15 @@ export const func_keys = new Map<string, string>([
   ["23~", "F11"],
   ["24~", "F12"],
 
-  ["A", "UP"],
-  ["B", "DOWN"],
-  ["C", "RIGHT"],
-  ["D", "LEFT"],
-  ["F", "END"],
-  ["H", "HOME"],
   ["P", "F1"],
   ["Q", "F2"],
   ["S", "F4"],
 
-  ["1A", "UP"],
-  ["1B", "DOWN"],
-  ["1C", "RIGHT"],
-  ["1D", "LEFT"],
-  ["1F", "END"],
-  ["1H", "HOME"],
   ["1P", "F1"],
   ["1Q", "F2"],
   ["1S", "F4"],
 
-  [String.fromCodePoint(57358), "CAPS_LOCK"],
+  ["\x1b[57358u", "CAPS_LOCK"],
   [String.fromCodePoint(57359), "SCROLL_LOCK"],
   [String.fromCodePoint(57360), "NUM_LOCK"],
   [String.fromCodePoint(57361), "PRINT_SCREEN"],
@@ -52,7 +51,7 @@ export const func_keys = new Map<string, string>([
   [String.fromCodePoint(57441), "LEFT_SHIFT"],
   [String.fromCodePoint(57442), "LEFT_CONTROL"],
   [String.fromCodePoint(57443), "LEFT_ALT"],
-  [String.fromCodePoint(57444), "LEFT_SUPER"],
+  ["\x1b[57444u", "LEFT_SUPER"],
   [String.fromCodePoint(57445), "LEFT_HYPER"],
   [String.fromCodePoint(57446), "LEFT_META"],
   [String.fromCodePoint(57447), "RIGHT_SHIFT"],
@@ -64,3 +63,12 @@ export const func_keys = new Map<string, string>([
   [String.fromCodePoint(57453), "ISO_LEVEL3_SHIFT"],
   [String.fromCodePoint(57454), "ISO_LEVEL5_SHIFT"],
 ]);
+
+export function key_name(
+  prefix: Prefix,
+  code: number | undefined,
+  scheme: Scheme,
+): string {
+  const name = `${prefix}${typeof code === "number" ? code : ""}${scheme}`;
+  return func_keys.get(name) ?? name;
+}

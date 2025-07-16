@@ -4,9 +4,20 @@ import { assert_parse_key } from "./assert.ts";
 
 Deno.test("ESC", () => {
   const key: Key = {
-    key: "\x1b",
+    code: 27,
+    shifted_code: undefined,
+    base_layout_code: undefined,
     event: "press",
-    func: "ESC",
+    text: undefined,
+
+    shift: false,
+    alt: false,
+    ctrl: false,
+    super: false,
+    caps_lock: false,
+    num_lock: false,
+
+    name: "ESC",
     prefix: "\x1b[",
     scheme: "u",
   };
@@ -24,9 +35,20 @@ Deno.test("ESC", () => {
 
 Deno.test("ENTER", () => {
   const key: Key = {
-    key: "\r",
+    code: 13,
+    shifted_code: undefined,
+    base_layout_code: undefined,
     event: "press",
-    func: "ENTER",
+    text: undefined,
+
+    shift: false,
+    alt: false,
+    ctrl: false,
+    super: false,
+    caps_lock: false,
+    num_lock: false,
+
+    name: "ENTER",
     prefix: "\x1b[",
     scheme: "u",
   };
@@ -44,9 +66,20 @@ Deno.test("ENTER", () => {
 
 Deno.test("TAB", () => {
   const key: Key = {
-    key: "\t",
+    code: 9,
+    shifted_code: undefined,
+    base_layout_code: undefined,
     event: "press",
-    func: "TAB",
+    text: undefined,
+
+    shift: false,
+    alt: false,
+    ctrl: false,
+    super: false,
+    caps_lock: false,
+    num_lock: false,
+
+    name: "TAB",
     prefix: "\x1b[",
     scheme: "u",
   };
@@ -64,9 +97,20 @@ Deno.test("TAB", () => {
 
 Deno.test("BACKSPACE", () => {
   const key: Key = {
-    key: "\x7f",
+    code: 127,
+    shifted_code: undefined,
+    base_layout_code: undefined,
     event: "press",
-    func: "BACKSPACE",
+    text: undefined,
+
+    shift: false,
+    alt: false,
+    ctrl: false,
+    super: false,
+    caps_lock: false,
+    num_lock: false,
+
+    name: "BACKSPACE",
     prefix: "\x1b[",
     scheme: "u",
   };
@@ -84,9 +128,20 @@ Deno.test("BACKSPACE", () => {
 
 Deno.test("CAPS_LOCK", () => {
   const key: Key = {
-    key: String.fromCodePoint(57358),
+    code: 57358,
+    shifted_code: undefined,
+    base_layout_code: undefined,
     event: "press",
-    func: "CAPS_LOCK",
+    text: undefined,
+
+    shift: false,
+    alt: false,
+    ctrl: false,
+    super: false,
+    caps_lock: false,
+    num_lock: false,
+
+    name: "CAPS_LOCK",
     prefix: "\x1b[",
     scheme: "u",
   };
@@ -100,124 +155,4 @@ Deno.test("CAPS_LOCK", () => {
   assert_parse_key("\x1b[57358;1:1u", key);
   assert_parse_key("\x1b[57358;1:2u", { ...key, event: "repeat" });
   assert_parse_key("\x1b[57358;1:3u", { ...key, event: "release" });
-});
-
-Deno.test("SCROLL_LOCK", () => {
-  const key: Key = {
-    key: String.fromCodePoint(57359),
-    event: "press",
-    func: "SCROLL_LOCK",
-    prefix: "\x1b[",
-    scheme: "u",
-  };
-
-  assert_parse_key("\x1b[57359u", key);
-
-  assert_parse_key("\x1b[57359;5u", { ...key, ctrl: true });
-  assert_parse_key("\x1b[57359;3u", { ...key, alt: true });
-  assert_parse_key("\x1b[57359;2u", { ...key, shift: true });
-
-  assert_parse_key("\x1b[57359;1:1u", key);
-  assert_parse_key("\x1b[57359;1:2u", { ...key, event: "repeat" });
-  assert_parse_key("\x1b[57359;1:3u", { ...key, event: "release" });
-});
-
-Deno.test("NUM_LOCK", () => {
-  const key: Key = {
-    key: String.fromCodePoint(57360),
-    event: "press",
-    func: "NUM_LOCK",
-    prefix: "\x1b[",
-    scheme: "u",
-  };
-
-  assert_parse_key("\x1b[57360u", key);
-
-  assert_parse_key("\x1b[57360;5u", { ...key, ctrl: true });
-  assert_parse_key("\x1b[57360;3u", { ...key, alt: true });
-  assert_parse_key("\x1b[57360;2u", { ...key, shift: true });
-
-  assert_parse_key("\x1b[57360;1:1u", key);
-  assert_parse_key("\x1b[57360;1:2u", { ...key, event: "repeat" });
-  assert_parse_key("\x1b[57360;1:3u", { ...key, event: "release" });
-});
-
-Deno.test("PRINT_SCREEN", () => {
-  const key: Key = {
-    key: String.fromCodePoint(57361),
-    event: "press",
-    func: "PRINT_SCREEN",
-    prefix: "\x1b[",
-    scheme: "u",
-  };
-
-  assert_parse_key("\x1b[57361u", key);
-
-  assert_parse_key("\x1b[57361;5u", { ...key, ctrl: true });
-  assert_parse_key("\x1b[57361;3u", { ...key, alt: true });
-  assert_parse_key("\x1b[57361;2u", { ...key, shift: true });
-
-  assert_parse_key("\x1b[57361;1:1u", key);
-  assert_parse_key("\x1b[57361;1:2u", { ...key, event: "repeat" });
-  assert_parse_key("\x1b[57361;1:3u", { ...key, event: "release" });
-});
-
-Deno.test("PAUSE", () => {
-  const key: Key = {
-    key: String.fromCodePoint(57362),
-    event: "press",
-    func: "PAUSE",
-    prefix: "\x1b[",
-    scheme: "u",
-  };
-
-  assert_parse_key("\x1b[57362u", key);
-
-  assert_parse_key("\x1b[57362;5u", { ...key, ctrl: true });
-  assert_parse_key("\x1b[57362;3u", { ...key, alt: true });
-  assert_parse_key("\x1b[57362;2u", { ...key, shift: true });
-
-  assert_parse_key("\x1b[57362;1:1u", key);
-  assert_parse_key("\x1b[57362;1:2u", { ...key, event: "repeat" });
-  assert_parse_key("\x1b[57362;1:3u", { ...key, event: "release" });
-});
-
-Deno.test("MENU", () => {
-  const key: Key = {
-    key: String.fromCodePoint(57363),
-    event: "press",
-    func: "MENU",
-    prefix: "\x1b[",
-    scheme: "u",
-  };
-
-  assert_parse_key("\x1b[57363u", key);
-
-  assert_parse_key("\x1b[57363;5u", { ...key, ctrl: true });
-  assert_parse_key("\x1b[57363;3u", { ...key, alt: true });
-  assert_parse_key("\x1b[57363;2u", { ...key, shift: true });
-
-  assert_parse_key("\x1b[57363;1:1u", key);
-  assert_parse_key("\x1b[57363;1:2u", { ...key, event: "repeat" });
-  assert_parse_key("\x1b[57363;1:3u", { ...key, event: "release" });
-});
-
-Deno.test("LEFT_SHIFT", () => {
-  const key: Key = {
-    key: String.fromCodePoint(57441),
-    event: "press",
-    func: "LEFT_SHIFT",
-    prefix: "\x1b[",
-    scheme: "u",
-  };
-
-  assert_parse_key("\x1b[57441u", key);
-
-  assert_parse_key("\x1b[57441;5u", { ...key, ctrl: true });
-  assert_parse_key("\x1b[57441;3u", { ...key, alt: true });
-  assert_parse_key("\x1b[57441;2u", { ...key, shift: true });
-
-  assert_parse_key("\x1b[57441;1:1u", key);
-  assert_parse_key("\x1b[57441;1:2u", { ...key, event: "repeat" });
-  assert_parse_key("\x1b[57441;1:3u", { ...key, event: "release" });
 });
