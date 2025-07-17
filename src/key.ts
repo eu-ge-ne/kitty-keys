@@ -55,20 +55,20 @@ const SCHEME_RE = /[u~ABCDEFHPQS]/;
  * @returns object of {@link Key} type
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
-export function parse_key(bytes: Uint8Array): Key | undefined {
+export function parse_key(bytes: Uint8Array): [Key, number] | undefined {
   let data = decoder.decode(bytes);
 
-  const prefix = parse_prefix(data);
-  if (!prefix) {
+  const prefix = data.slice(0, 2);
+  if (!PREFIX_RE.test(prefix)) {
     return;
   }
 
-  const scheme = parse_scheme(data);
-  if (!scheme) {
+  const scheme_match = data.match(SCHEME_RE);
+  if (!scheme_match) {
     return;
   }
 
-  data = data.slice(2, -1);
+  data = data.slice(2, scheme_match.index);
   if (BODY_RE.test(data)) {
     return;
   }
@@ -80,7 +80,7 @@ export function parse_key(bytes: Uint8Array): Key | undefined {
   const code = parse_number(code0);
 
   const key: Key = {
-    name: key_name(prefix, code, scheme),
+    name: key_name(prefix, code, scheme_match[0]),
     ...parse_modifiers(modifiers),
   };
 
@@ -108,23 +108,7 @@ export function parse_key(bytes: Uint8Array): Key | undefined {
     key.text = text;
   }
 
-  return key;
-}
-
-function parse_prefix(text: string): string | undefined {
-  const prefix = text.slice(0, 2);
-
-  if (PREFIX_RE.test(prefix)) {
-    return prefix;
-  }
-}
-
-export function parse_scheme(text: string): string | undefined {
-  const scheme = text.at(-1) ?? "";
-
-  if (SCHEME_RE.test(scheme)) {
-    return scheme;
-  }
+  return [key, scheme_match.index! + scheme_match[0].length];
 }
 
 function parse_number(text?: string): number | undefined {
