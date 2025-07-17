@@ -1,6 +1,6 @@
 {
   "name": "@eu-ge-ne/kitty-keys",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "exports": "./src/mod.ts",
   "imports": {
