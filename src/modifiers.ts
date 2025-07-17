@@ -6,58 +6,76 @@ export interface Modifiers {
   /**
    * SHIFT
    */
-  shift: boolean;
+  shift?: true;
 
   /**
    * ALT/OPTION
    */
-  alt: boolean;
+  alt?: true;
 
   /**
    * CONTROL
    */
-  ctrl: boolean;
+  ctrl?: true;
 
   /**
    * SUPER/COMMAND
    */
-  super: boolean;
+  super?: true;
 
   /**
    * CAPS LOCK
    */
-  caps_lock: boolean;
+  caps_lock?: true;
 
   /**
    * NUM LOCK
    */
-  num_lock: boolean;
+  num_lock?: true;
 }
 
-const NO_MODIFIERS: Modifiers = {
-  shift: false,
-  alt: false,
-  ctrl: false,
-  super: false,
-  caps_lock: false,
-  num_lock: false,
-};
+export function parse_modifiers(
+  text: string | undefined,
+): Modifiers {
+  const result: Modifiers = {};
 
-export function parse_modifiers(modifiers: string | undefined): Modifiers {
-  if (!modifiers) {
-    return NO_MODIFIERS;
+  if (text) {
+    let flags = Number.parseInt(text);
+
+    if (Number.isSafeInteger(flags)) {
+      flags -= 1;
+
+      const shift = Boolean(flags & 1);
+      if (shift) {
+        result.shift = true;
+      }
+
+      const alt = Boolean(flags & 2);
+      if (alt) {
+        result.alt = true;
+      }
+
+      const ctrl = Boolean(flags & 4);
+      if (ctrl) {
+        result.ctrl = true;
+      }
+
+      const super_ = Boolean(flags & 8);
+      if (super_) {
+        result.super = true;
+      }
+
+      const caps_lock = Boolean(flags & 64);
+      if (caps_lock) {
+        result.caps_lock = true;
+      }
+
+      const num_lock = Boolean(flags & 128);
+      if (num_lock) {
+        result.num_lock = true;
+      }
+    }
   }
-
-  const n = Number.parseInt(modifiers) - 1;
-
-  const result: Modifiers = {
-    shift: Boolean(n & 1),
-    alt: Boolean(n & 2),
-    ctrl: Boolean(n & 4),
-    super: Boolean(n & 8),
-    caps_lock: Boolean(n & 64),
-    num_lock: Boolean(n & 128),
-  };
 
   return result;
 }
