@@ -49,6 +49,7 @@ export function* parse_keys(bytes: Uint8Array): Generator<Key | string> {
     if (parsed) {
       yield parsed[0];
       i = parsed[1];
+      continue;
     }
 
     // TODO: find the beginning of next packet
