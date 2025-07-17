@@ -74,7 +74,7 @@ export function key_name(
   code: number | undefined,
   scheme: string,
 ): string {
-  const func = func_keys.get(`${prefix}${code}${scheme}`);
+  const func = func_keys.get(`${prefix}${code ?? ""}${scheme}`);
   if (typeof func === "string") {
     return func;
   }
