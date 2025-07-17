@@ -55,7 +55,7 @@ const RE = /(\x1b\x5b|\x1b\x4f)([\d:;]+)?([u~ABCDEFHPQS])/;
  */
 export function parse_key(
   bytes: Uint8Array,
-): [Key, number, number] | undefined {
+): [Key, number] | undefined {
   const match = decoder.decode(bytes).match(RE);
   if (!match) {
     return;
@@ -98,7 +98,7 @@ export function parse_key(
     key.text = text;
   }
 
-  return [key, match.index!, match.index! + match[0].length];
+  return [key, match.index! + match[0].length];
 }
 
 function parse_number(text?: string): number | undefined {

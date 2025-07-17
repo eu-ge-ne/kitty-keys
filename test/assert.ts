@@ -4,17 +4,17 @@ import {
   type Flags,
   type Key,
   parse_flags,
-  parse_key,
   pop_flags,
   push_flags,
   set_flags,
 } from "../src/mod.ts";
+import { parse_key } from "../src/key.ts";
 
 const encoder = new TextEncoder();
 
 export function assert_parse_key(
   actual: string,
-  expected: [Key, number, number] | undefined,
+  expected: [Key, number] | undefined,
 ): void {
   assertEquals(parse_key(encoder.encode(actual)), expected);
 }
