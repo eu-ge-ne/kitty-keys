@@ -48,7 +48,7 @@ export function* parse_keys(bytes: Uint8Array): Generator<Key | string> {
     const parsed = parse_key(bytes.subarray(i));
     if (parsed) {
       yield parsed[0];
-      i = parsed[1];
+      i += parsed[1];
       continue;
     }
 
