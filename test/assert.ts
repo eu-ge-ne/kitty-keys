@@ -14,7 +14,7 @@ const encoder = new TextEncoder();
 
 export function assert_parse_key(
   actual: string,
-  expected: [Key, number] | undefined,
+  expected: [Key, number, number] | undefined,
 ): void {
   assertEquals(parse_key(encoder.encode(actual)), expected);
 }

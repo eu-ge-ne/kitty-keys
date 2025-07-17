@@ -45,9 +45,7 @@ export interface Key extends Modifiers {
 }
 
 // deno-lint-ignore no-control-regex
-const PREFIX_RE = /(?:\x1b\[)|(?:\x1bO)/;
-const BODY_RE = /[^\d:;]/;
-const SCHEME_RE = /[u~ABCDEFHPQS]/;
+const RE = /(\x1b\x5b|\x1b\x4f)([\d:;]+)([u~ABCDEFHPQS])/;
 
 /**
  * Parses key event from bytes
@@ -55,32 +53,24 @@ const SCHEME_RE = /[u~ABCDEFHPQS]/;
  * @returns object of {@link Key} type
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
-export function parse_key(bytes: Uint8Array): [Key, number] | undefined {
-  let data = decoder.decode(bytes);
-
-  const prefix = data.slice(0, 2);
-  if (!PREFIX_RE.test(prefix)) {
+export function parse_key(
+  bytes: Uint8Array,
+): [Key, number, number] | undefined {
+  const match = decoder.decode(bytes).match(RE);
+  if (!match) {
     return;
   }
 
-  const scheme_match = data.match(SCHEME_RE);
-  if (!scheme_match) {
-    return;
-  }
+  const [, prefix, body, scheme] = match;
 
-  data = data.slice(2, scheme_match.index);
-  if (BODY_RE.test(data)) {
-    return;
-  }
-
-  const [codes, params = "", text_codepoints] = data.split(";");
-  const [code0, code1, code2] = codes!.split(":");
-  const [modifiers, raw_event] = params!.split(":");
+  const [codes = "", params = "", text_codepoints = ""] = body!.split(";");
+  const [code0, code1, code2] = codes.split(":");
+  const [modifiers, raw_event] = params.split(":");
 
   const code = parse_number(code0);
 
   const key: Key = {
-    name: key_name(prefix, code, scheme_match[0]),
+    name: key_name(prefix!, code, scheme!),
     ...parse_modifiers(modifiers),
   };
 
@@ -108,7 +98,7 @@ export function parse_key(bytes: Uint8Array): [Key, number] | undefined {
     key.text = text;
   }
 
-  return [key, scheme_match.index! + scheme_match[0].length];
+  return [key, match.index!, match.index! + match[0].length];
 }
 
 function parse_number(text?: string): number | undefined {
