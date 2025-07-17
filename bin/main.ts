@@ -38,8 +38,8 @@ for (let i = 0;; i += 1) {
 
   const { value: buf } = await reader.read();
 
-  const text = decoder.decode(buf);
-  const key = parse_key(buf!);
+  const data = decoder.decode(buf);
+  const result = parse_key(buf!);
 
   const {
     event,
@@ -54,17 +54,17 @@ for (let i = 0;; i += 1) {
     super: sup,
     caps_lock,
     num_lock,
-  } = key ?? {};
+  } = result?.[0] ?? {};
 
   console.log(
     `${s(event)}${s(txt)}${x(name, 15)}${x(code)}${x(shifted_code)}${
       x(base_layout_code)
     }${b(shift)}${b(alt)}${b(ctrl)}${b(sup)}${b(caps_lock)}${b(num_lock)}${
-      y(text)
+      y(data)
     }`,
   );
 
-  if (key?.name === "F10") {
+  if (result?.[0]?.name === "c" && result?.[0]?.ctrl) {
     break;
   }
 }

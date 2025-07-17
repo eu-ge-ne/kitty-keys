@@ -45,7 +45,7 @@ export interface Key extends Modifiers {
 }
 
 // deno-lint-ignore no-control-regex
-const RE = /(\x1b\x5b|\x1b\x4f)([\d:;]+)([u~ABCDEFHPQS])/;
+const RE = /(\x1b\x5b|\x1b\x4f)([\d:;]+)?([u~ABCDEFHPQS])/;
 
 /**
  * Parses key event from bytes
@@ -61,9 +61,9 @@ export function parse_key(
     return;
   }
 
-  const [, prefix, body, scheme] = match;
+  const [, prefix, body = "", scheme] = match;
 
-  const [codes = "", params = "", text_codepoints = ""] = body!.split(";");
+  const [codes = "", params = "", text_codepoints = ""] = body.split(";");
   const [code0, code1, code2] = codes.split(":");
   const [modifiers, raw_event] = params.split(":");
 
