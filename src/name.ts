@@ -41,6 +41,7 @@ const func_keys = new Map<string, string>([
 
   ["\x1b[11~", "F1"],
   ["\x1b[1P", "F1"],
+  ["\x1b[P", "F1"],
   ["\x1bOP", "F1"],
 
   ["\x1b[12~", "F2"],
@@ -50,9 +51,12 @@ const func_keys = new Map<string, string>([
 
   ["\x1b[13~", "F3"],
   ["\x1bOR", "F3"],
+
   ["\x1b[14~", "F4"],
   ["\x1b[1S", "F4"],
+  ["\x1b[S", "F4"],
   ["\x1bOS", "F4"],
+
   ["\x1b[15~", "F5"],
   ["\x1b[17~", "F6"],
   ["\x1b[18~", "F7"],
