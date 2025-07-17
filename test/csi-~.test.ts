@@ -8,13 +8,13 @@ Deno.test("INSERT", () => {
     code: 2,
   };
 
-  assert_parse_key("\x1b[2~", key);
+  assert_parse_key("\x1b[2~", [key, 4]);
 
-  assert_parse_key("\x1b[2;5~", { ...key, ctrl: true });
-  assert_parse_key("\x1b[2;3~", { ...key, alt: true });
-  assert_parse_key("\x1b[2;2~", { ...key, shift: true });
+  assert_parse_key("\x1b[2;5~", [{ ...key, ctrl: true }, 6]);
+  assert_parse_key("\x1b[2;3~", [{ ...key, alt: true }, 6]);
+  assert_parse_key("\x1b[2;2~", [{ ...key, shift: true }, 6]);
 
-  assert_parse_key("\x1b[2;1:1~", { ...key, event: "press" });
-  assert_parse_key("\x1b[2;1:2~", { ...key, event: "repeat" });
-  assert_parse_key("\x1b[2;1:3~", { ...key, event: "release" });
+  assert_parse_key("\x1b[2;1:1~", [{ ...key, event: "press" }, 8]);
+  assert_parse_key("\x1b[2;1:2~", [{ ...key, event: "repeat" }, 8]);
+  assert_parse_key("\x1b[2;1:3~", [{ ...key, event: "release" }, 8]);
 });
