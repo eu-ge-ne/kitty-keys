@@ -1,6 +1,11 @@
 import { decoder } from "./codec.ts";
 import { type Key, parse_key } from "./key.ts";
 
+/**
+ * Parses keys from bytes
+ * @param bytes
+ * @yields {@link Key} or string
+ */
 export function* parse_keys(bytes: Uint8Array): Generator<Key | string> {
   for (let i = 0; i < bytes.length;) {
     const b = bytes[i];

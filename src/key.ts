@@ -47,12 +47,6 @@ export interface Key extends Modifiers {
 // deno-lint-ignore no-control-regex
 const RE = /(\x1b\x5b|\x1b\x4f)([\d:;]+)?([u~ABCDEFHPQS])/;
 
-/**
- * Parses key event from bytes
- * @param bytes
- * @returns object of {@link Key} type
- * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
- */
 export function parse_key(
   bytes: Uint8Array,
 ): [Key, number] | undefined {
