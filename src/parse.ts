@@ -46,18 +46,16 @@ export function* parse_keys(bytes: Uint8Array): Generator<Key | string> {
     }
 
     const parsed = parse_key(bytes.subarray(i));
-
-    if (!parsed) {
-      // TODO: find the beginning of next packet
-      let end = bytes.indexOf(0x1b, i + 1);
-      if (end < 0) {
-        end = bytes.length;
-      }
-      i = end;
-      continue;
+    if (parsed) {
+      yield parsed[0];
+      i = parsed[1];
     }
 
-    yield parsed[0];
-    i = parsed[1];
+    // TODO: find the beginning of next packet
+    let end = bytes.indexOf(0x1b, i + 1);
+    if (end < 0) {
+      end = bytes.length;
+    }
+    i = end;
   }
 }
