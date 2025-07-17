@@ -6,7 +6,6 @@ Deno.test("1 Disambiguate escape codes", () => {
       name: "ESC",
       code: 27,
     },
-    0,
     5,
   ]);
 
@@ -18,7 +17,6 @@ Deno.test("1 Disambiguate escape codes", () => {
       alt: true,
       ctrl: true,
     },
-    0,
     9,
   ]);
 });
@@ -34,7 +32,6 @@ Deno.test("1 + 4 Report alternate keys", () => {
       alt: true,
       ctrl: true,
     },
-    0,
     17,
   ]);
 });
@@ -45,7 +42,6 @@ Deno.test("1 + 4 + 8 Report all keys as escape codes", () => {
       name: "ж",
       code: 1078,
     },
-    0,
     7,
   ]);
 });
@@ -60,7 +56,6 @@ Deno.test("1 + 4 + 8 + 16 Report associated text", () => {
       text: "Ж",
       shift: true,
     },
-    0,
     22,
   ]);
 });
@@ -76,7 +71,6 @@ Deno.test("1 + 4 + 8 + 16 + 2 Report event types", () => {
       text: "Ж",
       shift: true,
     },
-    0,
     24,
   ]);
 
@@ -90,7 +84,6 @@ Deno.test("1 + 4 + 8 + 16 + 2 Report event types", () => {
       text: "Ж",
       shift: true,
     },
-    0,
     24,
   ]);
 
@@ -102,7 +95,6 @@ Deno.test("1 + 4 + 8 + 16 + 2 Report event types", () => {
       event: "release",
       shift: true,
     },
-    0,
     15,
   ]);
 });
