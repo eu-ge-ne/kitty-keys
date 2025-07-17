@@ -226,42 +226,32 @@ interface Modifiers {
   /**
    * SHIFT
    */
-  shift?: boolean;
+  shift?: true;
 
   /**
    * ALT/OPTION
    */
-  alt?: boolean;
+  alt?: true;
 
   /**
    * CONTROL
    */
-  ctrl?: boolean;
+  ctrl?: true;
 
   /**
-   * WINDOWS/LINUX/COMMAND
+   * SUPER/COMMAND
    */
-  super?: boolean;
-
-  /**
-   * HYPER
-   */
-  hyper?: boolean;
-
-  /**
-   * META
-   */
-  meta?: boolean;
+  super?: true;
 
   /**
    * CAPS LOCK
    */
-  caps_lock?: boolean;
+  caps_lock?: true;
 
   /**
    * NUM LOCK
    */
-  num_lock?: boolean;
+  num_lock?: true;
 }
 ```
 

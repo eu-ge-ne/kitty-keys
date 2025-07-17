@@ -28,8 +28,8 @@ self.onunload = () => {
 for (let i = 0;; i += 1) {
   if (i % 10 === 0) {
     console.log(
-      `\n${s("EVENT")}${s("TEXT")}${s("NAME", 15)}${s("KEY")}${s("SHIFT_KEY")}${
-        s("BASE_KEY")
+      `\n${s("EVENT")}${s("TEXT")}${s("NAME", 15)}${s("CODE")}${s("SHIFTED")}${
+        s("BASE")
       }${s("SHIFT")}${s("ALT")}${s("CTRL")}${s("SUPER")}${s("CAPS_LOCK")}${
         s("NUM_LOCK")
       }RAW\n`,
@@ -45,9 +45,9 @@ for (let i = 0;; i += 1) {
     event,
     text: txt,
     name,
-    key: k,
-    shift_key,
-    base_key,
+    code,
+    shifted_code,
+    base_layout_code,
     shift,
     alt,
     ctrl,
@@ -57,12 +57,14 @@ for (let i = 0;; i += 1) {
   } = key ?? {};
 
   console.log(
-    `${s(event)}${s(txt)}${s(name, 15)}${x(k)}${x(shift_key)}${x(base_key)}${
-      b(shift)
-    }${b(alt)}${b(ctrl)}${b(sup)}${b(caps_lock)}${b(num_lock)}${y(text)}`,
+    `${s(event)}${s(txt)}${x(name, 15)}${x(code)}${x(shifted_code)}${
+      x(base_layout_code)
+    }${b(shift)}${b(alt)}${b(ctrl)}${b(sup)}${b(caps_lock)}${b(num_lock)}${
+      y(text)
+    }`,
   );
 
-  if (key?.key === "c" && key.ctrl) {
+  if (key?.name === "F10") {
     break;
   }
 }

@@ -4,7 +4,7 @@ import { assert_parse_key } from "./assert.ts";
 
 Deno.test("a", () => {
   const key: Key = {
-    name: "\x1b[97u",
+    name: "a",
     code: 97,
   };
 
@@ -23,7 +23,7 @@ Deno.test("a", () => {
 
 Deno.test("A", () => {
   assert_parse_key("\x1b[97:65;2;65u", {
-    name: "\x1b[97u",
+    name: "a",
     code: 97,
     shifted_code: 65,
     text: "A",
