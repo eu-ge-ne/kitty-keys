@@ -6,32 +6,32 @@ export interface Modifiers {
   /**
    * SHIFT
    */
-  shift?: true;
+  shift?: boolean;
 
   /**
    * ALT/OPTION
    */
-  alt?: true;
+  alt?: boolean;
 
   /**
    * CONTROL
    */
-  ctrl?: true;
+  ctrl?: boolean;
 
   /**
    * SUPER/COMMAND
    */
-  super?: true;
+  super?: boolean;
 
   /**
    * CAPS LOCK
    */
-  caps_lock?: true;
+  caps_lock?: boolean;
 
   /**
    * NUM LOCK
    */
-  num_lock?: true;
+  num_lock?: boolean;
 }
 
 export function parse_modifiers(
