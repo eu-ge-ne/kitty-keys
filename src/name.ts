@@ -74,7 +74,14 @@ export function key_name(
   code: number | undefined,
   scheme: string,
 ): string {
-  const name = `${prefix}${typeof code === "number" ? code : ""}${scheme}`;
+  const func = func_keys.get(`${prefix}${code}${scheme}`);
+  if (typeof func === "string") {
+    return func;
+  }
 
-  return func_keys.get(name) ?? name;
+  if (typeof code === "undefined") {
+    return `${prefix}${scheme}`;
+  }
+
+  return String.fromCodePoint(code);
 }
