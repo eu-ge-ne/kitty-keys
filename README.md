@@ -15,7 +15,7 @@ parser library for Node.js, Deno and Bun.
   - [Bun](#bun)
 - [Example](#example)
 - [API](#api)
-  - [`parse_key()`](#parse_key)
+  - [`parse_keys()`](#parse_keys)
   - [`set_flags()`](#set_flags)
   - [`query_flags`](#query_flags)
   - [`parse_flags()`](#parse_flags)
@@ -97,16 +97,16 @@ while (true) {
 
 ## API
 
-### `parse_key()`
+### `parse_keys()`
 
-Parses key event from bytes.
+Parses keys from bytes.
 
 See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>.
 
 Syntax
 
 ```ts ignore
-function parse_key(bytes: Uint8Array): Key | undefined;
+function* parse_keys(bytes: Uint8Array): Generator<Key | string | Uint8Array>;
 ```
 
 ### `set_flags()`
