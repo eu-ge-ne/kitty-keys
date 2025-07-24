@@ -4,9 +4,11 @@ import { type Key, parse_key } from "./key.ts";
 /**
  * Parses keys from bytes
  * @param bytes
- * @yields {@link Key} or string
+ * @yields {@link Key} or string Uint8Array
  */
-export function* parse_keys(bytes: Uint8Array): Generator<Key | string> {
+export function* parse_keys(
+  bytes: Uint8Array,
+): Generator<Key | string | Uint8Array> {
   for (let i = 0; i < bytes.length;) {
     const b = bytes[i];
 
@@ -57,6 +59,7 @@ export function* parse_keys(bytes: Uint8Array): Generator<Key | string> {
     if (end < 0) {
       end = bytes.length;
     }
+    yield bytes.subarray(i, end);
     i = end;
   }
 }
