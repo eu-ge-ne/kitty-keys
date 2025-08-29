@@ -29,7 +29,6 @@ while (true) {
   if (bytes_read === null) {
     continue;
   }
-
   const bytes = buf.subarray(0, bytes_read);
 
   for (let i = 0; i < bytes.length;) {
