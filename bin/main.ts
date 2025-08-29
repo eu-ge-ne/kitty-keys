@@ -1,12 +1,7 @@
 // deno-lint-ignore-file no-console
 import { parse_key, query_flags, set_flags } from "../src/mod.ts";
-import { b, s, x, y } from "./fmt.ts";
-import { write } from "./write.ts";
 
 Deno.stdin.setRaw(true);
-
-const reader = Deno.stdin.readable.getReader();
-const decoder = new TextDecoder();
 
 write(
   set_flags({
@@ -25,46 +20,55 @@ self.onunload = () => {
   console.log("\nExit.");
 };
 
-for (let i = 0;; i += 1) {
-  if (i % 10 === 0) {
-    console.log(
-      `\n${s("EVENT")}${s("TEXT")}${s("NAME", 15)}${s("CODE")}${s("SHIFTED")}${
-        s("BASE")
-      }${s("SHIFT")}${s("ALT")}${s("CTRL")}${s("SUPER")}${s("CAPS_LOCK")}${
-        s("NUM_LOCK")
-      }RAW\n`,
-    );
+const buf = new Uint8Array(1024);
+
+let j = 0;
+
+while (true) {
+  const bytes_read = await Deno.stdin.read(buf);
+  if (bytes_read === null) {
+    continue;
   }
 
-  const { value: buf } = await reader.read();
+  const bytes = buf.subarray(0, bytes_read);
 
-  const data = decoder.decode(buf);
-  const result = parse_key(buf!);
+  for (let i = 0; i < bytes.length;) {
+    const [key, n] = parse_key(bytes.subarray(i));
 
-  const {
-    event,
-    text: txt,
-    name,
-    code,
-    shifted_code,
-    base_layout_code,
-    shift,
-    alt,
-    ctrl,
-    super: sup,
-    caps_lock,
-    num_lock,
-  } = result?.[0] ?? {};
+    if (typeof key === "string") {
+      console.table({ j, string: key });
+      j += 1;
+      i += n;
+      continue;
+    }
 
-  console.log(
-    `${s(event)}${s(txt)}${x(name, 15)}${x(code)}${x(shifted_code)}${
-      x(base_layout_code)
-    }${b(shift)}${b(alt)}${b(ctrl)}${b(sup)}${b(caps_lock)}${b(num_lock)}${
-      y(data)
-    }`,
-  );
+    if (typeof key !== "undefined") {
+      const raw = new TextDecoder().decode(bytes.subarray(0, n));
+      console.table({ j, ...key, raw });
 
-  if (result?.[0]?.name === "c" && result?.[0]?.ctrl) {
-    break;
+      if (key.name === "c" && key.ctrl) {
+        Deno.exit();
+      }
+
+      j += 1;
+      i += n;
+      continue;
+    }
+
+    let next_esc_i = bytes.indexOf(0x1b, i + 1);
+    if (next_esc_i < 0) {
+      next_esc_i = bytes.length;
+    }
+
+    console.table({ j, bytes: bytes.subarray(i, next_esc_i) });
+    j += 1;
+    i = next_esc_i;
+  }
+}
+
+function write(bytes: Uint8Array): void {
+  let x = 0;
+  while (x < bytes.length) {
+    x += Deno.stdout.writeSync(bytes.subarray(x));
   }
 }

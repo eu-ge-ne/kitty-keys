@@ -6,7 +6,7 @@ import { key_name } from "./name.ts";
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
-export interface Key extends Modifiers {
+export interface KittyKey extends Modifiers {
   /**
    * Name of the key
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
@@ -47,9 +47,9 @@ export interface Key extends Modifiers {
 // deno-lint-ignore no-control-regex
 const RE = /(\x1b\x5b|\x1b\x4f)([\d:;]+)?([u~ABCDEFHPQS])/;
 
-export function parse_key(
+export function parse_kitty_key(
   bytes: Uint8Array,
-): [Key, number] | undefined {
+): [KittyKey, number] | undefined {
   const match = decoder.decode(bytes).match(RE);
   if (!match) {
     return;
@@ -63,7 +63,7 @@ export function parse_key(
 
   const code = parse_number(code0);
 
-  const key: Key = {
+  const key: KittyKey = {
     name: key_name(prefix!, code, scheme!),
     ...parse_modifiers(modifiers),
   };
