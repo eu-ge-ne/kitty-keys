@@ -34,34 +34,37 @@ while (true) {
   for (let i = 0; i < bytes.length;) {
     const [key, n] = parse_key(bytes.subarray(i));
 
-    if (typeof key === "string") {
-      console.table({ j, string: key });
-      j += 1;
-      i += n;
-      continue;
-    }
-
-    if (typeof key !== "undefined") {
-      const raw = new TextDecoder().decode(bytes.subarray(0, n));
-      console.table({ j, ...key, raw });
-
-      if (key.name === "c" && key.ctrl) {
-        Deno.exit();
+    if (typeof key === "undefined") {
+      let next_esc_i = bytes.indexOf(0x1b, i + 1);
+      if (next_esc_i < 0) {
+        next_esc_i = bytes.length;
       }
 
+      console.table({ j, bytes: bytes.subarray(i, next_esc_i) });
       j += 1;
-      i += n;
+      i = next_esc_i;
+
       continue;
     }
 
-    let next_esc_i = bytes.indexOf(0x1b, i + 1);
-    if (next_esc_i < 0) {
-      next_esc_i = bytes.length;
+    if (typeof key === "string") {
+      console.table({ j, string: key });
+
+      j += 1;
+      i += n;
+
+      continue;
     }
 
-    console.table({ j, bytes: bytes.subarray(i, next_esc_i) });
+    const raw = new TextDecoder().decode(bytes.subarray(0, n));
+    console.table({ j, ...key, raw });
+
+    if (key.name === "c" && key.ctrl) {
+      Deno.exit();
+    }
+
     j += 1;
-    i = next_esc_i;
+    i += n;
   }
 }
 
