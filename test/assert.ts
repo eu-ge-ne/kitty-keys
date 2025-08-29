@@ -2,21 +2,21 @@ import { assertEquals } from "@std/assert";
 
 import {
   type Flags,
-  type Key,
+  type KittyKey,
   parse_flags,
   pop_flags,
   push_flags,
   set_flags,
 } from "../src/mod.ts";
-import { parse_key } from "../src/key.ts";
+import { parse_kitty_key } from "../src/key.ts";
 
 const encoder = new TextEncoder();
 
 export function assert_parse_key(
   actual: string,
-  expected: [Key, number] | undefined,
+  expected: [KittyKey, number] | undefined,
 ): void {
-  assertEquals(parse_key(encoder.encode(actual)), expected);
+  assertEquals(parse_kitty_key(encoder.encode(actual)), expected);
 }
 
 export function assert_set_flags(

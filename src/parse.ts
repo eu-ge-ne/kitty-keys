@@ -1,65 +1,50 @@
 import { decoder } from "./codec.ts";
-import { type Key, parse_key } from "./key.ts";
+import { type KittyKey, parse_kitty_key } from "./key.ts";
 
 /**
- * Parses keys from bytes
+ * Parse key from bytes
  * @param bytes
- * @yields {@link Key} or string Uint8Array
+ * @returns {@link KittyKey} or string
  */
-export function* parse_keys(
+export function parse_key(
   bytes: Uint8Array,
-): Generator<Key | string | Uint8Array> {
-  for (let i = 0; i < bytes.length;) {
-    const b = bytes[i];
-
-    if ((i === bytes.length - 1) && b === 0x1b) {
-      yield { name: "ESC" };
-      i += 1;
-      continue;
-    }
-
-    if (b === 0x0d) {
-      yield { name: "ENTER" };
-      i += 1;
-      continue;
-    }
-
-    if (b === 0x09) {
-      yield { name: "TAB" };
-      i += 1;
-      continue;
-    }
-
-    if (b === 0x7f || b === 0x08) {
-      yield { name: "BACKSPACE" };
-      i += 1;
-      continue;
-    }
-
-    if (b !== 0x1b) {
-      let end = bytes.indexOf(0x1b, i + 1);
-      if (end < 0) {
-        end = bytes.length;
-      }
-
-      yield decoder.decode(bytes.subarray(i, end));
-      i = end;
-      continue;
-    }
-
-    const parsed = parse_key(bytes.subarray(i));
-    if (parsed) {
-      yield parsed[0];
-      i += parsed[1];
-      continue;
-    }
-
-    // TODO: find the beginning of next packet
-    let end = bytes.indexOf(0x1b, i + 1);
-    if (end < 0) {
-      end = bytes.length;
-    }
-    yield bytes.subarray(i, end);
-    i = end;
+): [KittyKey | string | undefined, number] {
+  if (bytes.length === 0) {
+    return [undefined, 0];
   }
+
+  const b = bytes[0];
+
+  if ((b === 0x1b) && (bytes.length === 1)) {
+    return [{ name: "ESC" }, 1];
+  }
+
+  if (b === 0x0d) {
+    return [{ name: "ENTER" }, 1];
+  }
+
+  if (b === 0x09) {
+    return [{ name: "TAB" }, 1];
+  }
+
+  if (b === 0x7f || b === 0x08) {
+    return [{ name: "BACKSPACE" }, 1];
+  }
+
+  if (b !== 0x1b) {
+    let next_esc_i = bytes.indexOf(0x1b, 1);
+    if (next_esc_i < 0) {
+      next_esc_i = bytes.length;
+    }
+    return [decoder.decode(bytes.subarray(0, next_esc_i)), next_esc_i];
+  }
+
+  const parsed = parse_kitty_key(bytes);
+  if (parsed) {
+    return parsed;
+  }
+
+  // TODO
+
+  return [undefined, 0];
 }

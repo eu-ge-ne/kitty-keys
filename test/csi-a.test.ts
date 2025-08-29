@@ -1,9 +1,9 @@
-import type { Key } from "../src/mod.ts";
+import type { KittyKey } from "../src/mod.ts";
 
 import { assert_parse_key } from "./assert.ts";
 
 Deno.test("LEFT", () => {
-  const key: Key = {
+  const key: KittyKey = {
     name: "LEFT",
     code: 1,
   };
