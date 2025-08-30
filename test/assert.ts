@@ -8,13 +8,13 @@ import {
   push_flags,
   set_flags,
 } from "../src/mod.ts";
-import { parse_kitty_key } from "../src/key.ts";
+import { parse_kitty_key } from "../src/kitty.ts";
 
 const encoder = new TextEncoder();
 
 export function assert_parse_key(
   actual: string,
-  expected: [KittyKey, number] | undefined,
+  expected: [KittyKey | undefined, number],
 ): void {
   assertEquals(parse_kitty_key(encoder.encode(actual)), expected);
 }
