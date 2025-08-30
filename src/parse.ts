@@ -1,5 +1,5 @@
 import { decoder } from "./codec.ts";
-import type { Key } from "./key.ts";
+import { Key } from "./key.ts";
 import { parse_kitty_key } from "./kitty.ts";
 
 /**
@@ -17,67 +17,27 @@ export function parse_key(
   const b = bytes[0];
 
   if ((b === 0x1b) && (bytes.length === 1)) {
-    return [{
-      name: "ESC",
-      code: undefined,
-      shift_code: undefined,
-      base_code: undefined,
-      event: "press",
-      shift: false,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    }, 1];
+    const key = new Key();
+    key.name = "ESC";
+    return [key, 1];
   }
 
   if (b === 0x0d) {
-    return [{
-      name: "ENTER",
-      code: undefined,
-      shift_code: undefined,
-      base_code: undefined,
-      event: "press",
-      shift: false,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    }, 1];
+    const key = new Key();
+    key.name = "ENTER";
+    return [key, 1];
   }
 
   if (b === 0x09) {
-    return [{
-      name: "TAB",
-      code: undefined,
-      shift_code: undefined,
-      base_code: undefined,
-      event: "press",
-      shift: false,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    }, 1];
+    const key = new Key();
+    key.name = "TAB";
+    return [key, 1];
   }
 
   if (b === 0x7f || b === 0x08) {
-    return [{
-      name: "BACKSPACE",
-      code: undefined,
-      shift_code: undefined,
-      base_code: undefined,
-      event: "press",
-      shift: false,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    }, 1];
+    const key = new Key();
+    key.name = "BACKSPACE";
+    return [key, 1];
   }
 
   if (b !== 0x1b) {

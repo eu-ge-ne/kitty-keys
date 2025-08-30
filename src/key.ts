@@ -2,12 +2,12 @@
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
-export interface Key extends Modifiers {
+export class Key implements Modifiers {
   /**
    * Name of the key
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
    */
-  name: string;
+  name = "";
 
   /**
    * `unicode-key-code` field
@@ -31,13 +31,20 @@ export interface Key extends Modifiers {
    * Text representation of the `event-type` sub-field
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#event-types}
    */
-  event: "press" | "repeat" | "release";
+  event: "press" | "repeat" | "release" = "press";
 
   /**
    * Text representation of the `text-as-codepoints` field
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#text-as-code-points}
    */
   text?: string;
+
+  shift = false;
+  alt = false;
+  ctrl = false;
+  super = false;
+  caps_lock = false;
+  num_lock = false;
 }
 
 /**
