@@ -15,19 +15,19 @@ export interface KittyKey extends Modifiers {
    * `unicode-key-code` field
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
    */
-  code?: number;
+  code: number | undefined;
 
   /**
    * `shifted-key-code` field
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
    */
-  shifted_code?: number;
+  shift_code: number | undefined;
 
   /**
    * `base-layout-key-code` field
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
    */
-  base_layout_code?: number;
+  base_code: number | undefined;
 
   /**
    * Text representation of the `event-type` sub-field

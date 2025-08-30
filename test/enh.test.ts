@@ -5,6 +5,8 @@ Deno.test("1 Disambiguate escape codes", () => {
     {
       name: "ESC",
       code: 27,
+      shift_code: undefined,
+      base_code: undefined,
     },
     5,
   ]);
@@ -13,6 +15,8 @@ Deno.test("1 Disambiguate escape codes", () => {
     {
       name: "ж",
       code: 1078,
+      shift_code: undefined,
+      base_code: undefined,
       shift: true,
       alt: true,
       ctrl: true,
@@ -26,8 +30,8 @@ Deno.test("1 + 4 Report alternate keys", () => {
     {
       name: "ж",
       code: 1078,
-      shifted_code: 1046,
-      base_layout_code: 59,
+      shift_code: 1046,
+      base_code: 59,
       shift: true,
       alt: true,
       ctrl: true,
@@ -41,6 +45,8 @@ Deno.test("1 + 4 + 8 Report all keys as escape codes", () => {
     {
       name: "ж",
       code: 1078,
+      shift_code: undefined,
+      base_code: undefined,
     },
     7,
   ]);
@@ -51,8 +57,8 @@ Deno.test("1 + 4 + 8 + 16 Report associated text", () => {
     {
       name: "ж",
       code: 1078,
-      shifted_code: 1046,
-      base_layout_code: 59,
+      shift_code: 1046,
+      base_code: 59,
       text: "Ж",
       shift: true,
     },
@@ -65,8 +71,8 @@ Deno.test("1 + 4 + 8 + 16 + 2 Report event types", () => {
     {
       name: "ж",
       code: 1078,
-      shifted_code: 1046,
-      base_layout_code: 59,
+      shift_code: 1046,
+      base_code: 59,
       event: "press",
       text: "Ж",
       shift: true,
@@ -78,8 +84,8 @@ Deno.test("1 + 4 + 8 + 16 + 2 Report event types", () => {
     {
       name: "ж",
       code: 1078,
-      shifted_code: 1046,
-      base_layout_code: 59,
+      shift_code: 1046,
+      base_code: 59,
       event: "repeat",
       text: "Ж",
       shift: true,
@@ -91,7 +97,8 @@ Deno.test("1 + 4 + 8 + 16 + 2 Report event types", () => {
     {
       name: "ж",
       code: 1078,
-      base_layout_code: 59,
+      shift_code: undefined,
+      base_code: 59,
       event: "release",
       shift: true,
     },

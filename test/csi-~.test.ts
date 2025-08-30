@@ -6,6 +6,8 @@ Deno.test("INSERT", () => {
   const key: KittyKey = {
     name: "INSERT",
     code: 2,
+    shift_code: undefined,
+    base_code: undefined,
   };
 
   assert_parse_key("\x1b[2~", [key, 4]);

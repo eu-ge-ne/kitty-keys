@@ -17,19 +17,39 @@ export function parse_key(
   const b = bytes[0];
 
   if ((b === 0x1b) && (bytes.length === 1)) {
-    return [{ name: "ESC" }, 1];
+    return [{
+      name: "ESC",
+      code: undefined,
+      shift_code: undefined,
+      base_code: undefined,
+    }, 1];
   }
 
   if (b === 0x0d) {
-    return [{ name: "ENTER" }, 1];
+    return [{
+      name: "ENTER",
+      code: undefined,
+      shift_code: undefined,
+      base_code: undefined,
+    }, 1];
   }
 
   if (b === 0x09) {
-    return [{ name: "TAB" }, 1];
+    return [{
+      name: "TAB",
+      code: undefined,
+      shift_code: undefined,
+      base_code: undefined,
+    }, 1];
   }
 
   if (b === 0x7f || b === 0x08) {
-    return [{ name: "BACKSPACE" }, 1];
+    return [{
+      name: "BACKSPACE",
+      code: undefined,
+      shift_code: undefined,
+      base_code: undefined,
+    }, 1];
   }
 
   if (b !== 0x1b) {

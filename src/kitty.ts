@@ -1,7 +1,7 @@
+import { decoder } from "./codec.ts";
 import type { KittyKey } from "./key.ts";
 import { parse_modifiers } from "./modifiers.ts";
 import { key_name } from "./name.ts";
-import { parseBytes } from "./re.ts";
 
 export function parse_kitty_key(
   bytes: Uint8Array,
@@ -11,26 +11,13 @@ export function parse_kitty_key(
     return [undefined, 0];
   }
 
-  const code = parse_number(x.unicode_code);
-
   const key: KittyKey = {
-    name: key_name(x.prefix, code, x.scheme),
+    name: key_name(x.prefix, x.unicode_code, x.scheme),
+    code: x.unicode_code,
+    shift_code: x.shifted_code,
+    base_code: x.base_layout_code,
     ...parse_modifiers(x.modifiers),
   };
-
-  if (typeof code === "number") {
-    key.code = code;
-  }
-
-  const shifted_code = parse_number(x.shifted_code);
-  if (typeof shifted_code === "number") {
-    key.shifted_code = shifted_code;
-  }
-
-  const base_layout_code = parse_number(x.base_layout_code);
-  if (typeof base_layout_code === "number") {
-    key.base_layout_code = base_layout_code;
-  }
 
   const event = parse_event(x.event);
   if (typeof event === "string") {
@@ -43,6 +30,59 @@ export function parse_kitty_key(
   }
 
   return [key, x.index + x.length];
+}
+
+const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
+const CODES_RE = String.raw`(?:(\d+)(?::(\d*))?(?::(\d*))?)?`;
+const PARAMS_RE = String.raw`(?:;(\d*)?(?::(\d*))?)?`;
+const CODEPOINTS_RE = String.raw`(?:;([\d:]*))?`;
+const SCHEME_RE = String.raw`([u~ABCDEFHPQS])`;
+
+const RE = new RegExp(
+  PREFIX_RE + CODES_RE + PARAMS_RE + CODEPOINTS_RE + SCHEME_RE,
+);
+
+interface ParseBytesResult {
+  prefix: string;
+  unicode_code?: number;
+  shifted_code?: number;
+  base_layout_code?: number;
+  modifiers?: string;
+  event?: string;
+  codepoints?: string;
+  scheme: string;
+  index: number;
+  length: number;
+}
+
+export function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
+  const match = decoder.decode(bytes).match(RE);
+  if (match) {
+    const [
+      ,
+      prefix,
+      unicode_code,
+      shifted_code,
+      base_layout_code,
+      modifiers,
+      event,
+      codepoints,
+      scheme,
+    ] = match;
+
+    return {
+      prefix: prefix!,
+      unicode_code: parse_number(unicode_code),
+      shifted_code: parse_number(shifted_code),
+      base_layout_code: parse_number(base_layout_code),
+      modifiers,
+      event,
+      codepoints,
+      scheme: scheme!,
+      index: match.index!,
+      length: match[0].length,
+    };
+  }
 }
 
 function parse_number(text?: string): number | undefined {

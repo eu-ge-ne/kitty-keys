@@ -6,6 +6,8 @@ Deno.test("LEFT", () => {
   const key: KittyKey = {
     name: "LEFT",
     code: 1,
+    shift_code: undefined,
+    base_code: undefined,
   };
 
   assert_parse_key("\x1b[1D", [key, 4]);

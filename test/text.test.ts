@@ -6,6 +6,8 @@ Deno.test("a", () => {
   const key: KittyKey = {
     name: "a",
     code: 97,
+    shift_code: undefined,
+    base_code: undefined,
   };
 
   assert_parse_key("\x1b[97;;97u", [{ ...key, text: "a" }, 9]);
@@ -26,7 +28,8 @@ Deno.test("A", () => {
     {
       name: "a",
       code: 97,
-      shifted_code: 65,
+      shift_code: 65,
+      base_code: undefined,
       text: "A",
       shift: true,
     },
