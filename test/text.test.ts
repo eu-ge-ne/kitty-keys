@@ -1,38 +1,29 @@
-import type { Key } from "../src/mod.ts";
+import { Key } from "../src/mod.ts";
 
 import { assert_parse_key } from "./assert.ts";
 
 Deno.test("a", () => {
-  const key: Key = {
+  const key = Key.create({
     name: "a",
     code: 97,
-    shift_code: undefined,
-    base_code: undefined,
-    event: "press",
-    shift: false,
-    alt: false,
-    ctrl: false,
-    super: false,
-    caps_lock: false,
-    num_lock: false,
-  };
+  });
 
-  assert_parse_key("\x1b[97;;97u", [{ ...key, text: "a" }, 9]);
+  assert_parse_key("\x1b[97;;97u", [Key.create(key, { text: "a" }), 9]);
 
-  assert_parse_key("\x1b[97;3u", [{ ...key, alt: true }, 7]);
-  assert_parse_key("\x1b[97;5u", [{ ...key, ctrl: true }, 7]);
-  assert_parse_key("\x1b[97;9u", [{ ...key, super: true }, 7]);
-  assert_parse_key("\x1b[97;65u", [{ ...key, caps_lock: true }, 8]);
-  assert_parse_key("\x1b[97;129u", [{ ...key, num_lock: true }, 9]);
+  assert_parse_key("\x1b[97;3u", [Key.create(key, { alt: true }), 7]);
+  assert_parse_key("\x1b[97;5u", [Key.create(key, { ctrl: true }), 7]);
+  assert_parse_key("\x1b[97;9u", [Key.create(key, { super: true }), 7]);
+  assert_parse_key("\x1b[97;65u", [Key.create(key, { caps_lock: true }), 8]);
+  assert_parse_key("\x1b[97;129u", [Key.create(key, { num_lock: true }), 9]);
 
-  assert_parse_key("\x1b[97;1:1u", [{ ...key, event: "press" }, 9]);
-  assert_parse_key("\x1b[97;1:2u", [{ ...key, event: "repeat" }, 9]);
-  assert_parse_key("\x1b[97;1:3u", [{ ...key, event: "release" }, 9]);
+  assert_parse_key("\x1b[97;1:1u", [key, 9]);
+  assert_parse_key("\x1b[97;1:2u", [Key.create(key, { event: "repeat" }), 9]);
+  assert_parse_key("\x1b[97;1:3u", [Key.create(key, { event: "release" }), 9]);
 });
 
 Deno.test("A", () => {
   assert_parse_key("\x1b[97:65;2;65u", [
-    {
+    Key.create({
       name: "a",
       code: 97,
       shift_code: 65,
@@ -45,7 +36,7 @@ Deno.test("A", () => {
       super: false,
       caps_lock: false,
       num_lock: false,
-    },
+    }),
     13,
   ]);
 });

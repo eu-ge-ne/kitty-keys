@@ -1,29 +1,6 @@
 import { decoder } from "./codec.ts";
-import type { Key, Modifiers } from "./key.ts";
-import { key_name } from "./name.ts";
-
-export function parse_kitty_key(bytes: Uint8Array): [Key | undefined, number] {
-  const x = parseBytes(bytes);
-  if (!x) {
-    return [undefined, 0];
-  }
-
-  const key: Key = {
-    name: key_name(x.prefix, x.unicode_code, x.scheme),
-    code: x.unicode_code,
-    shift_code: x.shifted_code,
-    base_code: x.base_layout_code,
-    event: x.event,
-    ...x.modifiers,
-  };
-
-  const text = parse_code_points(x.codepoints);
-  if (typeof text === "string") {
-    key.text = text;
-  }
-
-  return [key, x.index + x.length];
-}
+import type { Key } from "./key.ts";
+import type { Modifiers } from "./modifiers.ts";
 
 const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
 const CODES_RE = String.raw`(?:(\d+)(?::(\d*))?(?::(\d*))?)?`;
@@ -35,20 +12,20 @@ const RE = new RegExp(
   PREFIX_RE + CODES_RE + PARAMS_RE + CODEPOINTS_RE + SCHEME_RE,
 );
 
-interface ParseBytesResult {
+interface KittyResult {
   prefix: string;
   unicode_code: number | undefined;
   shifted_code: number | undefined;
   base_layout_code: number | undefined;
   modifiers: Modifiers;
   event: Key["event"];
-  codepoints?: string;
+  codepoints: string | undefined;
   scheme: string;
   index: number;
   length: number;
 }
 
-export function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
+export function parseKitty(bytes: Uint8Array): KittyResult | undefined {
   const match = decoder.decode(bytes).match(RE);
   if (match) {
     const [
@@ -70,7 +47,7 @@ export function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
       base_layout_code: parse_number(base_layout_code),
       modifiers: parse_modifiers(modifiers),
       event: parse_event(event),
-      codepoints,
+      codepoints: parse_code_points(codepoints),
       scheme: scheme!,
       index: match.index!,
       length: match[0].length,
@@ -123,7 +100,9 @@ function parse_event(event?: string): Key["event"] {
   return "press";
 }
 
-function parse_code_points(code_points = ""): string | undefined {
+function parse_code_points(
+  code_points: string | undefined,
+): string | undefined {
   if (code_points) {
     return String.fromCodePoint(
       ...code_points.split(":").map((x) => Number.parseInt(x)).filter((x) =>

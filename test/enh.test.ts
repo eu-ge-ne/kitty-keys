@@ -1,120 +1,81 @@
+import { Key } from "../src/key.ts";
 import { assert_parse_key } from "./assert.ts";
 
 Deno.test("1 Disambiguate escape codes", () => {
   assert_parse_key("\x1b[27u", [
-    {
+    Key.create({
       name: "ESC",
       code: 27,
-      shift_code: undefined,
-      base_code: undefined,
-      event: "press",
-      shift: false,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    },
+    }),
     5,
   ]);
 
   assert_parse_key("\x1b[1078;8u", [
-    {
+    Key.create({
       name: "ж",
       code: 1078,
-      shift_code: undefined,
-      base_code: undefined,
-      event: "press",
       shift: true,
       alt: true,
       ctrl: true,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    },
+    }),
     9,
   ]);
 });
 
 Deno.test("1 + 4 Report alternate keys", () => {
   assert_parse_key("\x1b[1078:1046:59;8u", [
-    {
+    Key.create({
       name: "ж",
       code: 1078,
       shift_code: 1046,
       base_code: 59,
-      event: "press",
       shift: true,
       alt: true,
       ctrl: true,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    },
+    }),
     17,
   ]);
 });
 
 Deno.test("1 + 4 + 8 Report all keys as escape codes", () => {
   assert_parse_key("\x1b[1078u", [
-    {
+    Key.create({
       name: "ж",
       code: 1078,
-      shift_code: undefined,
-      base_code: undefined,
-      event: "press",
-      shift: false,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    },
+    }),
     7,
   ]);
 });
 
 Deno.test("1 + 4 + 8 + 16 Report associated text", () => {
   assert_parse_key("\x1b[1078:1046:59;2;1046u", [
-    {
+    Key.create({
       name: "ж",
       code: 1078,
       shift_code: 1046,
       base_code: 59,
-      event: "press",
       text: "Ж",
       shift: true,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    },
+    }),
     22,
   ]);
 });
 
 Deno.test("1 + 4 + 8 + 16 + 2 Report event types", () => {
   assert_parse_key("\x1b[1078:1046:59;2:1;1046u", [
-    {
+    Key.create({
       name: "ж",
       code: 1078,
       shift_code: 1046,
       base_code: 59,
-      event: "press",
       text: "Ж",
       shift: true,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    },
+    }),
     24,
   ]);
 
   assert_parse_key("\x1b[1078:1046:59;2:2;1046u", [
-    {
+    Key.create({
       name: "ж",
       code: 1078,
       shift_code: 1046,
@@ -122,29 +83,18 @@ Deno.test("1 + 4 + 8 + 16 + 2 Report event types", () => {
       event: "repeat",
       text: "Ж",
       shift: true,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    },
+    }),
     24,
   ]);
 
   assert_parse_key("\x1b[1078::59;2:3u", [
-    {
+    Key.create({
       name: "ж",
       code: 1078,
-      shift_code: undefined,
       base_code: 59,
       event: "release",
       shift: true,
-      alt: false,
-      ctrl: false,
-      super: false,
-      caps_lock: false,
-      num_lock: false,
-    },
+    }),
     15,
   ]);
 });

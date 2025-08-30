@@ -1,6 +1,5 @@
 import { decoder } from "./codec.ts";
 import { Key } from "./key.ts";
-import { parse_kitty_key } from "./kitty.ts";
 
 /**
  * Parse key from bytes
@@ -48,5 +47,5 @@ export function parse_key(
     return [decoder.decode(bytes.subarray(0, next_esc_i)), next_esc_i];
   }
 
-  return parse_kitty_key(bytes);
+  return Key.kitty(bytes);
 }
