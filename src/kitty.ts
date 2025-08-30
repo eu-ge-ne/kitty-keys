@@ -4,22 +4,18 @@ import { key_name } from "./name.ts";
 
 import type { KittyKey } from "./key.ts";
 
-// deno-lint-ignore no-control-regex
-const RE = /(\x1b\x5b|\x1b\x4f)([\d:;]+)?([u~ABCDEFHPQS])/;
-
 export function parse_kitty_key(
   bytes: Uint8Array,
 ): [KittyKey | undefined, number] {
-  const match = decoder.decode(bytes).match(RE);
-  if (!match) {
+  const parsed = parseBytes(bytes);
+  if (!parsed) {
     return [undefined, 0];
   }
 
-  const [, prefix, body = "", scheme] = match;
+  const { prefix, codes, params, codepoints, scheme, index, length } = parsed;
 
-  const [codes = "", params = "", text_codepoints = ""] = body.split(";");
-  const [code0, code1, code2] = codes.split(":");
-  const [modifiers, raw_event] = params.split(":");
+  const [code0, code1, code2] = (codes ?? "").split(":");
+  const [modifiers, raw_event] = (params ?? "").split(":");
 
   const code = parse_number(code0);
 
@@ -47,12 +43,12 @@ export function parse_kitty_key(
     key.event = event;
   }
 
-  const text = parse_code_points(text_codepoints);
+  const text = parse_code_points(codepoints);
   if (typeof text === "string") {
     key.text = text;
   }
 
-  return [key, match.index! + match[0].length];
+  return [key, index + length];
 }
 
 function parse_number(text?: string): number | undefined {
@@ -84,5 +80,36 @@ function parse_code_points(code_points = ""): string | undefined {
         Number.isSafeInteger(x)
       ),
     );
+  }
+}
+
+const RE =
+  /(\x1b\x5b|\x1b\x4f)([\d:]+)?(?:;([\d:]*))?(?:;([\d:]*))?([u~ABCDEFHPQS])/;
+// (prefix           )(codes  )(params      )(codepoints  )(scheme        )
+
+interface ParseBytesResult {
+  prefix: string;
+  codes: string;
+  params?: string;
+  codepoints?: string;
+  scheme: string;
+  index: number;
+  length: number;
+}
+
+function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
+  const match = decoder.decode(bytes).match(RE);
+  if (match) {
+    const [, prefix, codes, params, codepoints, scheme] = match;
+
+    return {
+      prefix: prefix!,
+      codes: codes!,
+      params,
+      codepoints,
+      scheme: scheme!,
+      index: match.index!,
+      length: match[0].length,
+    };
   }
 }
