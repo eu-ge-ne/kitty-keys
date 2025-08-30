@@ -9,6 +9,12 @@ Deno.test("INSERT", () => {
     shift_code: undefined,
     base_code: undefined,
     event: "press",
+    shift: false,
+    alt: false,
+    ctrl: false,
+    super: false,
+    caps_lock: false,
+    num_lock: false,
   };
 
   assert_parse_key("\x1b[2~", [key, 4]);

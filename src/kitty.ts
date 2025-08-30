@@ -1,6 +1,6 @@
 import { decoder } from "./codec.ts";
 import type { KittyKey } from "./key.ts";
-import { parse_modifiers } from "./modifiers.ts";
+import { type Modifiers, parse_modifiers } from "./modifiers.ts";
 import { key_name } from "./name.ts";
 
 export function parse_kitty_key(
@@ -17,7 +17,7 @@ export function parse_kitty_key(
     shift_code: x.shifted_code,
     base_code: x.base_layout_code,
     event: x.event,
-    ...parse_modifiers(x.modifiers),
+    ...x.modifiers,
   };
 
   const text = parse_code_points(x.codepoints);
@@ -43,7 +43,7 @@ interface ParseBytesResult {
   unicode_code: number | undefined;
   shifted_code: number | undefined;
   base_layout_code: number | undefined;
-  modifiers?: string;
+  modifiers: Modifiers;
   event: KittyKey["event"];
   codepoints?: string;
   scheme: string;
@@ -71,7 +71,7 @@ export function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
       unicode_code: parse_number(unicode_code),
       shifted_code: parse_number(shifted_code),
       base_layout_code: parse_number(base_layout_code),
-      modifiers,
+      modifiers: parse_modifiers(modifiers),
       event: parse_event(event),
       codepoints,
       scheme: scheme!,

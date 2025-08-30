@@ -23,6 +23,12 @@ export function parse_key(
       shift_code: undefined,
       base_code: undefined,
       event: "press",
+      shift: false,
+      alt: false,
+      ctrl: false,
+      super: false,
+      caps_lock: false,
+      num_lock: false,
     }, 1];
   }
 
@@ -33,6 +39,12 @@ export function parse_key(
       shift_code: undefined,
       base_code: undefined,
       event: "press",
+      shift: false,
+      alt: false,
+      ctrl: false,
+      super: false,
+      caps_lock: false,
+      num_lock: false,
     }, 1];
   }
 
@@ -43,6 +55,12 @@ export function parse_key(
       shift_code: undefined,
       base_code: undefined,
       event: "press",
+      shift: false,
+      alt: false,
+      ctrl: false,
+      super: false,
+      caps_lock: false,
+      num_lock: false,
     }, 1];
   }
 
@@ -53,6 +71,12 @@ export function parse_key(
       shift_code: undefined,
       base_code: undefined,
       event: "press",
+      shift: false,
+      alt: false,
+      ctrl: false,
+      super: false,
+      caps_lock: false,
+      num_lock: false,
     }, 1];
   }
 

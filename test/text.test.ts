@@ -9,6 +9,12 @@ Deno.test("a", () => {
     shift_code: undefined,
     base_code: undefined,
     event: "press",
+    shift: false,
+    alt: false,
+    ctrl: false,
+    super: false,
+    caps_lock: false,
+    num_lock: false,
   };
 
   assert_parse_key("\x1b[97;;97u", [{ ...key, text: "a" }, 9]);
@@ -34,6 +40,11 @@ Deno.test("A", () => {
       event: "press",
       text: "A",
       shift: true,
+      alt: false,
+      ctrl: false,
+      super: false,
+      caps_lock: false,
+      num_lock: false,
     },
     13,
   ]);
