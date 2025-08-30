@@ -50,10 +50,18 @@ export class Key implements Modifiers {
   caps_lock = false;
   num_lock = false;
 
+  /**
+   * @ignore
+   * @internal
+   */
   static create(src0: Partial<Key>, src1?: Partial<Key>): Key {
     return Object.assign(new Key(), src0, src1);
   }
 
+  /**
+   * @ignore
+   * @internal
+   */
   static kitty(bytes: Uint8Array): [Key | undefined, number] {
     const x = parseKitty(bytes);
     if (!x) {
