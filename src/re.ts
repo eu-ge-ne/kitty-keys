@@ -2,7 +2,7 @@ import { decoder } from "./codec.ts";
 
 const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
 const CODES_RE = String.raw`(?:(\d+)(?::(\d*))?(?::(\d*))?)?`;
-const PARAMS_RE = String.raw`(?:;([\d:]*))?`;
+const PARAMS_RE = String.raw`(?:;(\d*)?(?::(\d*))?)?`;
 const CODEPOINTS_RE = String.raw`(?:;([\d:]*))?`;
 const SCHEME_RE = String.raw`([u~ABCDEFHPQS])`;
 
@@ -15,7 +15,8 @@ interface ParseBytesResult {
   unicodeCode?: string;
   shiftedCode?: string;
   baseLayoutCode?: string;
-  params?: string;
+  modifiers?: string;
+  rawEvent?: string;
   codepoints?: string;
   scheme: string;
   index: number;
@@ -31,7 +32,8 @@ export function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
       unicodeCode,
       shiftedCode,
       baseLayoutCode,
-      params,
+      modifiers,
+      rawEvent,
       codepoints,
       scheme,
     ] = match;
@@ -41,7 +43,8 @@ export function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
       unicodeCode,
       shiftedCode,
       baseLayoutCode,
-      params,
+      modifiers,
+      rawEvent,
       codepoints,
       scheme: scheme!,
       index: match.index!,

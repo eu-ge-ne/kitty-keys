@@ -16,14 +16,13 @@ export function parse_kitty_key(
     unicodeCode,
     shiftedCode,
     baseLayoutCode,
-    params,
+    modifiers,
+    rawEvent,
     codepoints,
     scheme,
     index,
     length,
   } = parsed;
-
-  const [modifiers, raw_event] = (params ?? "").split(":");
 
   const code = parse_number(unicodeCode);
 
@@ -46,7 +45,7 @@ export function parse_kitty_key(
     key.base_layout_code = base_layout_code;
   }
 
-  const event = parse_event(raw_event);
+  const event = parse_event(rawEvent);
   if (typeof event === "string") {
     key.event = event;
   }
