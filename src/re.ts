@@ -12,11 +12,11 @@ const RE = new RegExp(
 
 interface ParseBytesResult {
   prefix: string;
-  unicodeCode?: string;
-  shiftedCode?: string;
-  baseLayoutCode?: string;
+  unicode_code?: string;
+  shifted_code?: string;
+  base_layout_code?: string;
   modifiers?: string;
-  rawEvent?: string;
+  event?: string;
   codepoints?: string;
   scheme: string;
   index: number;
@@ -29,22 +29,22 @@ export function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
     const [
       ,
       prefix,
-      unicodeCode,
-      shiftedCode,
-      baseLayoutCode,
+      unicode_code,
+      shifted_code,
+      base_layout_code,
       modifiers,
-      rawEvent,
+      event,
       codepoints,
       scheme,
     ] = match;
 
     return {
       prefix: prefix!,
-      unicodeCode,
-      shiftedCode,
-      baseLayoutCode,
+      unicode_code,
+      shifted_code,
+      base_layout_code,
       modifiers,
-      rawEvent,
+      event,
       codepoints,
       scheme: scheme!,
       index: match.index!,

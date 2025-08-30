@@ -6,56 +6,43 @@ import { parseBytes } from "./re.ts";
 export function parse_kitty_key(
   bytes: Uint8Array,
 ): [KittyKey | undefined, number] {
-  const parsed = parseBytes(bytes);
-  if (!parsed) {
+  const x = parseBytes(bytes);
+  if (!x) {
     return [undefined, 0];
   }
 
-  const {
-    prefix,
-    unicodeCode,
-    shiftedCode,
-    baseLayoutCode,
-    modifiers,
-    rawEvent,
-    codepoints,
-    scheme,
-    index,
-    length,
-  } = parsed;
-
-  const code = parse_number(unicodeCode);
+  const code = parse_number(x.unicode_code);
 
   const key: KittyKey = {
-    name: key_name(prefix!, code, scheme!),
-    ...parse_modifiers(modifiers),
+    name: key_name(x.prefix, code, x.scheme),
+    ...parse_modifiers(x.modifiers),
   };
 
   if (typeof code === "number") {
     key.code = code;
   }
 
-  const shifted_code = parse_number(shiftedCode);
+  const shifted_code = parse_number(x.shifted_code);
   if (typeof shifted_code === "number") {
     key.shifted_code = shifted_code;
   }
 
-  const base_layout_code = parse_number(baseLayoutCode);
+  const base_layout_code = parse_number(x.base_layout_code);
   if (typeof base_layout_code === "number") {
     key.base_layout_code = base_layout_code;
   }
 
-  const event = parse_event(rawEvent);
+  const event = parse_event(x.event);
   if (typeof event === "string") {
     key.event = event;
   }
 
-  const text = parse_code_points(codepoints);
+  const text = parse_code_points(x.codepoints);
   if (typeof text === "string") {
     key.text = text;
   }
 
-  return [key, index + length];
+  return [key, x.index + x.length];
 }
 
 function parse_number(text?: string): number | undefined {
