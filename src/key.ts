@@ -43,11 +43,34 @@ export class Key implements Modifiers {
    */
   text: string | undefined;
 
+  /**
+   * SHIFT
+   */
   shift = false;
+
+  /**
+   * ALT/OPTION
+   */
   alt = false;
+
+  /**
+   * CONTROL
+   */
   ctrl = false;
+
+  /**
+   * SUPER/COMMAND
+   */
   super = false;
+
+  /**
+   * CAPS LOCK
+   */
   caps_lock = false;
+
+  /**
+   * NUM LOCK
+   */
   num_lock = false;
 
   /**
