@@ -130,7 +130,7 @@ function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
 
     return {
       prefix: prefix!,
-      unicodeCode: unicodeCode!,
+      unicodeCode,
       shiftedCode,
       baseLayoutCode,
       params,
