@@ -83,9 +83,15 @@ function parse_code_points(code_points = ""): string | undefined {
   }
 }
 
-const RE =
-  /(\x1b\x5b|\x1b\x4f)([\d:]+)?(?:;([\d:]*))?(?:;([\d:]*))?([u~ABCDEFHPQS])/;
-// (prefix           )(codes  )(params      )(codepoints  )(scheme        )
+const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
+const CODES_RE = String.raw`([\d:]+)?`;
+const PARAMS_RE = String.raw`(?:;([\d:]*))?`;
+const CODEPOINTS_RE = String.raw`(?:;([\d:]*))?`;
+const SCHEME_RE = String.raw`([u~ABCDEFHPQS])`;
+
+const RE = new RegExp(
+  PREFIX_RE + CODES_RE + PARAMS_RE + CODEPOINTS_RE + SCHEME_RE,
+);
 
 interface ParseBytesResult {
   prefix: string;
