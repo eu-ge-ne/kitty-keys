@@ -1,5 +1,5 @@
 import { decoder } from "./codec.ts";
-import type { KittyKey } from "./key.ts";
+import type { Key } from "./key.ts";
 import { parse_kitty_key } from "./kitty.ts";
 
 /**
@@ -9,7 +9,7 @@ import { parse_kitty_key } from "./kitty.ts";
  */
 export function parse_key(
   bytes: Uint8Array,
-): [KittyKey | string | undefined, number] {
+): [Key | string | undefined, number] {
   if (bytes.length === 0) {
     return [undefined, 0];
   }

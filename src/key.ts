@@ -1,10 +1,8 @@
-import type { Modifiers } from "./modifiers.ts";
-
 /**
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
-export interface KittyKey extends Modifiers {
+export interface Key extends Modifiers {
   /**
    * Name of the key
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
@@ -40,4 +38,40 @@ export interface KittyKey extends Modifiers {
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#text-as-code-points}
    */
   text?: string;
+}
+
+/**
+ * Represents modifier keys
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
+ */
+export interface Modifiers {
+  /**
+   * SHIFT
+   */
+  shift: boolean;
+
+  /**
+   * ALT/OPTION
+   */
+  alt: boolean;
+
+  /**
+   * CONTROL
+   */
+  ctrl: boolean;
+
+  /**
+   * SUPER/COMMAND
+   */
+  super: boolean;
+
+  /**
+   * CAPS LOCK
+   */
+  caps_lock: boolean;
+
+  /**
+   * NUM LOCK
+   */
+  num_lock: boolean;
 }

@@ -1,17 +1,14 @@
 import { decoder } from "./codec.ts";
-import type { KittyKey } from "./key.ts";
-import { type Modifiers, parse_modifiers } from "./modifiers.ts";
+import type { Key, Modifiers } from "./key.ts";
 import { key_name } from "./name.ts";
 
-export function parse_kitty_key(
-  bytes: Uint8Array,
-): [KittyKey | undefined, number] {
+export function parse_kitty_key(bytes: Uint8Array): [Key | undefined, number] {
   const x = parseBytes(bytes);
   if (!x) {
     return [undefined, 0];
   }
 
-  const key: KittyKey = {
+  const key: Key = {
     name: key_name(x.prefix, x.unicode_code, x.scheme),
     code: x.unicode_code,
     shift_code: x.shifted_code,
@@ -44,7 +41,7 @@ interface ParseBytesResult {
   shifted_code: number | undefined;
   base_layout_code: number | undefined;
   modifiers: Modifiers;
-  event: KittyKey["event"];
+  event: Key["event"];
   codepoints?: string;
   scheme: string;
   index: number;
@@ -90,7 +87,30 @@ function parse_number(text?: string): number | undefined {
   }
 }
 
-function parse_event(event?: string): KittyKey["event"] {
+function parse_modifiers(text: string | undefined): Modifiers {
+  let flags = 0;
+
+  if (text) {
+    flags = Number.parseInt(text);
+
+    if (Number.isSafeInteger(flags)) {
+      flags -= 1;
+    }
+  }
+
+  const result: Modifiers = {
+    shift: Boolean(flags & 1),
+    alt: Boolean(flags & 2),
+    ctrl: Boolean(flags & 4),
+    super: Boolean(flags & 8),
+    caps_lock: Boolean(flags & 64),
+    num_lock: Boolean(flags & 128),
+  };
+
+  return result;
+}
+
+function parse_event(event?: string): Key["event"] {
   switch (event) {
     case "1":
       return "press";

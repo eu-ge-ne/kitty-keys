@@ -2,7 +2,7 @@ import { assertEquals } from "@std/assert";
 
 import {
   type Flags,
-  type KittyKey,
+  type Key,
   parse_flags,
   pop_flags,
   push_flags,
@@ -14,7 +14,7 @@ const encoder = new TextEncoder();
 
 export function assert_parse_key(
   actual: string,
-  expected: [KittyKey | undefined, number],
+  expected: [Key | undefined, number],
 ): void {
   assertEquals(parse_kitty_key(encoder.encode(actual)), expected);
 }
