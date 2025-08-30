@@ -1,58 +1,58 @@
 import { decoder } from "./codec.ts";
-import { parse_modifiers } from "./modifiers.ts";
-import { key_name } from "./name.ts";
+import type { Key } from "./key.ts";
+import type { Modifiers } from "./modifiers.ts";
 
-import type { KittyKey } from "./key.ts";
+const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
+const CODES_RE = String.raw`(?:(\d+)(?::(\d*))?(?::(\d*))?)?`;
+const PARAMS_RE = String.raw`(?:;(\d*)?(?::(\d*))?)?`;
+const CODEPOINTS_RE = String.raw`(?:;([\d:]*))?`;
+const SCHEME_RE = String.raw`([u~ABCDEFHPQS])`;
 
-// deno-lint-ignore no-control-regex
-const RE = /(\x1b\x5b|\x1b\x4f)([\d:;]+)?([u~ABCDEFHPQS])/;
+const RE = new RegExp(
+  PREFIX_RE + CODES_RE + PARAMS_RE + CODEPOINTS_RE + SCHEME_RE,
+);
 
-export function parse_kitty_key(
-  bytes: Uint8Array,
-): [KittyKey | undefined, number] {
+interface KittyResult {
+  prefix: string;
+  unicode_code: number | undefined;
+  shifted_code: number | undefined;
+  base_layout_code: number | undefined;
+  modifiers: Modifiers;
+  event: Key["event"];
+  codepoints: string | undefined;
+  scheme: string;
+  index: number;
+  length: number;
+}
+
+export function parseKitty(bytes: Uint8Array): KittyResult | undefined {
   const match = decoder.decode(bytes).match(RE);
-  if (!match) {
-    return [undefined, 0];
+  if (match) {
+    const [
+      ,
+      prefix,
+      unicode_code,
+      shifted_code,
+      base_layout_code,
+      modifiers,
+      event,
+      codepoints,
+      scheme,
+    ] = match;
+
+    return {
+      prefix: prefix!,
+      unicode_code: parse_number(unicode_code),
+      shifted_code: parse_number(shifted_code),
+      base_layout_code: parse_number(base_layout_code),
+      modifiers: parse_modifiers(modifiers),
+      event: parse_event(event),
+      codepoints: parse_code_points(codepoints),
+      scheme: scheme!,
+      index: match.index!,
+      length: match[0].length,
+    };
   }
-
-  const [, prefix, body = "", scheme] = match;
-
-  const [codes = "", params = "", text_codepoints = ""] = body.split(";");
-  const [code0, code1, code2] = codes.split(":");
-  const [modifiers, raw_event] = params.split(":");
-
-  const code = parse_number(code0);
-
-  const key: KittyKey = {
-    name: key_name(prefix!, code, scheme!),
-    ...parse_modifiers(modifiers),
-  };
-
-  if (typeof code === "number") {
-    key.code = code;
-  }
-
-  const shifted_code = parse_number(code1);
-  if (typeof shifted_code === "number") {
-    key.shifted_code = shifted_code;
-  }
-
-  const base_layout_code = parse_number(code2);
-  if (typeof base_layout_code === "number") {
-    key.base_layout_code = base_layout_code;
-  }
-
-  const event = parse_event(raw_event);
-  if (typeof event === "string") {
-    key.event = event;
-  }
-
-  const text = parse_code_points(text_codepoints);
-  if (typeof text === "string") {
-    key.text = text;
-  }
-
-  return [key, match.index! + match[0].length];
 }
 
 function parse_number(text?: string): number | undefined {
@@ -64,9 +64,30 @@ function parse_number(text?: string): number | undefined {
   }
 }
 
-function parse_event(
-  event?: string,
-): "press" | "repeat" | "release" | undefined {
+function parse_modifiers(text: string | undefined): Modifiers {
+  let flags = 0;
+
+  if (text) {
+    flags = Number.parseInt(text);
+
+    if (Number.isSafeInteger(flags)) {
+      flags -= 1;
+    }
+  }
+
+  const result: Modifiers = {
+    shift: Boolean(flags & 1),
+    alt: Boolean(flags & 2),
+    ctrl: Boolean(flags & 4),
+    super: Boolean(flags & 8),
+    caps_lock: Boolean(flags & 64),
+    num_lock: Boolean(flags & 128),
+  };
+
+  return result;
+}
+
+function parse_event(event?: string): Key["event"] {
   switch (event) {
     case "1":
       return "press";
@@ -75,9 +96,13 @@ function parse_event(
     case "3":
       return "release";
   }
+
+  return "press";
 }
 
-function parse_code_points(code_points = ""): string | undefined {
+function parse_code_points(
+  code_points: string | undefined,
+): string | undefined {
   if (code_points) {
     return String.fromCodePoint(
       ...code_points.split(":").map((x) => Number.parseInt(x)).filter((x) =>
