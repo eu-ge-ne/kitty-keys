@@ -12,12 +12,21 @@ export function parse_kitty_key(
     return [undefined, 0];
   }
 
-  const { prefix, codes, params, codepoints, scheme, index, length } = parsed;
+  const {
+    prefix,
+    unicodeCode,
+    shiftedCode,
+    baseLayoutCode,
+    params,
+    codepoints,
+    scheme,
+    index,
+    length,
+  } = parsed;
 
-  const [code0, code1, code2] = (codes ?? "").split(":");
   const [modifiers, raw_event] = (params ?? "").split(":");
 
-  const code = parse_number(code0);
+  const code = parse_number(unicodeCode);
 
   const key: KittyKey = {
     name: key_name(prefix!, code, scheme!),
@@ -28,12 +37,12 @@ export function parse_kitty_key(
     key.code = code;
   }
 
-  const shifted_code = parse_number(code1);
+  const shifted_code = parse_number(shiftedCode);
   if (typeof shifted_code === "number") {
     key.shifted_code = shifted_code;
   }
 
-  const base_layout_code = parse_number(code2);
+  const base_layout_code = parse_number(baseLayoutCode);
   if (typeof base_layout_code === "number") {
     key.base_layout_code = base_layout_code;
   }
@@ -84,7 +93,7 @@ function parse_code_points(code_points = ""): string | undefined {
 }
 
 const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
-const CODES_RE = String.raw`([\d:]+)?`;
+const CODES_RE = String.raw`(?:(\d+)(?::(\d*))?(?::(\d*))?)?`;
 const PARAMS_RE = String.raw`(?:;([\d:]*))?`;
 const CODEPOINTS_RE = String.raw`(?:;([\d:]*))?`;
 const SCHEME_RE = String.raw`([u~ABCDEFHPQS])`;
@@ -95,7 +104,9 @@ const RE = new RegExp(
 
 interface ParseBytesResult {
   prefix: string;
-  codes: string;
+  unicodeCode?: string;
+  shiftedCode?: string;
+  baseLayoutCode?: string;
   params?: string;
   codepoints?: string;
   scheme: string;
@@ -106,11 +117,22 @@ interface ParseBytesResult {
 function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
   const match = decoder.decode(bytes).match(RE);
   if (match) {
-    const [, prefix, codes, params, codepoints, scheme] = match;
+    const [
+      ,
+      prefix,
+      unicodeCode,
+      shiftedCode,
+      baseLayoutCode,
+      params,
+      codepoints,
+      scheme,
+    ] = match;
 
     return {
       prefix: prefix!,
-      codes: codes!,
+      unicodeCode: unicodeCode!,
+      shiftedCode,
+      baseLayoutCode,
       params,
       codepoints,
       scheme: scheme!,
