@@ -22,6 +22,7 @@ export function parse_key(
       code: undefined,
       shift_code: undefined,
       base_code: undefined,
+      event: "press",
     }, 1];
   }
 
@@ -31,6 +32,7 @@ export function parse_key(
       code: undefined,
       shift_code: undefined,
       base_code: undefined,
+      event: "press",
     }, 1];
   }
 
@@ -40,6 +42,7 @@ export function parse_key(
       code: undefined,
       shift_code: undefined,
       base_code: undefined,
+      event: "press",
     }, 1];
   }
 
@@ -49,6 +52,7 @@ export function parse_key(
       code: undefined,
       shift_code: undefined,
       base_code: undefined,
+      event: "press",
     }, 1];
   }
 

@@ -8,6 +8,7 @@ Deno.test("ESC", () => {
     code: 27,
     shift_code: undefined,
     base_code: undefined,
+    event: "press",
   };
 
   assert_parse_key("\x1b[27u", [key, 5]);

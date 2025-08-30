@@ -33,7 +33,7 @@ export interface KittyKey extends Modifiers {
    * Text representation of the `event-type` sub-field
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#event-types}
    */
-  event?: "press" | "repeat" | "release";
+  event: "press" | "repeat" | "release";
 
   /**
    * Text representation of the `text-as-codepoints` field

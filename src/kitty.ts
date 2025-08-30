@@ -16,13 +16,9 @@ export function parse_kitty_key(
     code: x.unicode_code,
     shift_code: x.shifted_code,
     base_code: x.base_layout_code,
+    event: x.event,
     ...parse_modifiers(x.modifiers),
   };
-
-  const event = parse_event(x.event);
-  if (typeof event === "string") {
-    key.event = event;
-  }
 
   const text = parse_code_points(x.codepoints);
   if (typeof text === "string") {
@@ -44,11 +40,11 @@ const RE = new RegExp(
 
 interface ParseBytesResult {
   prefix: string;
-  unicode_code?: number;
-  shifted_code?: number;
-  base_layout_code?: number;
+  unicode_code: number | undefined;
+  shifted_code: number | undefined;
+  base_layout_code: number | undefined;
   modifiers?: string;
-  event?: string;
+  event: KittyKey["event"];
   codepoints?: string;
   scheme: string;
   index: number;
@@ -76,7 +72,7 @@ export function parseBytes(bytes: Uint8Array): ParseBytesResult | undefined {
       shifted_code: parse_number(shifted_code),
       base_layout_code: parse_number(base_layout_code),
       modifiers,
-      event,
+      event: parse_event(event),
       codepoints,
       scheme: scheme!,
       index: match.index!,
@@ -94,9 +90,7 @@ function parse_number(text?: string): number | undefined {
   }
 }
 
-function parse_event(
-  event?: string,
-): "press" | "repeat" | "release" | undefined {
+function parse_event(event?: string): KittyKey["event"] {
   switch (event) {
     case "1":
       return "press";
@@ -105,6 +99,8 @@ function parse_event(
     case "3":
       return "release";
   }
+
+  return "press";
 }
 
 function parse_code_points(code_points = ""): string | undefined {
