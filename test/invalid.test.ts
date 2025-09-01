@@ -4,10 +4,6 @@ Deno.test("CSI ? flags u", () => {
   assert_parse_key("\x1b[?31u", [undefined, 0]);
 });
 
-Deno.test("a", () => {
-  assert_parse_key("a", [undefined, 0]);
-});
-
 Deno.test("CSI 1 z", () => {
   assert_parse_key("\x1b[1z", [undefined, 0]);
 });

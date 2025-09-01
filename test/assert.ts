@@ -2,10 +2,11 @@ import { assertEquals } from "@std/assert";
 
 import {
   type Flags,
-  Key,
   parse_flags,
+  parse_key,
   pop_flags,
   push_flags,
+  type Result,
   set_flags,
 } from "../src/mod.ts";
 
@@ -13,9 +14,9 @@ const encoder = new TextEncoder();
 
 export function assert_parse_key(
   actual: string,
-  expected: [Key | undefined, number],
+  expected: Result,
 ): void {
-  assertEquals(Key.kitty(encoder.encode(actual)), expected);
+  assertEquals(parse_key(encoder.encode(actual)), expected);
 }
 
 export function assert_set_flags(

@@ -1,4 +1,5 @@
-import { decoder, encoder } from "./codec.ts";
+const encoder: TextEncoder = new TextEncoder();
+const decoder: TextDecoder = new TextDecoder();
 
 /**
  * The progressive enhancement flags.

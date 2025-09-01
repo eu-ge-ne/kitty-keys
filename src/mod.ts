@@ -8,4 +8,4 @@ export {
 } from "./flags.ts";
 export { Key } from "./key.ts";
 export type { Modifiers } from "./modifiers.ts";
-export { parse_key } from "./parse.ts";
+export { parse_key, type Result } from "./parse.ts";
