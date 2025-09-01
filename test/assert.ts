@@ -2,6 +2,7 @@ import { assertEquals } from "@std/assert";
 
 import {
   type Flags,
+  type FlagsMode,
   Key,
   parse_flags,
   parse_key,
@@ -26,7 +27,7 @@ export function assert_parse(
 
 export function assert_set_flags(
   flags: Flags,
-  mode: "all" | "set" | "reset" | undefined,
+  mode: FlagsMode,
   text: string,
 ): void {
   assertEquals(set_flags(flags, mode), new TextEncoder().encode(text));

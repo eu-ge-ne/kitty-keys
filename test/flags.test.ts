@@ -5,36 +5,38 @@ import {
   assert_set_flags,
 } from "./assert.ts";
 
+import { FlagsMode } from "../src/mod.ts";
+
 Deno.test("set disambiguate", () => {
-  assert_set_flags({ disambiguate: true }, undefined, "\x1b[=1u");
+  assert_set_flags({ disambiguate: true }, FlagsMode.Set, "\x1b[=1;1u");
 });
 
 Deno.test("set events", () => {
-  assert_set_flags({ events: true }, undefined, "\x1b[=2u");
+  assert_set_flags({ events: true }, FlagsMode.Set, "\x1b[=2;1u");
 });
 
 Deno.test("set alternates", () => {
-  assert_set_flags({ alternates: true }, undefined, "\x1b[=4u");
+  assert_set_flags({ alternates: true }, FlagsMode.Set, "\x1b[=4;1u");
 });
 
 Deno.test("set all_keys", () => {
-  assert_set_flags({ all_keys: true }, undefined, "\x1b[=8u");
+  assert_set_flags({ all_keys: true }, FlagsMode.Set, "\x1b[=8;1u");
 });
 
 Deno.test("set text", () => {
-  assert_set_flags({ text: true }, undefined, "\x1b[=16u");
-});
-
-Deno.test("set all", () => {
-  assert_set_flags({}, "all", "\x1b[=0u");
+  assert_set_flags({ text: true }, FlagsMode.Set, "\x1b[=16;1u");
 });
 
 Deno.test("set", () => {
-  assert_set_flags({}, "set", "\x1b[=0;2u");
+  assert_set_flags({}, FlagsMode.Set, "\x1b[=0;1u");
+});
+
+Deno.test("update", () => {
+  assert_set_flags({}, FlagsMode.Update, "\x1b[=0;2u");
 });
 
 Deno.test("reset", () => {
-  assert_set_flags({}, "reset", "\x1b[=0;3u");
+  assert_set_flags({}, FlagsMode.Reset, "\x1b[=0;3u");
 });
 
 Deno.test("push disambiguate", () => {
