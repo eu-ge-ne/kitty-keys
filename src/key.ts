@@ -1,5 +1,3 @@
-import type { Modifiers } from "./modifiers.ts";
-
 /**
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
@@ -70,12 +68,40 @@ export class Key implements Modifiers {
    * NUM LOCK
    */
   num_lock = false;
+}
+
+/**
+ * Represents modifier keys
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
+ */
+export interface Modifiers {
+  /**
+   * SHIFT
+   */
+  shift: boolean;
 
   /**
-   * @ignore
-   * @internal
+   * ALT/OPTION
    */
-  static create(src0: Partial<Key>, src1?: Partial<Key>): Key {
-    return Object.assign(new Key(), src0, src1);
-  }
+  alt: boolean;
+
+  /**
+   * CONTROL
+   */
+  ctrl: boolean;
+
+  /**
+   * SUPER/COMMAND
+   */
+  super: boolean;
+
+  /**
+   * CAPS LOCK
+   */
+  caps_lock: boolean;
+
+  /**
+   * NUM LOCK
+   */
+  num_lock: boolean;
 }

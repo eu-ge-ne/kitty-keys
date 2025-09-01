@@ -1,5 +1,5 @@
-import { assert_parse_key } from "./assert.ts";
+import { assert_parse } from "./assert.ts";
 
 Deno.test("a", () => {
-  assert_parse_key("a", ["a", 1]);
+  assert_parse("a", ["a", 1]);
 });

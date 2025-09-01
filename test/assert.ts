@@ -2,6 +2,7 @@ import { assertEquals } from "@std/assert";
 
 import {
   type Flags,
+  Key,
   parse_flags,
   parse_key,
   pop_flags,
@@ -12,7 +13,11 @@ import {
 
 const encoder = new TextEncoder();
 
-export function assert_parse_key(
+export function create_key(src0: Partial<Key>, src1?: Partial<Key>): Key {
+  return Object.assign(new Key(), src0, src1);
+}
+
+export function assert_parse(
   actual: string,
   expected: Result,
 ): void {

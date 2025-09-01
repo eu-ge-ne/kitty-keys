@@ -1,5 +1,4 @@
-import { Key } from "./key.ts";
-import type { Modifiers } from "./modifiers.ts";
+import { Key, type Modifiers } from "./key.ts";
 import { key_name } from "./name.ts";
 
 export type Result = [Key | string | undefined, number];
