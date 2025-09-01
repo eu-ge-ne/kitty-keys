@@ -38,6 +38,15 @@ export interface Flags {
 }
 
 /**
+ * Set flags mode
+ */
+export const enum FlagsMode {
+  Set = 1,
+  Update = 2,
+  Reset = 3,
+}
+
+/**
  * Serializes `Set progressive enhancement flags` request to bytes
  * @param flags
  * @param mode
@@ -46,12 +55,11 @@ export interface Flags {
  */
 export function set_flags(
   flags: Flags,
-  mode: "all" | "set" | "reset" = "all",
+  mode: FlagsMode = FlagsMode.Set,
 ): Uint8Array {
   const f = stringify_flags(flags);
-  const m = mode === "set" ? ";2" : mode === "reset" ? ";3" : "";
 
-  return encoder.encode(`\x1b[=${f}${m}u`);
+  return encoder.encode(`\x1b[=${f};${mode}u`);
 }
 
 /**
