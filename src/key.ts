@@ -1,7 +1,3 @@
-import { parseKitty } from "./kitty.ts";
-import type { Modifiers } from "./modifiers.ts";
-import { key_name } from "./name.ts";
-
 /**
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
@@ -72,35 +68,40 @@ export class Key implements Modifiers {
    * NUM LOCK
    */
   num_lock = false;
+}
+
+/**
+ * Represents modifier keys
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
+ */
+export interface Modifiers {
+  /**
+   * SHIFT
+   */
+  shift: boolean;
 
   /**
-   * @ignore
-   * @internal
+   * ALT/OPTION
    */
-  static create(src0: Partial<Key>, src1?: Partial<Key>): Key {
-    return Object.assign(new Key(), src0, src1);
-  }
+  alt: boolean;
 
   /**
-   * @ignore
-   * @internal
+   * CONTROL
    */
-  static kitty(bytes: Uint8Array): [Key | undefined, number] {
-    const x = parseKitty(bytes);
-    if (!x) {
-      return [undefined, 0];
-    }
+  ctrl: boolean;
 
-    const key = new Key();
+  /**
+   * SUPER/COMMAND
+   */
+  super: boolean;
 
-    key.name = key_name(x.prefix, x.unicode_code, x.scheme);
-    key.code = x.unicode_code;
-    key.shift_code = x.shifted_code;
-    key.base_code = x.base_layout_code;
-    key.event = x.event;
-    key.text = x.codepoints;
-    Object.assign(key, x.modifiers);
+  /**
+   * CAPS LOCK
+   */
+  caps_lock: boolean;
 
-    return [key, x.index + x.length];
-  }
+  /**
+   * NUM LOCK
+   */
+  num_lock: boolean;
 }
