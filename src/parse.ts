@@ -1,6 +1,9 @@
 import { Key, type Modifiers } from "./key.ts";
 import { key_name } from "./name.ts";
 
+/**
+ * Result returned from {@link parse_key} invocation
+ */
 export type Result = [Key | string | undefined, number];
 
 const decoder: TextDecoder = new TextDecoder();
