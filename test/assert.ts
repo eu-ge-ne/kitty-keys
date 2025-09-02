@@ -20,7 +20,7 @@ export function create_key(src0: Partial<Key>, src1?: Partial<Key>): Key {
 
 export function assert_parse(
   actual: string,
-  expected: Result,
+  expected: Result | undefined,
 ): void {
   assertEquals(parse_key(encoder.encode(actual)), expected);
 }

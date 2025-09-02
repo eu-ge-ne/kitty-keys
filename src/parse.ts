@@ -4,7 +4,7 @@ import { key_name } from "./name.ts";
 /**
  * Result returned from {@link parse_key} invocation
  */
-export type Result = [Key | string | undefined, number];
+export type Result = [Key, number];
 
 const decoder: TextDecoder = new TextDecoder();
 
@@ -13,9 +13,9 @@ const decoder: TextDecoder = new TextDecoder();
  * @param bytes
  * @returns {@link Result}
  */
-export function parse_key(bytes: Uint8Array): Result {
+export function parse_key(bytes: Uint8Array): Result | undefined {
   if (bytes.length === 0) {
-    return [undefined, 0];
+    return;
   }
 
   const b = bytes[0];
@@ -49,7 +49,9 @@ export function parse_key(bytes: Uint8Array): Result {
     if (next_esc_i < 0) {
       next_esc_i = bytes.length;
     }
-    return [decoder.decode(bytes.subarray(0, next_esc_i)), next_esc_i];
+    const key = new Key();
+    key.name = key.text = decoder.decode(bytes.subarray(0, next_esc_i));
+    return [key, next_esc_i];
   }
 
   return parse_kitty(bytes);
@@ -65,10 +67,10 @@ const RE = new RegExp(
   PREFIX_RE + CODES_RE + PARAMS_RE + CODEPOINTS_RE + SCHEME_RE,
 );
 
-function parse_kitty(bytes: Uint8Array): Result {
+function parse_kitty(bytes: Uint8Array): Result | undefined {
   const match = decoder.decode(bytes).match(RE);
   if (!match) {
-    return [undefined, 0];
+    return;
   }
 
   const prefix = match[1]!;

@@ -32,9 +32,9 @@ while (true) {
   const bytes = buf.subarray(0, bytes_read);
 
   for (let i = 0; i < bytes.length;) {
-    const [key, n] = parse_key(bytes.subarray(i));
+    const result = parse_key(bytes.subarray(i));
 
-    if (typeof key === "undefined") {
+    if (!result) {
       let next_esc_i = bytes.indexOf(0x1b, i + 1);
       if (next_esc_i < 0) {
         next_esc_i = bytes.length;
@@ -47,16 +47,9 @@ while (true) {
       continue;
     }
 
-    if (typeof key === "string") {
-      console.table({ j, string: key });
+    const [key, bytes_parsed] = result;
 
-      j += 1;
-      i += n;
-
-      continue;
-    }
-
-    const raw = new TextDecoder().decode(bytes.subarray(0, n));
+    const raw = new TextDecoder().decode(bytes.subarray(0, bytes_parsed));
     console.table({ j, ...key, raw });
 
     if (key.name === "c" && key.ctrl) {
@@ -64,7 +57,7 @@ while (true) {
     }
 
     j += 1;
-    i += n;
+    i += bytes_parsed;
   }
 }
 
