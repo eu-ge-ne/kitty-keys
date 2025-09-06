@@ -12,7 +12,7 @@ const decoder: TextDecoder = new TextDecoder();
 
 /**
  * Represents key
- * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
+ * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol}
  */
 export class Key {
   /**
@@ -53,38 +53,44 @@ export class Key {
 
   /**
    * SHIFT
+   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
    */
   shift = false;
 
   /**
    * ALT/OPTION
+   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
    */
   alt = false;
 
   /**
    * CONTROL
+   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
    */
   ctrl = false;
 
   /**
    * SUPER/COMMAND
+   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
    */
   super = false;
 
   /**
    * CAPS LOCK
+   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
    */
   caps_lock = false;
 
   /**
    * NUM LOCK
+   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
    */
   num_lock = false;
 
   /**
    * Parse key from bytes
    * @param bytes
-   * @returns {@link Result}
+   * @returns the Key and the number of bytes parsed
    */
   static parse(bytes: Uint8Array): [Key, number] | undefined {
     if (bytes.length === 0) {
