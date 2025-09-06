@@ -1,6 +1,18 @@
 import { func_names } from "./func.ts";
 import { parse_number } from "./num.ts";
 
+const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
+const CODES_RE = String.raw`(?:(\d+)(?::(\d*))?(?::(\d*))?)?`;
+const PARAMS_RE = String.raw`(?:;(\d*)?(?::(\d*))?)?`;
+const CODEPOINTS_RE = String.raw`(?:;([\d:]*))?`;
+const SCHEME_RE = String.raw`([u~ABCDEFHPQS])`;
+
+const RE = new RegExp(
+  PREFIX_RE + CODES_RE + PARAMS_RE + CODEPOINTS_RE + SCHEME_RE,
+);
+
+const decoder: TextDecoder = new TextDecoder();
+
 /**
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
@@ -71,6 +83,23 @@ export class Key {
    * NUM LOCK
    */
   num_lock = false;
+
+  static parse_kitty(bytes: Uint8Array): [Key, number] | undefined {
+    const match = decoder.decode(bytes).match(RE);
+    if (!match) {
+      return;
+    }
+
+    const key = new Key();
+
+    key.parse_name(match[1]!, match[2], match[8]!);
+    key.parse_codes(match[2], match[3], match[4]);
+    key.parse_modifiers(match[5]);
+    key.parse_event(match[6]);
+    key.parse_code_points(match[7]);
+
+    return [key, match.index! + match[0].length];
+  }
 
   parse_name(
     prefix: string,

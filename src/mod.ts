@@ -8,4 +8,4 @@ export {
   set_flags,
 } from "./flags.ts";
 export { Key } from "./key.ts";
-export { parse_key, type Result } from "./parse.ts";
+export { parse_key } from "./parse.ts";

@@ -1,10 +1,5 @@
 import { Key } from "./key.ts";
 
-/**
- * Result returned from {@link parse_key} invocation
- */
-export type Result = [Key, number];
-
 const decoder: TextDecoder = new TextDecoder();
 
 /**
@@ -12,7 +7,7 @@ const decoder: TextDecoder = new TextDecoder();
  * @param bytes
  * @returns {@link Result}
  */
-export function parse_key(bytes: Uint8Array): Result | undefined {
+export function parse_key(bytes: Uint8Array): [Key, number] | undefined {
   if (bytes.length === 0) {
     return;
   }
@@ -53,32 +48,5 @@ export function parse_key(bytes: Uint8Array): Result | undefined {
     return [key, next_esc_i];
   }
 
-  return parse_kitty(bytes);
-}
-
-const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
-const CODES_RE = String.raw`(?:(\d+)(?::(\d*))?(?::(\d*))?)?`;
-const PARAMS_RE = String.raw`(?:;(\d*)?(?::(\d*))?)?`;
-const CODEPOINTS_RE = String.raw`(?:;([\d:]*))?`;
-const SCHEME_RE = String.raw`([u~ABCDEFHPQS])`;
-
-const RE = new RegExp(
-  PREFIX_RE + CODES_RE + PARAMS_RE + CODEPOINTS_RE + SCHEME_RE,
-);
-
-function parse_kitty(bytes: Uint8Array): Result | undefined {
-  const match = decoder.decode(bytes).match(RE);
-  if (!match) {
-    return;
-  }
-
-  const key = new Key();
-
-  key.parse_name(match[1]!, match[2], match[8]!);
-  key.parse_codes(match[2], match[3], match[4]);
-  key.parse_modifiers(match[5]);
-  key.parse_event(match[6]);
-  key.parse_code_points(match[7]);
-
-  return [key, match.index! + match[0].length];
+  return Key.parse_kitty(bytes);
 }
