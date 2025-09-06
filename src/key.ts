@@ -150,25 +150,16 @@ export class Key {
     key.shift_code = parse_number(match[3]);
     key.base_code = parse_number(match[4]);
 
-    let flags = 0;
-    if (match[5]) {
-      flags = Number.parseInt(match[5]);
-      if (Number.isSafeInteger(flags)) {
-        flags -= 1;
-      }
-    }
+    const modifiers = (parse_number(match[5]) ?? 1) - 1;
 
-    key.shift = Boolean(flags & 1);
-    key.alt = Boolean(flags & 2);
-    key.ctrl = Boolean(flags & 4);
-    key.super = Boolean(flags & 8);
-    key.caps_lock = Boolean(flags & 64);
-    key.num_lock = Boolean(flags & 128);
+    key.shift = Boolean(modifiers & 1);
+    key.alt = Boolean(modifiers & 2);
+    key.ctrl = Boolean(modifiers & 4);
+    key.super = Boolean(modifiers & 8);
+    key.caps_lock = Boolean(modifiers & 64);
+    key.num_lock = Boolean(modifiers & 128);
 
     switch (match[6]) {
-      case "1":
-        key.event = "press";
-        break;
       case "2":
         key.event = "repeat";
         break;
