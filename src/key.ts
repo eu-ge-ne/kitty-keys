@@ -52,14 +52,33 @@ export class Key {
   text: string | undefined;
 
   /**
-   * Modifiers
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
+   * SHIFT
    */
   shift = false;
+
+  /**
+   * ALT/OPTION
+   */
   alt = false;
+
+  /**
+   * CONTROL
+   */
   ctrl = false;
+
+  /**
+   * SUPER/COMMAND
+   */
   super = false;
+
+  /**
+   * CAPS LOCK
+   */
   caps_lock = false;
+
+  /**
+   * NUM LOCK
+   */
   num_lock = false;
 
   /**
