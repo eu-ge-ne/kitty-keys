@@ -1,4 +1,4 @@
-import { Key, type Modifiers } from "./key.ts";
+import { Key } from "./key.ts";
 import { key_name } from "./name.ts";
 
 /**
@@ -77,7 +77,6 @@ function parse_kitty(bytes: Uint8Array): Result | undefined {
   const code = parse_number(match[2]);
   const shift_code = parse_number(match[3]);
   const base_layout_code = parse_number(match[4]);
-  const modifiers = parse_modifiers(match[5]);
   const event = parse_event(match[6]);
   const codepoints = parse_code_points(match[7]);
   const scheme = match[8]!;
@@ -89,7 +88,8 @@ function parse_kitty(bytes: Uint8Array): Result | undefined {
   key.base_code = base_layout_code;
   key.event = event;
   key.text = codepoints;
-  Object.assign(key, modifiers);
+
+  key.parse_modifiers(match[5]);
 
   return [key, match.index! + match[0].length];
 }
@@ -101,29 +101,6 @@ function parse_number(text?: string): number | undefined {
       return n;
     }
   }
-}
-
-function parse_modifiers(text: string | undefined): Modifiers {
-  let flags = 0;
-
-  if (text) {
-    flags = Number.parseInt(text);
-
-    if (Number.isSafeInteger(flags)) {
-      flags -= 1;
-    }
-  }
-
-  const result: Modifiers = {
-    shift: Boolean(flags & 1),
-    alt: Boolean(flags & 2),
-    ctrl: Boolean(flags & 4),
-    super: Boolean(flags & 8),
-    caps_lock: Boolean(flags & 64),
-    num_lock: Boolean(flags & 128),
-  };
-
-  return result;
 }
 
 function parse_event(event?: string): Key["event"] {

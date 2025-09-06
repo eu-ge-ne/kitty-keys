@@ -2,7 +2,7 @@
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
-export class Key implements Modifiers {
+export class Key {
   /**
    * Name of the key
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
@@ -68,40 +68,23 @@ export class Key implements Modifiers {
    * NUM LOCK
    */
   num_lock = false;
-}
 
-/**
- * Represents modifier keys
- * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
- */
-export interface Modifiers {
-  /**
-   * SHIFT
-   */
-  shift: boolean;
+  parse_modifiers(text: string | undefined): void {
+    let flags = 0;
 
-  /**
-   * ALT/OPTION
-   */
-  alt: boolean;
+    if (text) {
+      flags = Number.parseInt(text);
 
-  /**
-   * CONTROL
-   */
-  ctrl: boolean;
+      if (Number.isSafeInteger(flags)) {
+        flags -= 1;
+      }
+    }
 
-  /**
-   * SUPER/COMMAND
-   */
-  super: boolean;
-
-  /**
-   * CAPS LOCK
-   */
-  caps_lock: boolean;
-
-  /**
-   * NUM LOCK
-   */
-  num_lock: boolean;
+    this.shift = Boolean(flags & 1);
+    this.alt = Boolean(flags & 2);
+    this.ctrl = Boolean(flags & 4);
+    this.super = Boolean(flags & 8);
+    this.caps_lock = Boolean(flags & 64);
+    this.num_lock = Boolean(flags & 128);
+  }
 }
