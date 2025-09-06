@@ -96,7 +96,14 @@ export class Key {
     key.parse_codes(match[2], match[3], match[4]);
     key.parse_modifiers(match[5]);
     key.parse_event(match[6]);
-    key.parse_code_points(match[7]);
+
+    if (match[7]) {
+      key.text = String.fromCodePoint(
+        ...match[7].split(":").map((x) => Number.parseInt(x)).filter((x) =>
+          Number.isSafeInteger(x)
+        ),
+      );
+    }
 
     return [key, match.index! + match[0].length];
   }
@@ -129,16 +136,6 @@ export class Key {
     this.code = parse_number(code);
     this.shift_code = parse_number(shift_code);
     this.base_code = parse_number(base_code);
-  }
-
-  parse_code_points(code_points: string | undefined): void {
-    if (code_points) {
-      this.text = String.fromCodePoint(
-        ...code_points.split(":").map((x) => Number.parseInt(x)).filter((x) =>
-          Number.isSafeInteger(x)
-        ),
-      );
-    }
   }
 
   parse_event(event?: string): void {
