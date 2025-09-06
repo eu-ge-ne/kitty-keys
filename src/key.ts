@@ -69,6 +69,16 @@ export class Key {
    */
   num_lock = false;
 
+  parse_code_points(code_points: string | undefined): void {
+    if (code_points) {
+      this.text = String.fromCodePoint(
+        ...code_points.split(":").map((x) => Number.parseInt(x)).filter((x) =>
+          Number.isSafeInteger(x)
+        ),
+      );
+    }
+  }
+
   parse_event(event?: string): void {
     switch (event) {
       case "1":

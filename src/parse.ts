@@ -77,7 +77,6 @@ function parse_kitty(bytes: Uint8Array): Result | undefined {
   const code = parse_number(match[2]);
   const shift_code = parse_number(match[3]);
   const base_layout_code = parse_number(match[4]);
-  const codepoints = parse_code_points(match[7]);
   const scheme = match[8]!;
 
   const key = new Key();
@@ -85,10 +84,10 @@ function parse_kitty(bytes: Uint8Array): Result | undefined {
   key.code = code;
   key.shift_code = shift_code;
   key.base_code = base_layout_code;
-  key.text = codepoints;
 
   key.parse_modifiers(match[5]);
   key.parse_event(match[6]);
+  key.parse_code_points(match[7]);
 
   return [key, match.index! + match[0].length];
 }
@@ -99,17 +98,5 @@ function parse_number(text?: string): number | undefined {
     if (Number.isSafeInteger(n)) {
       return n;
     }
-  }
-}
-
-function parse_code_points(
-  code_points: string | undefined,
-): string | undefined {
-  if (code_points) {
-    return String.fromCodePoint(
-      ...code_points.split(":").map((x) => Number.parseInt(x)).filter((x) =>
-        Number.isSafeInteger(x)
-      ),
-    );
   }
 }
