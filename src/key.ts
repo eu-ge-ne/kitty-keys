@@ -69,6 +69,23 @@ export class Key {
    */
   num_lock = false;
 
+  parse_event(event?: string): void {
+    switch (event) {
+      case "1":
+        this.event = "press";
+        break;
+      case "2":
+        this.event = "repeat";
+        break;
+      case "3":
+        this.event = "release";
+        break;
+      default:
+        this.event = "press";
+        break;
+    }
+  }
+
   parse_modifiers(text: string | undefined): void {
     let flags = 0;
 

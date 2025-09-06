@@ -77,7 +77,6 @@ function parse_kitty(bytes: Uint8Array): Result | undefined {
   const code = parse_number(match[2]);
   const shift_code = parse_number(match[3]);
   const base_layout_code = parse_number(match[4]);
-  const event = parse_event(match[6]);
   const codepoints = parse_code_points(match[7]);
   const scheme = match[8]!;
 
@@ -86,10 +85,10 @@ function parse_kitty(bytes: Uint8Array): Result | undefined {
   key.code = code;
   key.shift_code = shift_code;
   key.base_code = base_layout_code;
-  key.event = event;
   key.text = codepoints;
 
   key.parse_modifiers(match[5]);
+  key.parse_event(match[6]);
 
   return [key, match.index! + match[0].length];
 }
@@ -101,19 +100,6 @@ function parse_number(text?: string): number | undefined {
       return n;
     }
   }
-}
-
-function parse_event(event?: string): Key["event"] {
-  switch (event) {
-    case "1":
-      return "press";
-    case "2":
-      return "repeat";
-    case "3":
-      return "release";
-  }
-
-  return "press";
 }
 
 function parse_code_points(
