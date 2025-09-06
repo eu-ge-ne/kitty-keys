@@ -1,4 +1,4 @@
-const func_keys = new Map<string, string>([
+export const func_names = new Map<string, string>([
   ["\x1b[27u", "ESC"],
   ["\x1b[13u", "ENTER"],
   ["\x1b[9u", "TAB"],
@@ -75,20 +75,3 @@ const func_keys = new Map<string, string>([
   ["\x1b[57449u", "RIGHT_ALT"],
   ["\x1b[57450u", "RIGHT_SUPER"],
 ]);
-
-export function key_name(
-  prefix: string,
-  code: number | undefined,
-  scheme: string,
-): string {
-  const func = func_keys.get(`${prefix}${code ?? ""}${scheme}`);
-  if (typeof func === "string") {
-    return func;
-  }
-
-  if (typeof code === "undefined") {
-    return `${prefix}${scheme}`;
-  }
-
-  return String.fromCodePoint(code);
-}

@@ -1,5 +1,4 @@
 import { Key } from "./key.ts";
-import { key_name } from "./name.ts";
 
 /**
  * Result returned from {@link parse_key} invocation
@@ -73,30 +72,13 @@ function parse_kitty(bytes: Uint8Array): Result | undefined {
     return;
   }
 
-  const prefix = match[1]!;
-  const code = parse_number(match[2]);
-  const shift_code = parse_number(match[3]);
-  const base_layout_code = parse_number(match[4]);
-  const scheme = match[8]!;
-
   const key = new Key();
-  key.name = key_name(prefix, code, scheme);
-  key.code = code;
-  key.shift_code = shift_code;
-  key.base_code = base_layout_code;
 
+  key.parse_name(match[1]!, match[2], match[8]!);
+  key.parse_codes(match[2], match[3], match[4]);
   key.parse_modifiers(match[5]);
   key.parse_event(match[6]);
   key.parse_code_points(match[7]);
 
   return [key, match.index! + match[0].length];
-}
-
-function parse_number(text?: string): number | undefined {
-  if (text) {
-    const n = Number.parseInt(text);
-    if (Number.isSafeInteger(n)) {
-      return n;
-    }
-  }
 }

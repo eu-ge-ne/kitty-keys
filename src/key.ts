@@ -1,3 +1,6 @@
+import { func_names } from "./func.ts";
+import { parse_number } from "./num.ts";
+
 /**
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
@@ -68,6 +71,36 @@ export class Key {
    * NUM LOCK
    */
   num_lock = false;
+
+  parse_name(
+    prefix: string,
+    code: string | undefined,
+    scheme: string,
+  ): void {
+    const func_name = func_names.get(`${prefix}${code ?? ""}${scheme}`);
+    if (typeof func_name === "string") {
+      this.name = func_name;
+      return;
+    }
+
+    const c = parse_number(code);
+    if (typeof c === "number") {
+      this.name = String.fromCodePoint(c);
+      return;
+    }
+
+    this.name = `${prefix}${scheme}`;
+  }
+
+  parse_codes(
+    code: string | undefined,
+    shift_code: string | undefined,
+    base_code: string | undefined,
+  ): void {
+    this.code = parse_number(code);
+    this.shift_code = parse_number(shift_code);
+    this.base_code = parse_number(base_code);
+  }
 
   parse_code_points(code_points: string | undefined): void {
     if (code_points) {
