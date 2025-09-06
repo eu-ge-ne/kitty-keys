@@ -84,6 +84,10 @@ export class Key {
    */
   num_lock = false;
 
+  /**
+   * @ignore
+   * @internal
+   */
   static parse_kitty(bytes: Uint8Array): [Key, number] | undefined {
     const match = decoder.decode(bytes).match(RE);
     if (!match) {
