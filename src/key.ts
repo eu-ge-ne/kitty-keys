@@ -94,8 +94,36 @@ export class Key {
 
     key.parse_name(match[1]!, match[2], match[8]!);
     key.parse_codes(match[2], match[3], match[4]);
-    key.parse_modifiers(match[5]);
-    key.parse_event(match[6]);
+
+    let flags = 0;
+    if (match[5]) {
+      flags = Number.parseInt(match[5]);
+      if (Number.isSafeInteger(flags)) {
+        flags -= 1;
+      }
+    }
+
+    key.shift = Boolean(flags & 1);
+    key.alt = Boolean(flags & 2);
+    key.ctrl = Boolean(flags & 4);
+    key.super = Boolean(flags & 8);
+    key.caps_lock = Boolean(flags & 64);
+    key.num_lock = Boolean(flags & 128);
+
+    switch (match[6]) {
+      case "1":
+        key.event = "press";
+        break;
+      case "2":
+        key.event = "repeat";
+        break;
+      case "3":
+        key.event = "release";
+        break;
+      default:
+        key.event = "press";
+        break;
+    }
 
     if (match[7]) {
       key.text = String.fromCodePoint(
@@ -136,41 +164,5 @@ export class Key {
     this.code = parse_number(code);
     this.shift_code = parse_number(shift_code);
     this.base_code = parse_number(base_code);
-  }
-
-  parse_event(event?: string): void {
-    switch (event) {
-      case "1":
-        this.event = "press";
-        break;
-      case "2":
-        this.event = "repeat";
-        break;
-      case "3":
-        this.event = "release";
-        break;
-      default:
-        this.event = "press";
-        break;
-    }
-  }
-
-  parse_modifiers(text: string | undefined): void {
-    let flags = 0;
-
-    if (text) {
-      flags = Number.parseInt(text);
-
-      if (Number.isSafeInteger(flags)) {
-        flags -= 1;
-      }
-    }
-
-    this.shift = Boolean(flags & 1);
-    this.alt = Boolean(flags & 2);
-    this.ctrl = Boolean(flags & 4);
-    this.super = Boolean(flags & 8);
-    this.caps_lock = Boolean(flags & 64);
-    this.num_lock = Boolean(flags & 128);
   }
 }
