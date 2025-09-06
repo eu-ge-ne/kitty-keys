@@ -8,7 +8,6 @@ import {
   parse_key,
   pop_flags,
   push_flags,
-  type Result,
   set_flags,
 } from "../src/mod.ts";
 
@@ -20,7 +19,7 @@ export function create_key(src0: Partial<Key>, src1?: Partial<Key>): Key {
 
 export function assert_parse(
   actual: string,
-  expected: Result | undefined,
+  expected: [Key, number] | undefined,
 ): void {
   assertEquals(parse_key(encoder.encode(actual)), expected);
 }

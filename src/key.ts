@@ -1,8 +1,23 @@
+import { func_names } from "./func.ts";
+import { parse_number } from "./num.ts";
+
+const PREFIX_RE = String.raw`(\x1b\x5b|\x1b\x4f)`;
+const CODES_RE = String.raw`(?:(\d+)(?::(\d*))?(?::(\d*))?)?`;
+const PARAMS_RE = String.raw`(?:;(\d*)?(?::(\d*))?)?`;
+const CODEPOINTS_RE = String.raw`(?:;([\d:]*))?`;
+const SCHEME_RE = String.raw`([u~ABCDEFHPQS])`;
+
+const RE = new RegExp(
+  PREFIX_RE + CODES_RE + PARAMS_RE + CODEPOINTS_RE + SCHEME_RE,
+);
+
+const decoder: TextDecoder = new TextDecoder();
+
 /**
  * Represents key
  * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview}
  */
-export class Key implements Modifiers {
+export class Key {
   /**
    * Name of the key
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
@@ -68,40 +83,73 @@ export class Key implements Modifiers {
    * NUM LOCK
    */
   num_lock = false;
-}
-
-/**
- * Represents modifier keys
- * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers}
- */
-export interface Modifiers {
-  /**
-   * SHIFT
-   */
-  shift: boolean;
 
   /**
-   * ALT/OPTION
+   * @ignore
+   * @internal
    */
-  alt: boolean;
+  static parse_kitty(bytes: Uint8Array): [Key, number] | undefined {
+    const match = decoder.decode(bytes).match(RE);
+    if (!match) {
+      return;
+    }
 
-  /**
-   * CONTROL
-   */
-  ctrl: boolean;
+    const key = new Key();
 
-  /**
-   * SUPER/COMMAND
-   */
-  super: boolean;
+    const func_name = func_names.get(match[1]! + (match[2] ?? "") + match[8]!);
+    if (typeof func_name === "string") {
+      key.name = func_name;
+    } else {
+      const c = parse_number(match[2]);
+      if (typeof c === "number") {
+        key.name = String.fromCodePoint(c);
+      } else {
+        key.name = match[1]! + match[8]!;
+      }
+    }
 
-  /**
-   * CAPS LOCK
-   */
-  caps_lock: boolean;
+    key.code = parse_number(match[2]);
+    key.shift_code = parse_number(match[3]);
+    key.base_code = parse_number(match[4]);
 
-  /**
-   * NUM LOCK
-   */
-  num_lock: boolean;
+    let flags = 0;
+    if (match[5]) {
+      flags = Number.parseInt(match[5]);
+      if (Number.isSafeInteger(flags)) {
+        flags -= 1;
+      }
+    }
+
+    key.shift = Boolean(flags & 1);
+    key.alt = Boolean(flags & 2);
+    key.ctrl = Boolean(flags & 4);
+    key.super = Boolean(flags & 8);
+    key.caps_lock = Boolean(flags & 64);
+    key.num_lock = Boolean(flags & 128);
+
+    switch (match[6]) {
+      case "1":
+        key.event = "press";
+        break;
+      case "2":
+        key.event = "repeat";
+        break;
+      case "3":
+        key.event = "release";
+        break;
+      default:
+        key.event = "press";
+        break;
+    }
+
+    if (match[7]) {
+      key.text = String.fromCodePoint(
+        ...match[7].split(":").map((x) => Number.parseInt(x)).filter((x) =>
+          Number.isSafeInteger(x)
+        ),
+      );
+    }
+
+    return [key, match.index! + match[0].length];
+  }
 }
