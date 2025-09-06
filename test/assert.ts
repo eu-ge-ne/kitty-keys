@@ -5,7 +5,6 @@ import {
   type FlagsMode,
   Key,
   parse_flags,
-  parse_key,
   pop_flags,
   push_flags,
   set_flags,
@@ -21,7 +20,7 @@ export function assert_parse(
   actual: string,
   expected: [Key, number] | undefined,
 ): void {
-  assertEquals(parse_key(encoder.encode(actual)), expected);
+  assertEquals(Key.parse(encoder.encode(actual)), expected);
 }
 
 export function assert_set_flags(

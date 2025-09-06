@@ -12,16 +12,6 @@ parser library for Node.js, Deno and Bun.
   - [Node.js](#nodejs)
   - [Bun](#bun)
 - [Example](#example)
-- [API](#api)
-  - [`parse_keys()`](#parse_keys)
-  - [`set_flags()`](#set_flags)
-  - [`query_flags`](#query_flags)
-  - [`parse_flags()`](#parse_flags)
-  - [`push_flags()`](#push_flags)
-  - [`pop_flags()`](#pop_flags)
-  - [`Key`](#key)
-  - [`Modifiers`](#modifiers)
-  - [`Flags`](#flags)
 - [Links](#links)
 - [License](#license)
 
@@ -55,7 +45,7 @@ bunx jsr add @eu-ge-ne/kitty-keys
 ## Example
 
 ```ts ignore
-import { parse_key, set_flags } from "jsr:@eu-ge-ne/kitty-keys";
+import { Key, set_flags } from "jsr:@eu-ge-ne/kitty-keys";
 
 Deno.stdin.setRaw(true);
 
@@ -80,217 +70,18 @@ const reader = Deno.stdin.readable.getReader();
 while (true) {
   const { value } = await reader.read();
 
-  const key = parse_key(value!);
+  const result = Key.parse(value!);
   if (!key) {
     continue;
   }
 
+  const [key, bytes_parsed] = result;
+
   console.log(key);
 
-  if (key?.key === "c" && key.ctrl) {
+  if (key.name === "c" && key.ctrl) {
     break;
   }
-}
-```
-
-## API
-
-### `parse_keys()`
-
-Parses keys from bytes.
-
-See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>.
-
-Syntax
-
-```ts ignore
-function* parse_keys(bytes: Uint8Array): Generator<Key | string | Uint8Array>;
-```
-
-### `set_flags()`
-
-Serializes `Set progressive enhancement flags` request to bytes.
-
-See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
-
-Syntax
-
-```ts ignore
-function set_flags(
-  flags: Flags,
-  mode: "all" | "set" | "reset" = "all",
-): Uint8Array;
-```
-
-### `query_flags`
-
-Serialized `Query progressive enhancement flags` request.
-
-See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
-
-Syntax
-
-```ts ignore
-const query_flags: Uint8Array;
-```
-
-### `parse_flags()`
-
-Parses progressive enhancement flags reply from bytes.
-
-See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
-
-Syntax
-
-```ts ignore
-function parse_flags(bytes: Uint8Array): Flags | undefined;
-```
-
-### `push_flags()`
-
-Serializes `Push progressive enhancement flags` request to bytes.
-
-See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
-
-Syntax
-
-```ts ignore
-function push_flags(flags: Flags): Uint8Array;
-```
-
-### `pop_flags()`
-
-Serializes `Pop progressive enhancement flags` request to bytes.
-
-See
-<https://sw.kovidgoyal.net/kitty/keyboard-protocol/#progressive-enhancement>.
-
-```ts ignore
-function pop_flags(number: number): Uint8Array;
-```
-
-### `Key`
-
-Represents key event.
-
-See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#an-overview>.
-
-```ts ignore
-interface Key extends Modifiers {
-  /**
-   * Name of the key
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#functional-key-definitions}
-   */
-  name: string;
-
-  /**
-   * `unicode-key-code` field
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
-   */
-  code?: number;
-
-  /**
-   * `shifted-key-code` field
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
-   */
-  shifted_code?: number;
-
-  /**
-   * `base-layout-key-code` field
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
-   */
-  base_layout_code?: number;
-
-  /**
-   * Text representation of the `event-type` sub-field
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#event-types}
-   */
-  event?: "press" | "repeat" | "release";
-
-  /**
-   * Text representation of the `text-as-codepoints` field
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#text-as-code-points}
-   */
-  text?: string;
-}
-```
-
-### `Modifiers`
-
-Represents modifier keys.
-
-See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#modifiers>.
-
-```ts ignore
-interface Modifiers {
-  /**
-   * SHIFT
-   */
-  shift?: boolean;
-
-  /**
-   * ALT/OPTION
-   */
-  alt?: boolean;
-
-  /**
-   * CONTROL
-   */
-  ctrl?: boolean;
-
-  /**
-   * SUPER/COMMAND
-   */
-  super?: boolean;
-
-  /**
-   * CAPS LOCK
-   */
-  caps_lock?: boolean;
-
-  /**
-   * NUM LOCK
-   */
-  num_lock?: boolean;
-}
-```
-
-### `Flags`
-
-The progressive enhancement flags.
-
-See <https://sw.kovidgoyal.net/kitty/keyboard-protocol/#id5>.
-
-```ts ignore
-interface Flags {
-  /**
-   * 0b1 (1) Disambiguate escape codes.
-   */
-  disambiguate?: boolean;
-
-  /**
-   * 0b10 (2) Report event types.
-   */
-  events?: boolean;
-
-  /**
-   * 0b100 (4) Report alternate keys.
-   */
-  alternates?: boolean;
-
-  /**
-   * 0b1000 (8) Report all keys as escape codes.
-   */
-  all_keys?: boolean;
-
-  /**
-   * 0b10000 (16) Report associated text.
-   */
-  text?: boolean;
 }
 ```
 
