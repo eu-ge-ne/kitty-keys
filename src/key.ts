@@ -93,7 +93,10 @@ export class Key {
     const key = new Key();
 
     key.parse_name(match[1]!, match[2], match[8]!);
-    key.parse_codes(match[2], match[3], match[4]);
+
+    key.code = parse_number(match[2]);
+    key.shift_code = parse_number(match[3]);
+    key.base_code = parse_number(match[4]);
 
     let flags = 0;
     if (match[5]) {
@@ -154,15 +157,5 @@ export class Key {
     }
 
     this.name = `${prefix}${scheme}`;
-  }
-
-  parse_codes(
-    code: string | undefined,
-    shift_code: string | undefined,
-    base_code: string | undefined,
-  ): void {
-    this.code = parse_number(code);
-    this.shift_code = parse_number(shift_code);
-    this.base_code = parse_number(base_code);
   }
 }
