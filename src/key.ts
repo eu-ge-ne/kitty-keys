@@ -138,19 +138,19 @@ export class Key {
     if (typeof func_name === "string") {
       key.name = func_name;
     } else {
-      const c = parse_number(match[2]);
-      if (typeof c === "number") {
-        key.name = String.fromCodePoint(c);
+      const x = int(match[2]);
+      if (typeof x === "number") {
+        key.name = String.fromCodePoint(x);
       } else {
         key.name = match[1]! + match[8]!;
       }
     }
 
-    key.code = parse_number(match[2]);
-    key.shift_code = parse_number(match[3]);
-    key.base_code = parse_number(match[4]);
+    key.code = int(match[2]);
+    key.shift_code = int(match[3]);
+    key.base_code = int(match[4]);
 
-    const modifiers = (parse_number(match[5]) ?? 1) - 1;
+    const modifiers = (int(match[5]) ?? 1) - 1;
 
     key.shift = Boolean(modifiers & 1);
     key.alt = Boolean(modifiers & 2);
@@ -173,9 +173,9 @@ export class Key {
 
     if (match[7]) {
       key.text = String.fromCodePoint(
-        ...match[7].split(":").map((x) => Number.parseInt(x)).filter((x) =>
-          Number.isSafeInteger(x)
-        ),
+        ...match[7].split(":")
+          .map(int)
+          .filter((x) => typeof x === "number"),
       );
     }
 
@@ -183,7 +183,7 @@ export class Key {
   }
 }
 
-function parse_number(text: string | undefined): number | undefined {
+function int(text: string | undefined): number | undefined {
   if (text) {
     const n = Number.parseInt(text);
     if (Number.isSafeInteger(n)) {
