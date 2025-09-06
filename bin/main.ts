@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-console
-import { parse_key, query_flags, set_flags } from "../src/mod.ts";
+import { Key, query_flags, set_flags } from "../src/mod.ts";
 
 Deno.stdin.setRaw(true);
 
@@ -32,7 +32,7 @@ while (true) {
   const bytes = buf.subarray(0, bytes_read);
 
   for (let i = 0; i < bytes.length;) {
-    const result = parse_key(bytes.subarray(i));
+    const result = Key.parse(bytes.subarray(i));
 
     if (!result) {
       let next_esc_i = bytes.indexOf(0x1b, i + 1);
