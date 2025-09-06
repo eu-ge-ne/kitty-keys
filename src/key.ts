@@ -92,7 +92,17 @@ export class Key {
 
     const key = new Key();
 
-    key.parse_name(match[1]!, match[2], match[8]!);
+    const func_name = func_names.get(match[1]! + (match[2] ?? "") + match[8]!);
+    if (typeof func_name === "string") {
+      key.name = func_name;
+    } else {
+      const c = parse_number(match[2]);
+      if (typeof c === "number") {
+        key.name = String.fromCodePoint(c);
+      } else {
+        key.name = match[1]! + match[8]!;
+      }
+    }
 
     key.code = parse_number(match[2]);
     key.shift_code = parse_number(match[3]);
@@ -137,25 +147,5 @@ export class Key {
     }
 
     return [key, match.index! + match[0].length];
-  }
-
-  parse_name(
-    prefix: string,
-    code: string | undefined,
-    scheme: string,
-  ): void {
-    const func_name = func_names.get(`${prefix}${code ?? ""}${scheme}`);
-    if (typeof func_name === "string") {
-      this.name = func_name;
-      return;
-    }
-
-    const c = parse_number(code);
-    if (typeof c === "number") {
-      this.name = String.fromCodePoint(c);
-      return;
-    }
-
-    this.name = `${prefix}${scheme}`;
   }
 }
