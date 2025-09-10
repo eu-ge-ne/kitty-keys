@@ -88,6 +88,14 @@ export class Key {
   num_lock = false;
 
   /**
+   * Create key instance
+   * @returns Key instance
+   */
+  static create(from: Partial<Key>): Key {
+    return Object.assign(new Key(), from);
+  }
+
+  /**
    * Parse key from bytes
    * @param bytes
    * @returns the Key and the number of bytes parsed
