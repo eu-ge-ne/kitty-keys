@@ -26,7 +26,7 @@ export class Key {
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
    */
   code?: {
-    key: number;
+    key?: number;
     shift?: number;
     base?: number;
   };
