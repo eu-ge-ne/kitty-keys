@@ -22,22 +22,14 @@ export class Key {
   name = "";
 
   /**
-   * `unicode-key-code` field
+   * Key codes
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
    */
-  code: number | undefined;
-
-  /**
-   * `shifted-key-code` field
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
-   */
-  shift_code: number | undefined;
-
-  /**
-   * `base-layout-key-code` field
-   * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#key-codes}
-   */
-  base_code: number | undefined;
+  code?: {
+    key: number;
+    shift?: number;
+    base?: number;
+  };
 
   /**
    * Text representation of the `event-type` sub-field
@@ -49,7 +41,7 @@ export class Key {
    * Text representation of the `text-as-codepoints` field
    * @see {@link https://sw.kovidgoyal.net/kitty/keyboard-protocol/#text-as-code-points}
    */
-  text: string | undefined;
+  text?: string;
 
   /**
    * SHIFT
@@ -160,9 +152,11 @@ export class Key {
       }
     }
 
-    key.code = int(match[2]);
-    key.shift_code = int(match[3]);
-    key.base_code = int(match[4]);
+    key.code = {
+      key: int(match[2])!,
+      shift: int(match[3]),
+      base: int(match[4]),
+    };
 
     const modifiers = (int(match[5]) ?? 1) - 1;
 

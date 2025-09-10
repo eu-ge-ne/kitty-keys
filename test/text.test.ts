@@ -1,7 +1,10 @@
 import { assert_parse, create_key } from "./assert.ts";
 
 Deno.test("a", () => {
-  const key = create_key({ name: "a", code: 97 });
+  const key = create_key({
+    name: "a",
+    code: { key: 97, shift: undefined, base: undefined },
+  });
 
   assert_parse("\x1b[97;;97u", [create_key(key, { text: "a" }), 9]);
 
@@ -20,9 +23,11 @@ Deno.test("A", () => {
   assert_parse("\x1b[97:65;2;65u", [
     create_key({
       name: "a",
-      code: 97,
-      shift_code: 65,
-      base_code: undefined,
+      code: {
+        key: 97,
+        shift: 65,
+        base: undefined,
+      },
       event: "press",
       text: "A",
       shift: true,
